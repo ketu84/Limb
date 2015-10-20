@@ -1,0 +1,27 @@
+<configuration xmlns="http://logging.apache.org/log4php/">
+ 
+    <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
+    
+    <appender name="fileAppender" class="LoggerAppenderRollingFile">
+         <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%date (%level) [%logger] %message%newline" />
+        </layout>
+        <param name="file" value="logs/bot.log" />
+        <param name="maxFileSize" value="1MB" />
+        <param name="maxBackupIndex" value="5" />
+    </appender>
+    
+    <logger name="botLogger">
+        <appender_ref ref="fileAppender" />
+    </logger>
+
+     <logger name="gusLimbLogger">
+        <level value="debug" />
+        <appender_ref ref="fileAppender" />
+    </logger>
+    
+    <root>
+        <level value="ERROR" />
+        <appender_ref ref="myConsoleAppender" />
+    </root>
+</configuration>
