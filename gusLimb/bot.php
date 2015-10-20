@@ -177,6 +177,7 @@ function enviarEstadoEscribiendo($chatid){
 
 function enviarTexto($text, $chatid, $markdown){
     global $TOKEN;
+    global $log;
     try {
         $data= [
                 'chat_id' => (int) $chatid,
