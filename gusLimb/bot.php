@@ -191,8 +191,10 @@ function enviarTexto($text, $chatid, $markdown){
             ];
 
         if($markdown){
-            array_push($data,'parse_mode','Markdown');
+            $log->debug("Activado markdown");
+            $data["parse_mode"]="Markdown";
         }
+
 
         if ($data) {
             $options[CURLOPT_POST] = true;
