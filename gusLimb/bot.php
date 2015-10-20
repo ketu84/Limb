@@ -43,7 +43,7 @@ if($command=='/clasificacion'){
     foreach($obj as $valor) {
         $text=$text.$valor->pos.'.- '.$valor->nombre.': '.$valor->neto.'€'.PHP_EOL;
     }
-    enviarTexto($text,$chatid);
+    enviarTexto($text,$chatid, false);
 }
 
 if($command=='/prox_jornada'){
@@ -69,7 +69,7 @@ if($command=='/prox_jornada'){
 
     $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
     $text='Próxima jornada '.$fecha.': '.PHP_EOL.$text;
-    enviarTexto($text,$chatid);
+    enviarTexto($text,$chatid, false);
 }
 
 if($command=='/apuestas'){
@@ -112,12 +112,12 @@ if($command=='/apuestas'){
 
     $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
     $text='Apuestas '.$fecha.': '.PHP_EOL.PHP_EOL.$text;
-    enviarTexto($text,$chatid);
+    enviarTexto($text,$chatid, false);
 }
 
 if($command=='/web'){
     $text='http://hotelpene.com/gusLimb';
-    enviarTexto($text,$chatid);
+    enviarTexto($text,$chatid, false);
 }
 
 if($command=='/donaSemen'){
@@ -125,7 +125,7 @@ if($command=='/donaSemen'){
     $emoji_semen=unichr(0x1F4A6);
 
     $text=$emoji_semen.$emoji_mujer;
-    enviarTexto($text,$chatid);
+    enviarTexto($text,$chatid, false);
 }
 
 if($command=='/bravo'){
@@ -137,7 +137,11 @@ if($command=='/quieroMiPenaltito'){
 }
 
 if($command=='/cuantoHaPerdidoRiojas'){
-    enviarTexto('jajaja, pues todo pringaos',$chatid);
+    enviarTexto('jajaja, pues todo pringaos',$chatid, false);
+}
+
+if($command=='/prueba'){
+    enviarTexto('texto normal _cursiva_ normal *negrita* normal',$chatid, true);
 }
 
 function enviarEstadoEscribiendo($chatid){
@@ -171,7 +175,7 @@ function enviarEstadoEscribiendo($chatid){
     }
 }
 
-function enviarTexto($text, $chatid){
+function enviarTexto($text, $chatid, $markdown){
     global $TOKEN;
     try {
         $data= [
@@ -185,6 +189,10 @@ function enviarTexto($text, $chatid){
                 CURLOPT_POST => null,
                 CURLOPT_POSTFIELDS => null
             ];
+
+        if($markdown){
+            array_push($data,'parse_mode','Markdown');
+        }
 
         if ($data) {
             $options[CURLOPT_POST] = true;
