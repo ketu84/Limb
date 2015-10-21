@@ -181,6 +181,11 @@ if($command=='/FatSpanishWaiter'){
     enviarDoc('BQADBAADMAEAAquCfgABhqhRqhpC5agC',$chatid);
 }
 
+if($command=='/cuantoHaGanadoCas'){
+    enviarTexto('Se lo está llevando crudo',$chatid, false);
+    enviarFoto('AgADBAADLbExG6uCfgABO7d46OcKzQkVuo8wAATDrhyVPZbKfktbAAIC',$chatid);
+}
+
 /*Comandos de pruebas para desarrolladores*/
 
 if(isset($message["message"]["chat"]["type"]) && $message["message"]["chat"]["type"]=="private"){
