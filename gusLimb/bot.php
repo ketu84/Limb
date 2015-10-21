@@ -163,6 +163,19 @@ if($command=='/quieroMiPenaltito'){
 
 if($command=='/cuantoHaPerdidoRiojas'){
     enviarTexto('jajaja, pues todo pringaos',$chatid, false);
+    
+if($command=='/Gus'){
+    enviarFoto('AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg',$chatid);
+    
+if($command=='/TeLaComiste'){
+    enviarFoto('AgADBAADK7ExG6uCfgAB9rTpspMp9VRGYGkwAAS8GdFc47A_whSFAQABAg',$chatid);
+
+if($command=='/Vicenwin'){
+    enviarFoto('AgADBAADLLExG6uCfgAB0UBRGzF7sb96C2swAAS7hCl_X6wqS9ByAQABAg',$chatid);
+
+if($command=='/FatSpanishWaiter'){
+    enviarDoc('BQADBAADMAEAAquCfgABhqhRqhpC5agC',$chatid);
+    
 }
 
 /*Comandos de pruebas para desarrolladores*/
