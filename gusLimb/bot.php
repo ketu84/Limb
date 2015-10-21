@@ -6,34 +6,59 @@ Logger::configure(__DIR__ .'/../config.xml');
 
 // Fetch a logger, it will inherit settings from the root logger
 $log = Logger::getLogger('gusLimbLogger');
+$endpoint = "https://api.telegram.org/bot".$TOKEN."/";
 
 $log->debug("Comienza la ejecución");
-
-//Función para convertir EMOJIS
-function unichr($i) {
-    return iconv('UCS-4LE', 'UTF-8', pack('V', $i));
-}
 
 $rawMsg = file_get_contents('php://input');
 $log->debug("Mensaje: ".$rawMsg);
 
 $message = json_decode($rawMsg, true);
-//$message = json_decode(file_get_contents('php://input'), true);
 
 
 if(is_null($message)){
     return;
 }
 
-$endpoint = "https://api.telegram.org/bot".$TOKEN."/";
-
-if(!isset($message["message"]["text"]) || !isset($message["message"]["chat"]["id"])) return;
+//Si no hay chat_id, salimos
+if(!isset($message["message"]["chat"]["id"])) return;
 
 $chatid= $message['message']['chat']['id'];
+
+
+//Si se recibe un documento, se responde con el Id de este.
+if(isset($message["message"]["document"])){
+    $documentId = $message['message']['document']['file_id'];
+    $text="Recibido documento con id: ".$documentId;
+    enviarTexto($text,$chatid, false);
+    return;
+}
+
+//Si se recibe una foto, se responde con el Id de esta
+if(isset($message["message"]["photo"])){
+    $documentId = $message['message']['photo'][0]['file_id'];
+    $text="Recibida foto con id: ".$documentId;
+    enviarTexto($text,$chatid, false);
+    return;
+}
+
+//Si se recibe un sticket, se responde con el Id de este
+if(isset($message["message"]["sticker"])){
+    $documentId = $message['message']['sticker']['file_id'];
+    $text="Recibido sticker con id: ".$documentId;
+    enviarTexto($text,$chatid, false);
+    return;
+}
+
+
+
+if(!isset($message["message"]["text"])) return;
+
+
 $command= $message['message']['text'];
 
 if($command=='/clasificacion'){
-    enviarEstadoEscribiendo($chatid);
+    enviarAccionChat('typing',$chatid);
 
     $text='Clasificación de la última fase en curso:'.PHP_EOL.PHP_EOL;
 
@@ -47,7 +72,7 @@ if($command=='/clasificacion'){
 }
 
 if($command=='/prox_jornada'){
-    enviarEstadoEscribiendo($chatid);
+    enviarAccionChat('typing',$chatid);
 
     $text='';
     $json = file_get_contents('http://hotelpene.com/gusLimb/pages/api.php?q=prox_jornada');
@@ -73,7 +98,7 @@ if($command=='/prox_jornada'){
 }
 
 if($command=='/apuestas'){
-    enviarEstadoEscribiendo($chatid);
+    enviarAccionChat('typing',$chatid);
 
     $text='';
     $json = file_get_contents('http://hotelpene.com/gusLimb/pages/api.php?q=apuestas');
@@ -140,42 +165,42 @@ if($command=='/cuantoHaPerdidoRiojas'){
     enviarTexto('jajaja, pues todo pringaos',$chatid, false);
 }
 
-if($command=='/prueba'){
-    enviarTexto('texto normal _cursiva_ normal *negrita* normal',$chatid, true);
-}
+/*Comandos de pruebas para desarrolladores*/
 
-function enviarEstadoEscribiendo($chatid){
-    global $TOKEN;
-    try {
-        $data= [
-                'chat_id' => (int) $chatid,
-                'action' => 'typing'
-            ];
+if(isset($message["message"]["chat"]["type"]) && $message["message"]["chat"]["type"]=="private"){
 
-        $options = [
-                CURLOPT_URL => 'https://api.telegram.org/bot'.$TOKEN. '/sendChatAction',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POST => null,
-                CURLOPT_POSTFIELDS => null
-            ];
+     $log->debug("mensaje privado");
 
-        if ($data) {
-            $options[CURLOPT_POST] = true;
-            $options[CURLOPT_POSTFIELDS] = $data;
-        }
+    if(substr($command, 0, strlen('/pruebaTexto')) === '/pruebaTexto'){
+        $param = substr($command, strlen('/pruebaTexto')+1);
+        enviarTexto($param,$chatid, true);
+    }
 
-        $curl = curl_init();
+    if(substr($command, 0, strlen('/pruebaFoto')) === '/pruebaFoto'){
+        $param = substr($command, strlen('/pruebaFoto')+1);
+        enviarFoto($param,$chatid);
+    }
 
-        curl_setopt_array($curl, $options);
-        $result = curl_exec($curl);
+    if(substr($command, 0, strlen('/pruebaDoc')) === '/pruebaDoc'){
+        $param = substr($command, strlen('/pruebaDoc')+1);
+        enviarDoc($param,$chatid);
+    }
 
-    } catch (Exception $e) {
-        syslog(LOG_ERR, '[' . getmypid() . '] ERROR Exception al enviar el mensaje: ' . $e–>getMessage());
-        exit(1);
+    if(substr($command, 0, strlen('/pruebaSticker')) === '/pruebaSticker'){
+        $param = substr($command, strlen('/pruebaSticker')+1);
+        enviarSticker($param,$chatid);
     }
 }
 
-function enviarTexto($text, $chatid, $markdown){
+$log->debug("Fin de la ejecución");
+
+
+//Función para convertir EMOJIS
+function unichr($i) {
+    return iconv('UCS-4LE', 'UTF-8', pack('V', $i));
+}
+
+function enviarTexto($text, $chatid,$markdown){
     global $TOKEN;
     global $log;
     try {
@@ -184,28 +209,32 @@ function enviarTexto($text, $chatid, $markdown){
                 'text' => $text
             ];
 
-        $options = [
-                CURLOPT_URL => 'https://api.telegram.org/bot'.$TOKEN. '/sendMessage',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POST => null,
-                CURLOPT_POSTFIELDS => null
-            ];
 
         if($markdown){
             $log->debug("Activado markdown");
             $data["parse_mode"]="Markdown";
         }
 
+        enviarMensaje('/sendMessage', $data);
+        
+    } catch (Exception $e) {
+        syslog(LOG_ERR, '[' . getmypid() . '] ERROR Exception al enviar el mensaje: ' . $e–>getMessage());
+        exit(1);
+    }
+}
 
-        if ($data) {
-            $options[CURLOPT_POST] = true;
-            $options[CURLOPT_POSTFIELDS] = $data;
-        }
+function enviarFoto($docId, $chatid){
+    global $TOKEN;
+    global $log;
 
-        $curl = curl_init();
+    $log->debug("Enviando foro con id: ".$docId);
+    try {
+        $data= [
+                'chat_id' => (int) $chatid,
+                'photo' => $docId
+            ];
 
-        curl_setopt_array($curl, $options);
-        $result = curl_exec($curl);
+        enviarMensaje('/sendPhoto', $data);
 
     } catch (Exception $e) {
         syslog(LOG_ERR, '[' . getmypid() . '] ERROR Exception al enviar el mensaje: ' . $e–>getMessage());
@@ -215,14 +244,65 @@ function enviarTexto($text, $chatid, $markdown){
 
 function enviarDoc($docId, $chatid){
     global $TOKEN;
+    global $log;
+
+    $log->debug("Enviando doc con id: ".$docId);
     try {
         $data= [
                 'chat_id' => (int) $chatid,
                 'document' => $docId
             ];
 
+        enviarMensaje('/sendDocument', $data);
+
+    } catch (Exception $e) {
+        syslog(LOG_ERR, '[' . getmypid() . '] ERROR Exception al enviar el mensaje: ' . $e–>getMessage());
+        exit(1);
+    }
+}
+
+function enviarSticker($docId, $chatid){
+    global $TOKEN;
+    global $log;
+
+    $log->debug("Enviando Sticker con id: ".$docId);
+    try {
+        $data= [
+                'chat_id' => (int) $chatid,
+                'sticker' => $docId
+            ];
+
+        enviarMensaje('/sendSticker', $data);
+
+    } catch (Exception $e) {
+        syslog(LOG_ERR, '[' . getmypid() . '] ERROR Exception al enviar el mensaje: ' . $e–>getMessage());
+        exit(1);
+    }
+}
+
+function enviarAccionChat($action, $chatid){
+    global $TOKEN;
+    try {
+         $data= [
+                'chat_id' => (int) $chatid,
+                'action' => $action
+            ];
+
+        enviarMensaje('/sendChatAction', $data);
+
+    } catch (Exception $e) {
+        syslog(LOG_ERR, '[' . getmypid() . '] ERROR Exception al enviar el mensaje: ' . $e–>getMessage());
+        exit(1);
+    }
+}
+
+function enviarMensaje($accion, $data){
+    global $TOKEN;
+    global $log;
+    try {       
+
         $options = [
-                CURLOPT_URL => 'https://api.telegram.org/bot'.$TOKEN. '/sendDocument',
+                CURLOPT_URL => 'https://api.telegram.org/bot'.$TOKEN. $accion,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_POST => null,
                 CURLOPT_POSTFIELDS => null
@@ -238,12 +318,15 @@ function enviarDoc($docId, $chatid){
         curl_setopt_array($curl, $options);
         $result = curl_exec($curl);
 
+        $log->debug("Respuesta Telegram: ".$result);
+
     } catch (Exception $e) {
         syslog(LOG_ERR, '[' . getmypid() . '] ERROR Exception al enviar el mensaje: ' . $e–>getMessage());
         exit(1);
     }
 }
 
-$log->debug("Fin de la ejecución");
+
+
 
 ?>
