@@ -186,6 +186,12 @@ if($command=='/cuantoHaGanadoCas'){
     enviarFoto('AgADBAADLbExG6uCfgABO7d46OcKzQkVuo8wAATDrhyVPZbKfktbAAIC',$chatid);
 }
 
+if($command=='/mandaHuevos'){
+    enviarTexto('Marchando una de huevo!!!',$chatid, false);
+    enviarFoto('AgADBAADLrExG6uCfgABahD-W03Mf1dPVnEwAAS5SQ1buL1RJM85AQABAg',$chatid);
+}
+
+
 /*Comandos de pruebas para desarrolladores*/
 
 if(isset($message["message"]["chat"]["type"]) && $message["message"]["chat"]["type"]=="private"){
