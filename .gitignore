@@ -1,5 +1,6 @@
 composer.lock
 composer.phar
-gusLimb/logs/
 vendor/
+limb/logs/
+limb/test.json
 

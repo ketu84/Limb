@@ -1,14 +1,13 @@
 <?php
+
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/properties.php';
 
 Logger::configure(__DIR__ .'/../config.xml');
-
-// Fetch a logger, it will inherit settings from the root logger
-$log = Logger::getLogger('gusLimbLogger');
-$endpoint = "https://api.telegram.org/bot".$TOKEN."/";
+$log = Logger::getLogger('botLogger');
 
 $log->debug("Comienza la ejecución");
+
 
 $rawMsg = file_get_contents('php://input');
 $log->debug("Mensaje: ".$rawMsg);
@@ -24,6 +23,47 @@ if(is_null($message)){
 if(!isset($message["message"]["chat"]["id"])) return;
 
 $chatid= $message['message']['chat']['id'];
+
+//Si se trata de un grupo
+if($message['message']['chat']['type']=='group'){
+    if($chatid==GUSLIMB_GROUPID){
+        $log = Logger::getLogger(GUSLIMB_LOGGER);
+        $urlApi=GUSLIMB_URL_API;
+        $urlWeb=GUSLIMB_URL;
+    }else if($chatid==CHAMPIONSLIMB_GROUPID){
+        $log = Logger::getLogger(CHAMPIONSLIMB_LOGGER);
+        $urlApi=CHAMPIONSLIMB_URL_API;
+        $urlWeb=CHAMPIONSLIMB_URL;
+    }else{
+        return;
+    }
+}else{
+    switch ($chatid) {
+        case ID_AGE:
+        case ID_TAPIA:
+        case ID_NANO:
+        case ID_YONI:
+        case ID_CAS: 
+        case ID_JAVI:
+        case ID_KETU:
+        case ID_PACO:
+        case ID_RIOJANO:
+        case ID_BARTOL:
+        //case : //Vicente
+            $log = Logger::getLogger(GUSLIMB_LOGGER);
+            $urlApi=GUSLIMB_URL_API;
+            $urlWeb=GUSLIMB_URL;
+            break;
+        default:
+            $log = Logger::getLogger(CHAMPIONSLIMB_LOGGER);
+            $urlApi=CHAMPIONSLIMB_URL_API;
+            $urlWeb=CHAMPIONSLIMB_URL;
+            break;
+    }
+}
+$log->debug("Mensaje: ".$rawMsg);
+$log->debug('Establecido api: '.$urlApi);
+
 
 
 //Si se recibe un documento, se responde con el Id de este.
@@ -58,11 +98,13 @@ if(!isset($message["message"]["text"])) return;
 $command= $message['message']['text'];
 
 if($command=='/clasificacion'){
+    $log->debug('clasificacion');
     enviarAccionChat('typing',$chatid);
 
     $text='Clasificación de la última fase en curso:'.PHP_EOL.PHP_EOL;
 
-    $json = file_get_contents('http://hotelpene.com/gusLimb/pages/api.php?q=clasificacion');
+    $log->debug($urlApi . 'clasificacion');
+    $json = file_get_contents($urlApi . 'clasificacion');
     $obj = json_decode($json);
 
     foreach($obj as $valor) {
@@ -75,7 +117,7 @@ if($command=='/prox_jornada'){
     enviarAccionChat('typing',$chatid);
 
     $text='';
-    $json = file_get_contents('http://hotelpene.com/gusLimb/pages/api.php?q=prox_jornada');
+    $json = file_get_contents($urlApi . 'prox_jornada');
 
     $obj = json_decode($json);
     $fecha='';
@@ -101,7 +143,7 @@ if($command=='/apuestas'){
     enviarAccionChat('typing',$chatid);
 
     $text='';
-    $json = file_get_contents('http://hotelpene.com/gusLimb/pages/api.php?q=apuestas');
+    $json = file_get_contents($urlApi . 'apuestas');
 
     $obj = json_decode($json);
     $fecha='';
@@ -141,7 +183,7 @@ if($command=='/apuestas'){
 }
 
 if($command=='/web'){
-    $text='http://hotelpene.com/gusLimb';
+    $text=$urlWeb;
     enviarTexto($text,$chatid, false);
 }
 
@@ -185,12 +227,6 @@ if($command=='/cuantoHaGanadoCas'){
     enviarTexto('Se lo está llevando crudo',$chatid, false);
     enviarFoto('AgADBAADLbExG6uCfgABO7d46OcKzQkVuo8wAATDrhyVPZbKfktbAAIC',$chatid);
 }
-
-if($command=='/mandaHuevos'){
-    enviarTexto('Marchando una de huevo!!!',$chatid, false);
-    enviarFoto('AgADBAADLrExG6uCfgABahD-W03Mf1dPVnEwAAS5SQ1buL1RJM85AQABAg',$chatid);
-}
-
 
 /*Comandos de pruebas para desarrolladores*/
 
@@ -254,7 +290,7 @@ function enviarFoto($docId, $chatid){
     global $TOKEN;
     global $log;
 
-    $log->debug("Enviando foro con id: ".$docId);
+    $log->debug("Enviando foto con id: ".$docId);
     try {
         $data= [
                 'chat_id' => (int) $chatid,
@@ -326,10 +362,11 @@ function enviarAccionChat($action, $chatid){
 function enviarMensaje($accion, $data){
     global $TOKEN;
     global $log;
+    global $endpoint;
     try {       
 
         $options = [
-                CURLOPT_URL => 'https://api.telegram.org/bot'.$TOKEN. $accion,
+                CURLOPT_URL => $endpoint. $accion,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_POST => null,
                 CURLOPT_POSTFIELDS => null
@@ -344,7 +381,6 @@ function enviarMensaje($accion, $data){
 
         curl_setopt_array($curl, $options);
         $result = curl_exec($curl);
-
         $log->debug("Respuesta Telegram: ".$result);
 
     } catch (Exception $e) {
