@@ -94,143 +94,12 @@ if(isset($message["message"]["sticker"])){
 
 if(!isset($message["message"]["text"])) return;
 
-
 $command= $message['message']['text'];
-
-if($command=='/clasificacion'){
-    $log->debug('clasificacion');
-    enviarAccionChat('typing',$chatid);
-
-    $text='Clasificación de la última fase en curso:'.PHP_EOL.PHP_EOL;
-
-    $log->debug($urlApi . 'clasificacion');
-    $json = file_get_contents($urlApi . 'clasificacion');
-    $obj = json_decode($json);
-
-    foreach($obj as $valor) {
-        $text=$text.$valor->pos.'.- '.$valor->nombre.': '.$valor->neto.'€'.PHP_EOL;
-    }
-    enviarTexto($text,$chatid, false);
-}
-
-if($command=='/prox_jornada'){
-    enviarAccionChat('typing',$chatid);
-
-    $text='';
-    $json = file_get_contents($urlApi . 'prox_jornada');
-
-    $obj = json_decode($json);
-    $fecha='';
-
-    $idPartido=-1;
-    foreach($obj as $valor) {
-        $fecha=$valor->fecha;
-        if($idPartido!=$valor->id){
-            $text=$text.PHP_EOL;
-            $idPartido=$valor->id;
-            $text=$text.substr($valor->hora,0,5).' '.$valor->local_c.' vs '.$valor->visitante_c.'=>'.$valor->apostante;
-        }else{
-            $text=$text.', '.$valor->apostante;
-        }
-    }
-
-    $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
-    $text='Próxima jornada '.$fecha.': '.PHP_EOL.$text;
-    enviarTexto($text,$chatid, false);
-}
-
-if($command=='/apuestas'){
-    enviarAccionChat('typing',$chatid);
-
-    $text='';
-    $json = file_get_contents($urlApi . 'apuestas');
-
-    $obj = json_decode($json);
-    $fecha='';
-
-    $idPartido=-1;
-    $apostante='';
-
-    $emoji_star= unichr(0x1F538);
-    $emoji_guion= unichr(0x2796);
-    $emoji_cara=unichr(0x1F633);
-    $emoji_ok=unichr(0x2705);
-    $emoji_mal=unichr(0x274C);
-
-    foreach($obj as $valor) {
-        if($idPartido!=$valor->partido){
-            $idPartido=$valor->partido;
-            $fecha=$valor->fecha;
-            $text=$text.PHP_EOL.$emoji_star.$valor->local_c.' vs '.$valor->visitante_c.$emoji_star.PHP_EOL;
-        }
-        if($apostante!=$valor->apostante){
-            $apostante=$valor->apostante;
-            $text=$text.$emoji_cara.$valor->apostante.PHP_EOL;
-        }
-        $iconoApuesta=$emoji_guion;
-        //1 acertada
-        if($valor->acertada=="1"){
-            $iconoApuesta=$iconoApuesta.$emoji_ok;
-        }else if($valor->acertada=="2"){
-             $iconoApuesta=$iconoApuesta.$emoji_mal;
-        }
-        $text=$text.$iconoApuesta.$valor->apuesta.':'.$valor->apostado.'@'.$valor->cotizacion.PHP_EOL;
-    }
-
-    $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
-    $text='Apuestas '.$fecha.': '.PHP_EOL.PHP_EOL.$text;
-    enviarTexto($text,$chatid, false);
-}
-
-if($command=='/web'){
-    $text=$urlWeb;
-    enviarTexto($text,$chatid, false);
-}
-
-if($command=='/donaSemen'){
-    $emoji_mujer=unichr(0x1F64B);
-    $emoji_semen=unichr(0x1F4A6);
-
-    $text=$emoji_semen.$emoji_mujer;
-    enviarTexto($text,$chatid, false);
-}
-
-if($command=='/bravo'){
-    enviarDoc('BQADBAADuAADmEw-AAFENNvXv3KlQgI',$chatid);
-}
-
-if($command=='/quieroMiPenaltito'){
-    enviarDoc('BQADBAADtwADmEw-AAHFpvL_faHg5QI',$chatid);
-}
-
-if($command=='/cuantoHaPerdidoRiojas'){
-    enviarTexto('jajaja, pues todo pringaos',$chatid, false);
-}
-    
-if($command=='/Gus'){
-    enviarFoto('AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg',$chatid);
-}
-
-if($command=='/TeLaComiste'){
-    enviarFoto('AgADBAADK7ExG6uCfgAB9rTpspMp9VRGYGkwAAS8GdFc47A_whSFAQABAg',$chatid);
-}
-
-if($command=='/Vicenwin'){
-    enviarFoto('AgADBAADLLExG6uCfgAB0UBRGzF7sb96C2swAAS7hCl_X6wqS9ByAQABAg',$chatid);
-}
-
-if($command=='/FatSpanishWaiter'){
-    enviarDoc('BQADBAADMAEAAquCfgABhqhRqhpC5agC',$chatid);
-}
-
-if($command=='/cuantoHaGanadoCas'){
-    enviarTexto('Se lo está llevando crudo',$chatid, false);
-    enviarFoto('AgADBAADLbExG6uCfgABO7d46OcKzQkVuo8wAATDrhyVPZbKfktbAAIC',$chatid);
-}
+$test = isset($message["message"]["chat"]["type"]) && $message["message"]["chat"]["type"]=="private";
 
 /*Comandos de pruebas para desarrolladores*/
 
-if(isset($message["message"]["chat"]["type"]) && $message["message"]["chat"]["type"]=="private"){
+if($test){
 
      $log->debug("mensaje privado");
 
@@ -254,6 +123,53 @@ if(isset($message["message"]["chat"]["type"]) && $message["message"]["chat"]["ty
         enviarSticker($param,$chatid);
     }
 }
+
+
+
+switch ($command) {
+        case '/clasificacion':
+				clasificacion($chatid, $urlApi, $log);
+					break;
+        case '/prox_jornada':
+				proxima_jornada($chatid, $urlApi);
+					break;
+        case '/apuestas':
+				apuestas($chatid, $urlApi);
+					break;
+		case '/web':
+				web($urlWeb, $chatid);
+					break;
+		case '/donaSemen':
+				donaSemen($chatid);
+					break;
+		case '/bravo':
+				bravo($chatid);
+					break;
+		case '/quieroMiPenaltito':
+				quieroMiPenaltito($chatid);
+					break;
+		case '/cuantoHaPerdidoRiojas':
+				cuantoHaPerdidoRiojas($chatid);
+					break;
+		case '/Gus':
+				gus($chatid);
+					break;
+		case '/TeLaComiste':
+				telacomiste($chatid);
+					break;	
+		case '/Vicenwin':
+				vicenwin($chatid);
+					break;	
+		case '/FatSpanishWaiter':
+				fatSpanishWaiter($chatid);
+					break;	
+		case '/cuantoHaGanadoCas':
+				cuantoHaGanadoCas($chatid);
+					break;
+		default:
+				insultar($chatid);
+}		
+
 
 $log->debug("Fin de la ejecución");
 
@@ -389,7 +305,144 @@ function enviarMensaje($accion, $data){
     }
 }
 
+function clasificacion($chatid, $urlApi, $log){
+	$log->debug('clasificacion');
+    enviarAccionChat('typing',$chatid);
 
+    $text='Clasificación de la última fase en curso:'.PHP_EOL.PHP_EOL;
 
+    $log->debug($urlApi . 'clasificacion');
+    $json = file_get_contents($urlApi . 'clasificacion');
+    $obj = json_decode($json);
+
+    foreach($obj as $valor) {
+        $text=$text.$valor->pos.'.- '.$valor->nombre.': '.$valor->neto.'€'.PHP_EOL;
+    }
+    enviarTexto($text,$chatid, false);
+}
+
+function proxima_jornada($chatid, $urlApi){
+	enviarAccionChat('typing',$chatid);
+
+    $text='';
+    $json = file_get_contents($urlApi . 'prox_jornada');
+
+    $obj = json_decode($json);
+    $fecha='';
+
+    $idPartido=-1;
+    foreach($obj as $valor) {
+        $fecha=$valor->fecha;
+        if($idPartido!=$valor->id){
+            $text=$text.PHP_EOL;
+            $idPartido=$valor->id;
+            $text=$text.substr($valor->hora,0,5).' '.$valor->local_c.' vs '.$valor->visitante_c.'=>'.$valor->apostante;
+        }else{
+            $text=$text.', '.$valor->apostante;
+        }
+    }
+
+    $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
+    $text='Próxima jornada '.$fecha.': '.PHP_EOL.$text;
+    enviarTexto($text,$chatid, false);
+}
+
+function apuestas($chatid, $urlApi){
+	enviarAccionChat('typing',$chatid);
+
+    $text='';
+    $json = file_get_contents($urlApi . 'apuestas');
+
+    $obj = json_decode($json);
+    $fecha='';
+
+    $idPartido=-1;
+    $apostante='';
+
+    $emoji_star= unichr(0x1F538);
+    $emoji_guion= unichr(0x2796);
+    $emoji_cara=unichr(0x1F633);
+    $emoji_ok=unichr(0x2705);
+    $emoji_mal=unichr(0x274C);
+
+    foreach($obj as $valor) {
+        if($idPartido!=$valor->partido){
+            $idPartido=$valor->partido;
+            $fecha=$valor->fecha;
+            $text=$text.PHP_EOL.$emoji_star.$valor->local_c.' vs '.$valor->visitante_c.$emoji_star.PHP_EOL;
+        }
+        if($apostante!=$valor->apostante){
+            $apostante=$valor->apostante;
+            $text=$text.$emoji_cara.$valor->apostante.PHP_EOL;
+        }
+        $iconoApuesta=$emoji_guion;
+        //1 acertada
+        if($valor->acertada=="1"){
+            $iconoApuesta=$iconoApuesta.$emoji_ok;
+        }else if($valor->acertada=="2"){
+             $iconoApuesta=$iconoApuesta.$emoji_mal;
+        }
+        $text=$text.$iconoApuesta.$valor->apuesta.':'.$valor->apostado.'@'.$valor->cotizacion.PHP_EOL;
+    }
+
+    $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
+    $text='Apuestas '.$fecha.': '.PHP_EOL.PHP_EOL.$text;
+    enviarTexto($text,$chatid, false);
+}
+
+function web($urlWeb, $chatid){
+	$text=$urlWeb;
+    enviarTexto($text,$chatid, false);
+}
+
+function donaSemen($chatid){
+	$emoji_mujer=unichr(0x1F64B);
+    $emoji_semen=unichr(0x1F4A6);
+
+    $text=$emoji_semen.$emoji_mujer;
+    enviarTexto($text,$chatid, false);
+}
+
+function bravo($chatid){
+	 enviarDoc('BQADBAADuAADmEw-AAFENNvXv3KlQgI',$chatid);
+}
+
+function quieroMiPenaltito($chatid){
+	 enviarDoc('BQADBAADtwADmEw-AAHFpvL_faHg5QI',$chatid);
+}
+
+function cuantoHaPerdidoRiojas($chatid){
+	 enviarTexto('jajaja, pues todo pringaos',$chatid, false);
+}
+
+function gus($chatid){
+	  enviarFoto('AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg',$chatid);
+}
+	
+function telacomiste($chatid){
+	  enviarFoto('AgADBAADK7ExG6uCfgAB9rTpspMp9VRGYGkwAAS8GdFc47A_whSFAQABAg',$chatid);
+}
+
+function vicenwin($chatid){
+	  enviarFoto('AgADBAADLLExG6uCfgAB0UBRGzF7sb96C2swAAS7hCl_X6wqS9ByAQABAg',$chatid);
+}
+
+function fatSpanishWaiter($chatid){
+	  enviarDoc('BQADBAADMAEAAquCfgABhqhRqhpC5agC',$chatid);
+}
+
+function cuantoHaGanadoCas($chatid){
+	enviarTexto('Se lo está llevando crudo',$chatid, false);
+	enviarFoto('AgADBAADLbExG6uCfgABO7d46OcKzQkVuo8wAATDrhyVPZbKfktbAAIC',$chatid);
+}
+
+function insultar($chatid){
+	$text = 'Función no implementada. '
+	$insultos = array('¿Eres idiota?', '¿Eres bobo?', '¿Eres falto?', '¿Eres imbécil?', 'Cómeme un huevo');
+	$index = rand(0,count($insultos)-1);
+	$text .= $insultos[$index];
+	
+	enviarTexto($text,$chatid, false);
+}
 
 ?>
