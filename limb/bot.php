@@ -113,6 +113,25 @@ if($command=='/clasificacion'){
     enviarTexto($text,$chatid, false);
 }
 
+if($command=='/euros'){
+    $log->debug('euros');
+    enviarAccionChat('typing',$chatid);
+
+    $text='Acumulado:'.PHP_EOL.PHP_EOL;
+
+    $log->debug($urlApi . 'clasificacion');
+    $json = file_get_contents($urlApi . 'clasificacion');
+    $obj = json_decode($json);
+	
+	$sumatorio = 0;
+    foreach($obj as $valor) {
+        $sumatorio += $valor->neto;
+    }
+	$text=$text.$sumatorio.'€'.PHP_EOL;
+	
+    enviarTexto($text,$chatid, false);
+}
+
 if($command=='/prox_jornada'){
     enviarAccionChat('typing',$chatid);
 
@@ -226,6 +245,10 @@ if($command=='/FatSpanishWaiter'){
 if($command=='/cuantoHaGanadoCas'){
     enviarTexto('Se lo está llevando crudo',$chatid, false);
     enviarFoto('AgADBAADLbExG6uCfgABO7d46OcKzQkVuo8wAATDrhyVPZbKfktbAAIC',$chatid);
+}
+
+if($command=='/Aupa'){
+    enviarDoc('BQADBAADOAAECiQB3V1ov-88-qgC',$chatid);
 }
 
 /*Comandos de pruebas para desarrolladores*/
