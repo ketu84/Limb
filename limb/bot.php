@@ -128,52 +128,52 @@ $command=strtolower($command);
 
 switch ($command) {
         case '/clasificacion':
-				clasificacion($chatid, $urlApi, $log);
-					break;
+		clasificacion($chatid, $urlApi, $log);
+		break;
         case '/prox_jornada':
-				proxima_jornada($chatid, $urlApi);
-					break;
+		proxima_jornada($chatid, $urlApi);
+		break;
         case '/apuestas':
-				apuestas($chatid, $urlApi);
-					break;
+		apuestas($chatid, $urlApi);
+		break;
         case '/euros':
-                euros($chatid, $urlApi);
-                    break;
-		case '/web':
-				web($urlWeb, $chatid);
-					break;
-		case '/donasemen':
-				donaSemen($chatid);
-					break;
-		case '/bravo':
-				bravo($chatid);
-					break;
-		case '/quieromipenaltito':
-				quieroMiPenaltito($chatid);
-					break;
-		case '/cuantohaperdidoriojas':
-				cuantoHaPerdidoRiojas($chatid);
-					break;
-		case '/gus':
-				gus($chatid);
-					break;
-		case '/telacomiste':
-				telacomiste($chatid);
-					break;	
-		case '/vicenwin':
-				vicenwin($chatid);
-					break;	
-		case '/fatspanishwaiter':
-				fatSpanishWaiter($chatid);
-					break;	
-		case '/cuantohaganadocas':
-				cuantoHaGanadoCas($chatid);
-					break;
+		euros($chatid, $urlApi);
+		break;
+	case '/web':
+		web($urlWeb, $chatid);
+		break;
+	case '/donasemen':
+		donaSemen($chatid);
+		break;
+	case '/bravo':
+		bravo($chatid);
+		break;
+	case '/quieromipenaltito':
+		quieroMiPenaltito($chatid);
+		break;
+	case '/cuantohaperdidoriojas':
+		cuantoHaPerdidoRiojas($chatid);
+		break;
+	case '/gus':
+		gus($chatid);
+		break;
+	case '/telacomiste':
+		telacomiste($chatid);
+		break;	
+	case '/vicenwin':
+		vicenwin($chatid);
+		break;	
+	case '/fatspanishwaiter':
+		fatSpanishWaiter($chatid);
+		break;	
+	case '/cuantohaganadocas':
+		cuantoHaGanadoCas($chatid);
+		break;
         case '/aupa':
                 aupa($chatid);
                     break;
-		default:
-				insultar($chatid);
+	default:
+		insultar($chatid);
 }		
 
 
