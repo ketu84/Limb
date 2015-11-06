@@ -124,7 +124,7 @@ if($test){
     }
 }
 
-
+$command=strtolower($command);
 
 switch ($command) {
         case '/clasificacion':
@@ -136,36 +136,42 @@ switch ($command) {
         case '/apuestas':
 				apuestas($chatid, $urlApi);
 					break;
+        case '/euros':
+                euros($chatid, $urlApi);
+                    break;
 		case '/web':
 				web($urlWeb, $chatid);
 					break;
-		case '/donaSemen':
+		case '/donasemen':
 				donaSemen($chatid);
 					break;
 		case '/bravo':
 				bravo($chatid);
 					break;
-		case '/quieroMiPenaltito':
+		case '/quieromipenaltito':
 				quieroMiPenaltito($chatid);
 					break;
-		case '/cuantoHaPerdidoRiojas':
+		case '/cuantohaperdidoriojas':
 				cuantoHaPerdidoRiojas($chatid);
 					break;
-		case '/Gus':
+		case '/gus':
 				gus($chatid);
 					break;
-		case '/TeLaComiste':
+		case '/telacomiste':
 				telacomiste($chatid);
 					break;	
-		case '/Vicenwin':
+		case '/vicenwin':
 				vicenwin($chatid);
 					break;	
-		case '/FatSpanishWaiter':
+		case '/fatspanishwaiter':
 				fatSpanishWaiter($chatid);
 					break;	
-		case '/cuantoHaGanadoCas':
+		case '/cuantohaganadocas':
 				cuantoHaGanadoCas($chatid);
 					break;
+        case '/aupa':
+                aupa($chatid);
+                    break;
 		default:
 				insultar($chatid);
 }		
@@ -390,6 +396,25 @@ function apuestas($chatid, $urlApi){
     enviarTexto($text,$chatid, false);
 }
 
+function euros($chatid, $urlApi){
+    $log->debug('euros');
+    enviarAccionChat('typing',$chatid);
+
+    $text='Acumulado:'.PHP_EOL.PHP_EOL;
+
+    $log->debug($urlApi . 'clasificacion');
+    $json = file_get_contents($urlApi . 'clasificacion');
+    $obj = json_decode($json);
+    
+    $sumatorio = 0;
+    foreach($obj as $valor) {
+        $sumatorio += $valor->neto;
+    }
+    $text=$text.$sumatorio.'€'.PHP_EOL;
+    
+    enviarTexto($text,$chatid, false);
+}
+
 function web($urlWeb, $chatid){
 	$text=$urlWeb;
     enviarTexto($text,$chatid, false);
@@ -434,6 +459,10 @@ function fatSpanishWaiter($chatid){
 function cuantoHaGanadoCas($chatid){
 	enviarTexto('Se lo está llevando crudo',$chatid, false);
 	enviarFoto('AgADBAADLbExG6uCfgABO7d46OcKzQkVuo8wAATDrhyVPZbKfktbAAIC',$chatid);
+}
+
+function aupa($chatid){
+    enviarDoc('BQADBAADOAAECiQB3V1ov-88-qgC',$chatid);
 }
 
 function insultar($chatid){
