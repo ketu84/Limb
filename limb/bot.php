@@ -466,7 +466,7 @@ function aupa($chatid){
 }
 
 function insultar($chatid){
-	$text = 'Función no implementada. '
+	$text = 'Función no implementada. ';
 	$insultos = array('¿Eres idiota?', '¿Eres bobo?', '¿Eres falto?', '¿Eres imbécil?', 'Cómeme un huevo');
 	$index = rand(0,count($insultos)-1);
 	$text .= $insultos[$index];
