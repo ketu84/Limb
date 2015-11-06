@@ -312,7 +312,8 @@ function enviarMensaje($accion, $data){
 }
 
 function clasificacion($chatid, $urlApi, $log){
-	$log->debug('clasificacion');
+    global $log;
+    $log->debug('clasificacion');
     enviarAccionChat('typing',$chatid);
 
     $text='Clasificación de la última fase en curso:'.PHP_EOL.PHP_EOL;
@@ -328,7 +329,7 @@ function clasificacion($chatid, $urlApi, $log){
 }
 
 function proxima_jornada($chatid, $urlApi){
-	enviarAccionChat('typing',$chatid);
+    enviarAccionChat('typing',$chatid);
 
     $text='';
     $json = file_get_contents($urlApi . 'prox_jornada');
@@ -354,7 +355,7 @@ function proxima_jornada($chatid, $urlApi){
 }
 
 function apuestas($chatid, $urlApi){
-	enviarAccionChat('typing',$chatid);
+    enviarAccionChat('typing',$chatid);
 
     $text='';
     $json = file_get_contents($urlApi . 'apuestas');
@@ -397,6 +398,7 @@ function apuestas($chatid, $urlApi){
 }
 
 function euros($chatid, $urlApi){
+    global $log;
     $log->debug('euros');
     enviarAccionChat('typing',$chatid);
 
