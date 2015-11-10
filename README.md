@@ -1,6 +1,6 @@
-# gusLimb - bot
+# Limb - bot
 
-Bot de Telegram con información útil sobre GusLimb
+Bot de Telegram con información útil sobre Limb
 
 ---
 
