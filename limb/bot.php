@@ -169,9 +169,15 @@ switch ($command) {
 	case '/cuantohaganadocas':
 		cuantoHaGanadoCas($chatid);
 		break;
-        case '/aupa':
-                aupa($chatid);
-                    break;
+	case '/aupa':
+		aupa($chatid);
+        break;
+	case '/hez':
+		hez($chatid);
+        break;
+	case '/sorteo':
+		sorteo($chatid);
+        break;	
 	default:
 		insultar($chatid);
 }		
@@ -443,9 +449,11 @@ function cuantoHaPerdidoRiojas($chatid){
 }
 
 function gus($chatid){
-	  enviarFoto('AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg',$chatid);
+	  $gus = array('AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg', 'AgADBAAD3KkxG5sPmAABKqtTAAHWZbY3NQWLMAAEmP0iZZyVDtfYMAEAAQI');
+	  $index = rand(0,count($gus)-1);
+	  enviarFoto($gus[$index],$chatid);
 }
-	
+
 function telacomiste($chatid){
 	  enviarFoto('AgADBAADK7ExG6uCfgAB9rTpspMp9VRGYGkwAAS8GdFc47A_whSFAQABAg',$chatid);
 }
@@ -464,12 +472,24 @@ function cuantoHaGanadoCas($chatid){
 }
 
 function aupa($chatid){
-    enviarDoc('BQADBAADOAAECiQB3V1ov-88-qgC',$chatid);
+	$index = rand(0,1);
+	if($index == 0)
+		enviarDoc('BQADBAADOAAECiQB3V1ov-88-qgC',$chatid);
+	else 
+		enviarTexto('Eres un pajero.',$chatid, false);	
+}
+
+function hez($chatid){
+    enviarDoc('BQADBAADMgADmw-YAAE4pcdXZXF0FgI',$chatid);
+}
+
+function sorteo($chatid){
+    enviarTexto('¿Quieres dejar de molestar?',$chatid, false);
 }
 
 function insultar($chatid){
 	$text = 'Función no implementada. ';
-	$insultos = array('¿Eres idiota?', '¿Eres bobo?', '¿Eres falto?', '¿Eres imbécil?', 'Cómeme un huevo');
+	$insultos = array('¿Eres idiota?', '¿Eres bobo?', '¿Eres falto?', '¿Eres imbécil?', 'Cómeme un huevo', '¿Estás beodo?', 'Papanatas');
 	$index = rand(0,count($insultos)-1);
 	$text .= $insultos[$index];
 	
