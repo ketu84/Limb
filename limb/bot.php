@@ -489,7 +489,7 @@ function sorteo($chatid){
 
 function insultar($chatid){
 	$text = 'Función no implementada. ';
-	$insultos = array('¿Eres idiota?', '¿Eres bobo?', '¿Eres falto?', '¿Eres imbécil?', 'Cómeme un huevo', '¿Estás beodo?', 'Papanatas');
+	$insultos = array('¿Eres idiota?', '¿Eres bobo?', '¿Eres falto?', '¿Eres imbécil?', 'Cómeme un huevo', '¿Estás beodo?', 'Papanatas', 'Mentecato', 'Parguela', 'Mierdaseca');
 	$index = rand(0,count($insultos)-1);
 	$text .= $insultos[$index];
 	
