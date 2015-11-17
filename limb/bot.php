@@ -23,6 +23,39 @@ if(is_null($message)){
 if(!isset($message["message"]["chat"]["id"])) return;
 
 $chatid= $message['message']['chat']['id'];
+$humano=null;
+switch ($message['message']['from']['id']) {
+	case ID_AGE:
+		$humano="Ángel";
+		break;
+	case ID_TAPIA:
+		$humano="Antonio";
+		break;
+	case ID_NANO:
+		$humano="Nano";
+		break;
+	case ID_YONI:
+		$humano="Ori";
+		break;
+	case ID_CAS: 
+		$humano="Cas";
+		break;
+	case ID_JAVI:
+		$humano="Carracedo";
+		break;
+	case ID_KETU:
+		$humano="Ketu";
+		break;
+	case ID_PACO:
+		$humano="Paco";
+		break;
+	case ID_RIOJANO:
+		$humano="Riojano";
+		break;
+	case ID_BARTOL:
+		$humano="Bartol";
+		break;
+}
 
 //Si se trata de un grupo
 if($message['message']['chat']['type']=='group'){
@@ -172,6 +205,17 @@ switch ($command) {
 	case '/aupa':
 		aupa($chatid);
         break;
+	case '/tetas':
+	case '/mamellas':
+	case '/domingas':
+	case '/lolas':
+	case '/peras':
+	case '/melones':
+	case '/pechos':
+	case '/senos':
+	case '/mamas':
+		enfermo($chatid);
+        break;	
 	case '/hez':
 		hez($chatid);
         break;
@@ -179,7 +223,7 @@ switch ($command) {
 		sorteo($chatid);
         break;	
 	default:
-		insultar($chatid);
+		insultar($chatid, $humano);
 }		
 
 
@@ -448,6 +492,10 @@ function cuantoHaPerdidoRiojas($chatid){
 	 enviarTexto('jajaja, pues todo pringaos',$chatid, false);
 }
 
+function enfermo($chatid){
+	 enviarTexto('Eres un enfermo',$chatid, false);
+}
+
 function gus($chatid){
 	  $gus = array('AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg', 'AgADBAAD3KkxG5sPmAABKqtTAAHWZbY3NQWLMAAEmP0iZZyVDtfYMAEAAQI');
 	  $index = rand(0,count($gus)-1);
@@ -487,8 +535,14 @@ function sorteo($chatid){
     enviarTexto('¿Quieres dejar de molestar?',$chatid, false);
 }
 
-function insultar($chatid){
+function insultar($chatid, $humano){
 	$text = 'Función no implementada. ';
+	if($humano!=null){
+		if($humano=='Paco')
+			$text = $text.'¡¡¡Pacooooooooooooooooooooooo!!! ';
+		else 
+			$text = $text.'Maldito '.$humano.'. ';
+	}
 	$insultos = array('¿Eres idiota?', '¿Eres bobo?', '¿Eres falto?', '¿Eres imbécil?', 'Cómeme un huevo', '¿Estás beodo?', 'Papanatas', 'Mentecato', 'Parguela', 'Mierdaseca');
 	$index = rand(0,count($insultos)-1);
 	$text .= $insultos[$index];
