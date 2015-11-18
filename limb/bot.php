@@ -55,6 +55,25 @@ switch ($message['message']['from']['id']) {
 	case ID_BARTOL:
 		$humano="Bartol";
 		break;
+	case ID_VICENTE:
+		$humano="Vicente";
+		break;
+	
+	case ID_ZATO:
+		$humano="Álvaro";
+		break;
+	case ID_RULO:
+		$humano="Raúl";
+		break;
+	case ID_MATUTE:
+		$humano="Matute";
+		break;
+	case ID_LUCHO:
+		$humano="Luciano";
+		break;
+	case ID_BORJA:
+		$humano="Borja";
+		break;
 }
 
 //Si se trata de un grupo
@@ -524,7 +543,7 @@ function aupa($chatid){
 	if($index == 0)
 		enviarDoc('BQADBAADOAAECiQB3V1ov-88-qgC',$chatid);
 	else 
-		enviarTexto('Eres un pajero.',$chatid, false);	
+		enviarTexto($humano.' eres un pajero.',$chatid, false);	
 }
 
 function hez($chatid){
