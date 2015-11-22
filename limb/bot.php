@@ -242,6 +242,7 @@ switch ($command) {
 	case '/cimbrel':
 	case '/semen':
 		esLoQueTeGustaEh($chatid, $humano);
+		break;
 	case '/hez':
 	case '/mierda':
 		hez($chatid);
