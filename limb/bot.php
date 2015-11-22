@@ -571,12 +571,23 @@ function insultar($chatid, $humano){
 		if($humano=='Paco')
 			$text = $text.'¡¡¡Pacooooooooooooooooooo!!! ';
 		else {
-			$insulto = aleatorio('Maldito', 'Jodido', 'Estúpido', 'Condenado');
+			$insulto = aleatorio(['Maldito', 'Jodido', 'Estúpido', 'Condenado']);
 			$text = $text.$insulto.' '.$humano.'. ';
 		}
 	}
-	$insulto = aleatorio(array('¿Eres idiota?', '¿Eres bobo?', '¿Eres falto?', '¿Eres imbécil?', 'Cómeme un huevo', '¿Estás beodo?', 'Papanatas', 'Mentecato', 'Parguela', 'Mierdaseca'));
-	$text .= $insulto.'.';
+	$insulto = aleatorio(array('¿Eres idiota?', 
+	                            '¿Eres bobo?', 
+	                            '¿Eres falto?', 
+	                            '¿Eres imbécil?', 
+	                            'Cómeme un huevo', 
+	                            '¿Estás beodo?', 
+	                            'Papanatas', 
+	                            'Mentecato', 
+	                            'Parguela', 
+	                            'Mierdaseca', 
+	                            'Hijo de puta',
+	                            'Gilipipas'));
+	$text .= $insulto;
 	
 	enviarTexto($text,$chatid, false);
 }
