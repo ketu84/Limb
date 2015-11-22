@@ -26,34 +26,34 @@ $chatid= $message['message']['chat']['id'];
 $humano=null;
 switch ($message['message']['from']['id']) {
 	case ID_AGE:
-		$humano="Ángel";
+		$humano = aleatorio(array('Ángel', 'Caballero'));
 		break;
 	case ID_TAPIA:
-		$humano="Antonio";
+		$humano = aleatorio(array('Antonio', 'Tapia'));
 		break;
 	case ID_NANO:
 		$humano="Nano";
 		break;
 	case ID_YONI:
-		$humano="Ori";
+		$humano = aleatorio(array('Yoni', 'Ori'));
 		break;
 	case ID_CAS: 
 		$humano="Cas";
 		break;
 	case ID_JAVI:
-		$humano="Carracedo";
+		$humano = aleatorio(array('Javi', 'Carracedo'));
 		break;
 	case ID_KETU:
 		$humano="Ketu";
 		break;
 	case ID_PACO:
-		$humano="Paco";
+		$humano = aleatorio(array('Paco', 'Ake'));
 		break;
 	case ID_RIOJANO:
 		$humano="Riojano";
 		break;
 	case ID_BARTOL:
-		$humano="Bartol";
+		$humano = aleatorio(array('Luis', 'Bartol'));
 		break;
 	case ID_VICENTE:
 		$humano="Vicente";
@@ -101,7 +101,7 @@ if($message['message']['chat']['type']=='group'){
         case ID_PACO:
         case ID_RIOJANO:
         case ID_BARTOL:
-        //case : //Vicente
+        case ID_VICENTE:
             $log = Logger::getLogger(GUSLIMB_LOGGER);
             $urlApi=GUSLIMB_URL_API;
             $urlWeb=GUSLIMB_URL;
@@ -179,16 +179,16 @@ if($test){
 $command=strtolower($command);
 
 switch ($command) {
-        case '/clasificacion':
+	case '/clasificacion':
 		clasificacion($chatid, $urlApi, $log);
 		break;
-        case '/prox_jornada':
+	case '/prox_jornada':
 		proxima_jornada($chatid, $urlApi);
 		break;
-        case '/apuestas':
+	case '/apuestas':
 		apuestas($chatid, $urlApi);
 		break;
-        case '/euros':
+	case '/euros':
 		euros($chatid, $urlApi);
 		break;
 	case '/web':
@@ -233,9 +233,17 @@ switch ($command) {
 	case '/pechos':
 	case '/senos':
 	case '/mamas':
-		enfermo($chatid);
+		enfermo($chatid, $humano);
         break;	
+	case '/pene':
+	case '/pito':
+	case '/nabo':
+	case '/cipote':
+	case '/cimbrel':
+	case '/semen':
+		esLoQueTeGustaEh($chatid, $humano);
 	case '/hez':
+	case '/mierda':
 		hez($chatid);
         break;
 	case '/sorteo':
@@ -471,7 +479,7 @@ function euros($chatid, $urlApi){
     $log->debug('euros');
     enviarAccionChat('typing',$chatid);
 
-    $text='Acumulado:'.PHP_EOL.PHP_EOL;
+    $text='Acumulado:'.PHP_EOL;
 
     $log->debug($urlApi . 'clasificacion');
     $json = file_get_contents($urlApi . 'clasificacion');
@@ -511,14 +519,17 @@ function cuantoHaPerdidoRiojas($chatid){
 	 enviarTexto('jajaja, pues todo pringaos',$chatid, false);
 }
 
-function enfermo($chatid){
-	 enviarTexto('Eres un enfermo',$chatid, false);
+function enfermo($chatid, $humano){
+	 enviarTexto($humano, 'eres un enfermo.',$chatid, false);
+}
+
+function esLoQueTeGustaEh($chatid, $humano){
+	 enviarTexto('Es lo que te gusta, '.$humano.', ¿eh?',$chatid, false);
 }
 
 function gus($chatid){
-	  $gus = array('AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg', 'AgADBAAD3KkxG5sPmAABKqtTAAHWZbY3NQWLMAAEmP0iZZyVDtfYMAEAAQI');
-	  $index = rand(0,count($gus)-1);
-	  enviarFoto($gus[$index],$chatid);
+	  $gus = aleatorio(array('AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg', 'AgADBAAD3KkxG5sPmAABKqtTAAHWZbY3NQWLMAAEmP0iZZyVDtfYMAEAAQI'));
+	  enviarFoto($gus,$chatid);
 }
 
 function telacomiste($chatid){
@@ -558,15 +569,20 @@ function insultar($chatid, $humano){
 	$text = 'Función no implementada. ';
 	if($humano!=null){
 		if($humano=='Paco')
-			$text = $text.'¡¡¡Pacooooooooooooooooooooooo!!! ';
-		else 
-			$text = $text.'Maldito '.$humano.'. ';
+			$text = $text.'¡¡¡Pacooooooooooooooooooo!!! ';
+		else {
+			$insulto = aleatorio('Maldito', 'Jodido', 'Estúpido', 'Condenado');
+			$text = $text.$insulto.' '.$humano.'. ';
+		}
 	}
-	$insultos = array('¿Eres idiota?', '¿Eres bobo?', '¿Eres falto?', '¿Eres imbécil?', 'Cómeme un huevo', '¿Estás beodo?', 'Papanatas', 'Mentecato', 'Parguela', 'Mierdaseca');
-	$index = rand(0,count($insultos)-1);
-	$text .= $insultos[$index];
+	$insulto = aleatorio(array('¿Eres idiota?', '¿Eres bobo?', '¿Eres falto?', '¿Eres imbécil?', 'Cómeme un huevo', '¿Estás beodo?', 'Papanatas', 'Mentecato', 'Parguela', 'Mierdaseca'));
+	$text .= $insulto.'.';
 	
 	enviarTexto($text,$chatid, false);
+}
+
+function aleatorio($elementos){
+	return $elementos[rand(0,count($elementos)-1)];
 }
 
 ?>
