@@ -520,7 +520,7 @@ function cuantoHaPerdidoRiojas($chatid){
 }
 
 function enfermo($chatid, $humano){
-	 enviarTexto($humano, 'eres un enfermo.',$chatid, false);
+	 enviarTexto($humano.' eres un enfermo',$chatid, false);
 }
 
 function esLoQueTeGustaEh($chatid, $humano){
