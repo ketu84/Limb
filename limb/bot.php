@@ -249,6 +249,9 @@ switch ($command) {
         break;
 	case '/sorteo':
 		sorteo($chatid);
+	break;
+	case '/comovalacosa':
+		lacosa($chatid);
         break;	
 	default:
 		insultar($chatid, $humano);
@@ -566,6 +569,12 @@ function sorteo($chatid){
     enviarTexto('¿Quieres dejar de molestar?',$chatid, false);
 }
 
+function lacosa($chatid){
+	  enviarTexto($humano.' que cómo va la cosa?', $chatid, false);
+	  $lacosa = aleatorio(array('BQADBAADOwEAAquCfgABnrMSjafQ3MAC', 'BQADBAADPAEAAquCfgABaPj4NyKGzKoC', 'BQADBAADPQEAAquCfgABtj_m6a9PYcoC', 'BQADBAADQQEAAquCfgABuG1T61b_ot4C', 'BQADBAADPgEAAquCfgABjMOIyxYFZpsC', 'BQADBAADPwEAAquCfgABSZUTxp63-XUC', 'BQADBAADQAEAAquCfgABQuo8Bgqkn0wC', 'BQADBAADQgEAAquCfgABLBSk3LFLv_YC', 'BQADBAADQwEAAquCfgABqusFg0BMsqkC', 'BQADBAADRAEAAquCfgAB9ZmRX3IxkrUC', 'BQADBAADRQEAAquCfgABnAM0U9xbceUC', 'BQADBAADRgEAAquCfgABp8YSgPRH4jsC', 'BQADBAADRwEAAquCfgABJLRxiXGuvhoC', 'BQADBAADSAEAAquCfgABeLUBX6QQjzoC', 'BQADBAADSQEAAquCfgABtE_Heye081gC', 'BQADBAADSgEAAquCfgABD70h9XXqPpYC', 'BQADBAADSwEAAquCfgABuqZ-0EYFo4gC', 'BQADBAADTAEAAquCfgABnw_ye5kCdDAC', 'BQADBAADTQEAAquCfgAB6OTDgJazt30C', 'BQADBAADTgEAAquCfgAB6yLyaKiqqQsC', 'BQADBAADTwEAAquCfgABBkEUl4O9BKAC', 'BQADBAADUAEAAquCfgABxSVQFMywrKsC', 'BQADBAADUQEAAquCfgABTKnRu_5HvJkC', 'BQADBAADUgEAAquCfgABuhsdQYmQjCQC', 'BQADBAADUwEAAquCfgABJSseJuIlwFUC', 'BQADBAADVAEAAquCfgAB9NtLK1whk8oC', 'BQADBAADVQEAAquCfgABmPnYwjSBDWsC', 'BQADBAADVgEAAquCfgABfXvvbMIzV6kC', 'BQADBAADVwEAAquCfgABVSk5nHVnz44C', 'BQADBAADWAEAAquCfgABoc5hjHmFbScC', 'BQADBAADWQEAAquCfgABZheaqT0GRI0C', 'BQADBAADWgEAAquCfgABXs0j3yU1YzYC', 'BQADBAADYwEAAquCfgAB1_EZN4Q_NBAC', 'BQADBAADZAEAAquCfgABoNU63qqmPHIC', 'BQADBAADZQEAAquCfgABXVc2A8mPP7UC', 'BQADBAADWwEAAquCfgABD9cKMj7Dlt4C', 'BQADBAADZgEAAquCfgABwob2dovA1ksC', 'BQADBAADZwEAAquCfgABvyhXhDxHyjsC', 'BQADBAADXAEAAquCfgABAW1gcRiOAAFoAg', 'BQADBAADXQEAAquCfgABO6tpgtjMHuYC', 'BQADBAADXgEAAquCfgAB_cxwf5XKw8IC', 'BQADBAADXwEAAquCfgABueHv8hro7ugC', 'BQADBAADYAEAAquCfgAB-l-58_0cGFAC', 'BQADBAADYQEAAquCfgAB6pP4hx_ViOUC', 'BQADBAADYgEAAquCfgABD2fgQc32mTwC'));
+	  enviarFoto($lacosa,$chatid);
+}
+
 function insultar($chatid, $humano){
 	$text = 'Función no implementada. ';
 	if($humano!=null){
@@ -589,7 +598,9 @@ function insultar($chatid, $humano){
 	                            'Hijo de puta',
 	                            'Gilipipas'));
 	$text .= $insulto;
-	
+	if($humano=='Ario')
+			enviarFoto('AgADBAADLKkxG4jtnAABsbSkFxkCLImgn2kwAARwTik8oQSyGj3nAQABAg', $chatid);
+		
 	enviarTexto($text,$chatid, false);
 }
 
