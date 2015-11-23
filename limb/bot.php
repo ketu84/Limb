@@ -142,7 +142,29 @@ if(isset($message["message"]["sticker"])){
     return;
 }
 
+//Si se recibe un Audio de Voz, se responde con el Id de este
+if(isset($message["message"]["voice"])){
+    $documentId = $message['message']['voice']['file_id'];
+    $text="Recibido Audio de Voz con id: ".$documentId;
+    enviarTexto($text,$chatid, false);
+    return;
+}
 
+//Si se recibe un Audio , se responde con el Id de este
+if(isset($message["message"]["audio"])){
+    $documentId = $message['message']['audio']['file_id'];
+    $text="Recibido Audio con id: ".$documentId;
+    enviarTexto($text,$chatid, false);
+    return;
+}
+
+//Si se recibe un Video , se responde con el Id de este
+if(isset($message["message"]["video"])){
+    $documentId = $message['message']['video']['file_id'];
+    $text="Recibido Video con id: ".$documentId;
+    enviarTexto($text,$chatid, false);
+    return;
+}
 
 if(!isset($message["message"]["text"])) return;
 
@@ -336,6 +358,63 @@ function enviarSticker($docId, $chatid){
             ];
 
         enviarMensaje('/sendSticker', $data);
+
+    } catch (Exception $e) {
+        syslog(LOG_ERR, '[' . getmypid() . '] ERROR Exception al enviar el mensaje: ' . $e–>getMessage());
+        exit(1);
+    }
+}
+
+function enviarAudio($docId, $chatid){
+    global $TOKEN;
+    global $log;
+
+    $log->debug("Enviando Audio con id: ".$docId);
+    try {
+        $data= [
+                'chat_id' => (int) $chatid,
+                'audio' => $docId
+            ];
+
+        enviarMensaje('/sendAudio', $data);
+
+    } catch (Exception $e) {
+        syslog(LOG_ERR, '[' . getmypid() . '] ERROR Exception al enviar el mensaje: ' . $e–>getMessage());
+        exit(1);
+    }
+}
+
+function enviarVoice($docId, $chatid){
+    global $TOKEN;
+    global $log;
+
+    $log->debug("Enviando Voice con id: ".$docId);
+    try {
+        $data= [
+                'chat_id' => (int) $chatid,
+                'voice' => $docId
+            ];
+
+        enviarMensaje('/sendVoice', $data);
+
+    } catch (Exception $e) {
+        syslog(LOG_ERR, '[' . getmypid() . '] ERROR Exception al enviar el mensaje: ' . $e–>getMessage());
+        exit(1);
+    }
+}
+
+function enviarVideo($docId, $chatid){
+    global $TOKEN;
+    global $log;
+
+    $log->debug("Enviando Video con id: ".$docId);
+    try {
+        $data= [
+                'chat_id' => (int) $chatid,
+                'video' => $docId
+            ];
+
+        enviarMensaje('/sendVideo', $data);
 
     } catch (Exception $e) {
         syslog(LOG_ERR, '[' . getmypid() . '] ERROR Exception al enviar el mensaje: ' . $e–>getMessage());
