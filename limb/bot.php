@@ -26,7 +26,7 @@ $chatid= $message['message']['chat']['id'];
 $humano=null;
 switch ($message['message']['from']['id']) {
 	case ID_AGE:
-		$humano = aleatorio(array('Ángel', 'Caballero'));
+		$humano = aleatorio(array('Ángel', 'Caballero', 'Ario', 'Veleta'));
 		break;
 	case ID_TAPIA:
 		$humano = aleatorio(array('Antonio', 'Tapia'));
@@ -38,27 +38,26 @@ switch ($message['message']['from']['id']) {
 		$humano = aleatorio(array('Yoni', 'Ori'));
 		break;
 	case ID_CAS: 
-		$humano="Cas";
+		$humano= aleatorio(array('Cas', 'Castaña'));
 		break;
 	case ID_JAVI:
-		$humano = aleatorio(array('Javi', 'Carracedo'));
+		$humano = aleatorio(array('Javi', 'Carracedo', 'Fascista'));
 		break;
 	case ID_KETU:
-		$humano="Ketu";
+		$humano= aleatorio(array('Ketu', 'Manuel David'));
 		break;
 	case ID_PACO:
 		$humano = aleatorio(array('Paco', 'Ake'));
 		break;
 	case ID_RIOJANO:
-		$humano="Riojano";
+		$humano= aleatorio(array('Riojano', 'Gelete', 'Almendro'));
 		break;
 	case ID_BARTOL:
 		$humano = aleatorio(array('Luis', 'Bartol'));
 		break;
 	case ID_VICENTE:
-		$humano="Vicente";
+		$humano= aleatorio(array('Vicente', 'Comandante'));
 		break;
-	
 	case ID_ZATO:
 		$humano="Álvaro";
 		break;
@@ -551,11 +550,13 @@ function cuantoHaGanadoCas($chatid){
 }
 
 function aupa($chatid){
-	$index = rand(0,1);
+	$index = rand(0,2);
 	if($index == 0)
 		enviarDoc('BQADBAADOAAECiQB3V1ov-88-qgC',$chatid);
-	else 
+	if($index == 1) 
 		enviarTexto($humano.' eres un pajero.',$chatid, false);	
+	if($index == 2)
+		enviarDoc('BQADBAADOgEAAquCfgABXRORytopeMsC', $chatid)
 }
 
 function hez($chatid){
@@ -564,6 +565,7 @@ function hez($chatid){
 
 function sorteo($chatid){
     enviarTexto('¿Quieres dejar de molestar?',$chatid, false);
+    enviarFoto('BQADBAADOQEAAquCfgABPSV-6BCH3vYC', $chatid)
 }
 
 function insultar($chatid, $humano){
@@ -572,7 +574,7 @@ function insultar($chatid, $humano){
 		if($humano=='Paco')
 			$text = $text.'¡¡¡Pacooooooooooooooooooo!!! ';
 		else {
-			$insulto = aleatorio(['Maldito', 'Jodido', 'Estúpido', 'Condenado']);
+			$insulto = aleatorio(['Maldito', 'Jodido', 'Estúpido', 'Condenado', 'Retrasado', 'Podemita']);
 			$text = $text.$insulto.' '.$humano.'. ';
 		}
 	}
