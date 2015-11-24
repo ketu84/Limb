@@ -296,23 +296,23 @@ switch ($command) {
 	case '/comovalacosa':
 		lacosa($chatid, $humano);
 		break;
-	case '/nogus'
+	case '/nogus':
 		nogus($chatid);
 	        break;
-	case '/holaage'
+	case '/holaage':
 		holaage($chatid);
 	        break;
-	case '/holaketu'
+	case '/holaketu':
 		holaketu($chatid);
 		break;
-	case '/valetio'
+	case '/valetio':
 		valetio($chatid);
 		break;
-	case '/agevapipa'
+	case '/agevapipa':
 		agevapipa("$chatid");
 		break;
-	case '/cantaBot'
-		cantar("$chatid")
+	case '/cantaBot':
+		cantar("$chatid");
 		break;
         
 	default:
@@ -342,11 +342,11 @@ switch ($command) {
 		    break;
 		}
 		if (strpos($command,'podemita') !== false) {
-		   enviarFoto(' AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId)
+		   enviarFoto(' AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId);
 		   break;
 		}
 		if (strpos($command,'coleta') !== false) {
-		   enviarFoto(' AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId)
+		   enviarFoto(' AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId);
 		   break;
 		}
 		insultar($chatid, $humano);
