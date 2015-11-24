@@ -556,7 +556,7 @@ function aupa($chatid){
 	if($index == 1) 
 		enviarTexto($humano.' eres un pajero.',$chatid, false);	
 	if($index == 2)
-		enviarDoc('BQADBAADOgEAAquCfgABXRORytopeMsC', $chatid)
+		enviarDoc('BQADBAADOgEAAquCfgABXRORytopeMsC', $chatid);
 }
 
 function hez($chatid){
@@ -565,7 +565,7 @@ function hez($chatid){
 
 function sorteo($chatid){
     enviarTexto('¿Quieres dejar de molestar?',$chatid, false);
-    enviarFoto('BQADBAADOQEAAquCfgABPSV-6BCH3vYC', $chatid)
+    enviarFoto('BQADBAADOQEAAquCfgABPSV-6BCH3vYC', $chatid);
 }
 
 function insultar($chatid, $humano){
