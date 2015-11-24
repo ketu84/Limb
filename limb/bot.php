@@ -316,16 +316,15 @@ switch ($command) {
 		break;
         
 	default:
-		$lowcommand = strtolower($scommand);
-		if (strpos($lowcommand,'puta') !== false) {
+		if (strpos($command,'puta') !== false) {
 		    insultarAMadre($chatid, $humano, 'puta');
 		    break;
 		}
-		if (strpos($lowcommand,'gorda') !== false) {
+		if (strpos($command,'gorda') !== false) {
 		    insultarAMadre($chatid, $humano, 'gorda');
 		    break;
 		}
-		if (strpos($lowcommand,'cabron') !== false) {
+		if (strpos($command,'cabron') !== false) {
 		    insultarAHumano($chatid, $humano, 'cabron');
 		    break;
 		}
