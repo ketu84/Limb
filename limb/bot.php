@@ -266,7 +266,7 @@ switch ($command) {
 		break;
 	case '/aupa':
 		aupa($chatid);
-        break;
+        	break;
 	case '/tetas':
 	case '/mamellas':
 	case '/domingas':
@@ -277,7 +277,7 @@ switch ($command) {
 	case '/senos':
 	case '/mamas':
 		enfermo($chatid, $humano);
-        break;	
+        	break;	
 	case '/pene':
 	case '/pito':
 	case '/nabo':
@@ -311,11 +311,10 @@ switch ($command) {
 	case '/agevapipa':
 		agevapipa("$chatid");
 		break;
-	case '/cantaBot':
+	case '/cantar':
 		cantar("$chatid");
 		break;
-        
-	default:
+        default:
 		if (strpos($command,'puta') !== false) {
 		    insultarAMadre($chatid, $humano, 'puta');
 		    break;
@@ -341,14 +340,17 @@ switch ($command) {
 		    break;
 		}
 		if (strpos($command,'podemita') !== false) {
-		   enviarFoto(' AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId);
+		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId);
 		   break;
 		}
 		if (strpos($command,'coleta') !== false) {
-		   enviarFoto(' AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId);
+		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId);
 		   break;
 		}
+		else {
 		insultar($chatid, $humano);
+		break;
+		}
 }		
 
 
