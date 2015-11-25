@@ -323,8 +323,20 @@ switch ($command) {
 		    insultarAMadre($chatid, $humano, 'gorda');
 		    break;
 		}
+		elseif (strpos($command,'tetas') !== false) {
+		    insultarAMadre($chatid, $humano, 'puta, que te las enseñe ella');
+		    break;
+		}
 		elseif (strpos($command,'cabron') !== false) {
 		    insultarAHumano($chatid, $humano, 'cabron');
+		    break;
+		}
+		elseif (strpos($command,'puto') !== false) {
+		    insultarAHumano($chatid, $humano, 'un puto maricon de mierda');
+		    break;
+		}
+		elseif (strpos($command,'maricon') !== false) {
+		    insultarAHumano($chatid, $humano, 'un puto maricon de mierda');
 		    break;
 		}
 		elseif (strpos($command,'subnormal') !== false) {
@@ -340,10 +352,12 @@ switch ($command) {
 		    break;
 		}
 		elseif (strpos($command,'podemita') !== false) {
+		   insultarAHumano($chatid, $humano, 'podemita');
 		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId);
 		   break;
 		}
 		elseif (strpos($command,'coleta') !== false) {
+		   insultarAHumano($chatid, $humano, 'podemita');
 		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId);
 		   break;
 		}
@@ -788,7 +802,7 @@ function insultar($chatid, $humano){
 }
  function insultarAHumano($chatid, $humano, $insulto){
 	$text = $humano;
-	$text .= ' ,tu si que eres ';
+	$text .= ',tu si que eres ';
 	$text .= $insulto;
 	enviarTexto($text,$chatid, false);
 }
