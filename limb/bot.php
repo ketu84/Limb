@@ -327,6 +327,10 @@ switch ($command) {
 		    insultarAMadre($chatid, $humano, 'puta, que te las enseñe ella');
 		    break;
 		}
+		elseif (strpos($command,'tetas') !== false) {
+		    insultarAMadre($chatid, $humano, 'puta, que te la chupe ella por cinco duros');
+		    break;
+		}
 		elseif (strpos($command,'cabron') !== false) {
 		    insultarAHumano($chatid, $humano, 'cabron');
 		    break;
