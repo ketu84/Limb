@@ -327,7 +327,7 @@ switch ($command) {
 		    insultarAMadre($chatid, $humano, 'puta, que te las enseñe ella');
 		    break;
 		}
-		elseif (strpos($command,'tetas') !== false) {
+		elseif (strpos($command,'chupa') !== false) {
 		    insultarAMadre($chatid, $humano, 'puta, que te la chupe ella por cinco duros');
 		    break;
 		}
