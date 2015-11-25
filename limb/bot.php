@@ -316,7 +316,7 @@ switch ($command) {
 		break;
         
 	default:
-		$lowcommand = strtolower($scommand);
+		$lowcommand = strtolower($command);
 		if (strpos($lowcommand,'puta') !== false) {
 		    insultarAMadre($chatid, $humano, 'puta');
 		    break;
@@ -342,11 +342,11 @@ switch ($command) {
 		    break;
 		}
 		if (strpos($command,'podemita') !== false) {
-		   enviarFoto(' AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId);
+		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatid);
 		   break;
 		}
 		if (strpos($command,'coleta') !== false) {
-		   enviarFoto(' AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId);
+		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatid);
 		   break;
 		}
 		insultar($chatid, $humano);
