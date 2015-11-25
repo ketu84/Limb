@@ -266,7 +266,7 @@ switch ($command) {
 		break;
 	case '/aupa':
 		aupa($chatid);
-        break;
+        	break;
 	case '/tetas':
 	case '/mamellas':
 	case '/domingas':
@@ -277,7 +277,7 @@ switch ($command) {
 	case '/senos':
 	case '/mamas':
 		enfermo($chatid, $humano);
-        break;	
+        	break;	
 	case '/pene':
 	case '/pito':
 	case '/nabo':
@@ -311,33 +311,48 @@ switch ($command) {
 	case '/agevapipa':
 		agevapipa("$chatid");
 		break;
-	case '/cantaBot':
+	case '/cantar':
 		cantar("$chatid");
 		break;
-        
-	default:
-		$lowcommand = strtolower($command);
-		if (strpos($lowcommand,'puta') !== false) {
+
+    default:
+		if (strpos($command,'puta') !== false) {
 		    insultarAMadre($chatid, $humano, 'puta');
 		    break;
 		}
-		if (strpos($lowcommand,'gorda') !== false) {
+		elseif (strpos($command,'gorda') !== false) {
 		    insultarAMadre($chatid, $humano, 'gorda');
 		    break;
 		}
-		if (strpos($lowcommand,'cabron') !== false) {
+		elseif (strpos($command,'tetas') !== false) {
+		    insultarAMadre($chatid, $humano, 'puta, que te las enseñe ella');
+		    break;
+		}
+		elseif (strpos($command,'chupa') !== false) {
+		    insultarAMadre($chatid, $humano, 'puta, que te la chupe ella por cinco duros');
+		    break;
+		}
+		elseif (strpos($command,'cabron') !== false) {
 		    insultarAHumano($chatid, $humano, 'cabron');
 		    break;
 		}
-		if (strpos($command,'subnormal') !== false) {
+		elseif (strpos($command,'puto') !== false) {
+		    insultarAHumano($chatid, $humano, 'un puto maricon de mierda');
+		    break;
+		}
+		elseif (strpos($command,'maricon') !== false) {
+		    insultarAHumano($chatid, $humano, 'un puto maricon de mierda');
+		    break;
+		}
+		elseif (strpos($command,'subnormal') !== false) {
 		    insultarAHumano($chatid, $humano, 'subnormal');
 		    break;
 		}
-		if (strpos($command,'gilipollas') !== false) {
+		elseif (strpos($command,'gilipollas') !== false) {
 		    insultarAHumano($chatid, $humano, 'gilipollas');
 		    break;
 		}
-		if (strpos($command,'socialista') !== false) {
+		elseif (strpos($command,'socialista') !== false) {
 		    insultarAHumano($chatid, $humano, 'socialista');
 		    break;
 		}
@@ -349,7 +364,10 @@ switch ($command) {
 		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatid);
 		   break;
 		}
+		else {
 		insultar($chatid, $humano);
+		break;
+		}
 }		
 
 
@@ -787,7 +805,7 @@ function insultar($chatid, $humano){
 }
  function insultarAHumano($chatid, $humano, $insulto){
 	$text = $humano;
-	$text .= ' ,tu si que eres ';
+	$text .= ',tu si que eres ';
 	$text .= $insulto;
 	enviarTexto($text,$chatid, false);
 }
