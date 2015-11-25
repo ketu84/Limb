@@ -319,31 +319,31 @@ switch ($command) {
 		    insultarAMadre($chatid, $humano, 'puta');
 		    break;
 		}
-		if (strpos($command,'gorda') !== false) {
+		elseif (strpos($command,'gorda') !== false) {
 		    insultarAMadre($chatid, $humano, 'gorda');
 		    break;
 		}
-		if (strpos($command,'cabron') !== false) {
+		elseif (strpos($command,'cabron') !== false) {
 		    insultarAHumano($chatid, $humano, 'cabron');
 		    break;
 		}
-		if (strpos($command,'subnormal') !== false) {
+		elseif (strpos($command,'subnormal') !== false) {
 		    insultarAHumano($chatid, $humano, 'subnormal');
 		    break;
 		}
-		if (strpos($command,'gilipollas') !== false) {
+		elseif (strpos($command,'gilipollas') !== false) {
 		    insultarAHumano($chatid, $humano, 'gilipollas');
 		    break;
 		}
-		if (strpos($command,'socialista') !== false) {
+		elseif (strpos($command,'socialista') !== false) {
 		    insultarAHumano($chatid, $humano, 'socialista');
 		    break;
 		}
-		if (strpos($command,'podemita') !== false) {
+		elseif (strpos($command,'podemita') !== false) {
 		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId);
 		   break;
 		}
-		if (strpos($command,'coleta') !== false) {
+		elseif (strpos($command,'coleta') !== false) {
 		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatId);
 		   break;
 		}
