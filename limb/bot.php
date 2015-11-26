@@ -290,19 +290,19 @@ switch ($command) {
 	case '/hez':
 	case '/mierda':
 		hez($chatid);
-        	break;
+    	break;
 	case '/sorteo':
 		sorteo($chatid);
-	    	break;
+    	break;
 	case '/comovalacosa':
 		lacosa($chatid, $humano);
 		break;
 	case '/nogus':
 		nogus($chatid);
-	        break;
+        break;
 	case '/holaage':
 		holaage($chatid);
-	        break;
+        break;
 	case '/holaketu':
 		holaketu($chatid);
 		break;
@@ -310,65 +310,69 @@ switch ($command) {
 		valetio($chatid);
 		break;
 	case '/agevapipa':
-		agevapipa("$chatid");
+		agevapipa($chatid);
 		break;
 	case '/cantar':
-		cantar("$chatid");
+		cantar($chatid);
 		break;
 
     default:
-		if (strpos($command,'puta') !== false) {
-		    insultarAMadre($chatid, $humano, 'puta');
-		    break;
-		}
-		elseif (strpos($command,'gorda') !== false) {
-		    insultarAMadre($chatid, $humano, 'gorda');
-		    break;
-		}
-		elseif (strpos($command,'tetas') !== false) {
-		    insultarAMadre($chatid, $humano, 'puta, que te las enseñe ella');
-		    break;
-		}
-		elseif (strpos($command,'chupa') !== false) {
-		    insultarAMadre($chatid, $humano, 'puta, que te la chupe ella por cinco duros');
-		    break;
-		}
-		elseif (strpos($command,'cabron') !== false) {
-		    insultarAHumano($chatid, $humano, 'cabron');
-		    break;
-		}
-		elseif (strpos($command,'puto') !== false) {
-		    insultarAHumano($chatid, $humano, 'un puto maricon de mierda');
-		    break;
-		}
-		elseif (strpos($command,'maricon') !== false) {
-		    insultarAHumano($chatid, $humano, 'un puto maricon de mierda');
-		    break;
-		}
-		elseif (strpos($command,'subnormal') !== false) {
-		    insultarAHumano($chatid, $humano, 'subnormal');
-		    break;
-		}
-		elseif (strpos($command,'gilipollas') !== false) {
-		    insultarAHumano($chatid, $humano, 'gilipollas');
-		    break;
-		}
-		elseif (strpos($command,'socialista') !== false) {
-		    insultarAHumano($chatid, $humano, 'socialista');
-		    break;
-		}
-		if (strpos($command,'podemita') !== false) {
-		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatid);
-		   break;
-		}
-		if (strpos($command,'coleta') !== false) {
-		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatid);
-		   break;
-		}
-		else {
-		insultar($chatid, $humano);
-		break;
-		}
+        if((strpos($command,'/') !== false) && (strpos($command,'/')==0)){
+            $log->debug($command." --> Es un comando");
+        
+    		if (strpos($command,'puta') !== false) {
+    		    insultarAMadre($chatid, $humano, 'puta');
+    		    break;
+    		}
+    		elseif (strpos($command,'gorda') !== false) {
+    		    insultarAMadre($chatid, $humano, 'gorda');
+    		    break;
+    		}
+    		elseif (strpos($command,'tetas') !== false) {
+    		    insultarAMadre($chatid, $humano, 'puta, que te las enseñe ella');
+    		    break;
+    		}
+    		elseif (strpos($command,'chupa') !== false) {
+    		    insultarAMadre($chatid, $humano, 'puta, que te la chupe ella por cinco duros');
+    		    break;
+    		}
+    		elseif (strpos($command,'cabron') !== false) {
+    		    insultarAHumano($chatid, $humano, 'cabron');
+    		    break;
+    		}
+    		elseif (strpos($command,'puto') !== false) {
+    		    insultarAHumano($chatid, $humano, 'un puto maricon de mierda');
+    		    break;
+    		}
+    		elseif (strpos($command,'maricon') !== false) {
+    		    insultarAHumano($chatid, $humano, 'un puto maricon de mierda');
+    		    break;
+    		}
+    		elseif (strpos($command,'subnormal') !== false) {
+    		    insultarAHumano($chatid, $humano, 'subnormal');
+    		    break;
+    		}
+    		elseif (strpos($command,'gilipollas') !== false) {
+    		    insultarAHumano($chatid, $humano, 'gilipollas');
+    		    break;
+    		}
+    		elseif (strpos($command,'socialista') !== false) {
+    		    insultarAHumano($chatid, $humano, 'socialista');
+    		    break;
+    		}
+    		if (strpos($command,'podemita') !== false) {
+    		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatid);
+    		   break;
+    		}
+    		if (strpos($command,'coleta') !== false) {
+    		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatid);
+    		   break;
+    		}
+    		else {
+    		    insultar($chatid, $humano);
+    		    break;
+    		}
+        }
 }		
 
 
