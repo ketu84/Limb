@@ -324,19 +324,19 @@ switch ($command) {
             $log->debug($command." --> Es un comando");
         
     		if (strpos($command,'puta') !== false) {
-    		    insultarAMadre($chatid, $humano, 'puta');
+    		    insultarAMadre($chatid, $humano, 'puta', true);
     		    break;
     		}
     		elseif (strpos($command,'gorda') !== false) {
-    		    insultarAMadre($chatid, $humano, 'gorda');
+    		    insultarAMadre($chatid, $humano, 'gorda', false);
     		    break;
     		}
     		elseif (strpos($command,'tetas') !== false) {
-    		    insultarAMadre($chatid, $humano, 'puta, que te las enseñe ella');
+    		    insultarAMadre($chatid, $humano, 'puta, que te las enseñe ella', false);
     		    break;
     		}
     		elseif (strpos($command,'chupa') !== false) {
-    		    insultarAMadre($chatid, $humano, 'puta, que te la chupe ella por cinco duros');
+    		    insultarAMadre($chatid, $humano, 'puta, que te la chupe ella por cinco duros', true);
     		    break;
     		}
     		elseif (strpos($command,'cabron') !== false) {
@@ -368,7 +368,7 @@ switch ($command) {
     		   break;
     		}
     		if (strpos($command,'coleta') !== false) {
-    		   enviarFoto('AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC', $chatid);
+    		   enviarSticker('BQADBAAD7AAD-WxHAtGrH8UmWiiXAg', $chatid);
     		   break;
     		}
     		else {
@@ -769,7 +769,7 @@ function valetio($chatid){
 }
 
 function agevapipa($chatid){
-	  $agepipa = aleatorio(array('AgADBAADsLExG6uCfgAB11V67VOSyHQhd4wwAATniw8DzMJf0yJcAQABAg', 'AgADBAADsbExG6uCfgABdK4Br7b7bjPOCnEwAASIQJwfY4Wa6v7QAQABAg', 'AgADBAADsrExG6uCfgABcOiowovh9m2J83AwAAQXyvtk28XB_s7RAQABAg'));
+	  $agepipa = aleatorio(array('AgADBAADsLExG6uCfgAB11V67VOSyHQhd4wwAATniw8DzMJf0yJcAQABAg', 'AgADBAADsbExG6uCfgABdK4Br7b7bjPOCnEwAASIQJwfY4Wa6v7QAQABAg', 'AgADBAADsrExG6uCfgABcOiowovh9m2J83AwAAQXyvtk28XB_s7RAQABAg', 'AgADBAADu7ExG6uCfgABxjIl6YqoTCSzMIswAAT06vz4TKuqGnVhAQABAg', 'AgADBAADyqoxG3lazgABhV1-CGUlYW4fA3EwAASKHnfeO00-ih3XAQABAg'));
 	  enviarFoto($agepipa,$chatid);
 }
 
@@ -791,13 +791,25 @@ function cuantoHaGanadoCas($chatid){
 }
 
 function aupa($chatid){
-	$index = rand(0,2);
-	if($index == 0)
+	$index = rand(0,6);
+	
+	switch ($index) {
+	case 0:
 		enviarDoc('BQADBAADOAAECiQB3V1ov-88-qgC',$chatid);
-	if($index == 1) 
+		break;
+	case 1:
+		enviarVideo('BAADBAADbQEAAquCfgABoRnmRDnXhy8C',$chatid);
+		break;
+	case 2:
+		enviarDoc('BQADBAADOgEAAquCfgABXRORytopeMsC',$chatid);
+		break;
+	case 3:
+		enviarVideo('BAADBAAD-gADq4J-AAGsDCkH3vElRwI',$chatid);
+		break;
+	default:
 		enviarTexto($humano.' eres un pajero.',$chatid, false);	
-	if($index == 2)
-		enviarDoc('BQADBAADOgEAAquCfgABXRORytopeMsC', $chatid);
+		break;
+	}
 }
 
 function hez($chatid){
@@ -833,9 +845,12 @@ function insultar($chatid, $humano){
 	enviarTexto($text,$chatid, false);
 }
  
- function insultarAMadre($chatid, $humano, $insulto){
-	$text = 'Tu madre si que es ';
+ function insultarAMadre($chatid, $humano, $insulto, $puta){
+	$text = $humano;
+	$text .= ', tu madre si que es ';
 	$text .= $insulto;
+	if($puta == true)
+		$text .= '. Ah, por cierto, igual la encuentras por aquí: https://www.google.es/search?q=puta&biw=1920&bih=1019&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjQjL-Vya7JAhVHow4KHcISAGUQ_AUIBigB#tbm=isch&q=putas+madrid';
 	enviarTexto($text,$chatid, false);
 }
  function insultarAHumano($chatid, $humano, $insulto){
@@ -865,7 +880,14 @@ function getInsultoSingular(){
 	                            'Mierdaseca', 
 	                            'Hijo de puta',
 	                            'Gilipipas',
-	                            'Mascachapas'));
+	                            'Mascachapas',
+	                            'Soplanucas',
+	                            'Muerdealmohadas',
+	                            'Sodomita',
+	                            '¿Eres un asqueroso perro judío?',
+	                            'Aborto',
+	                            'Anormal',
+	                            'Moromierda'));
 }
 
 function getInsultoPlural(){
@@ -883,7 +905,10 @@ function getInsultoPlural(){
 				'podemitas',
 				'parguelas', 
 				'mierdasecas', 
-				'malnacidos'));
+				'malnacidos',
+				'borbones',
+				'retardados',
+				'hijos de mil putas sifilíticas'));
 }
 
 ?>
