@@ -33,7 +33,7 @@ switch ($humanoId) {
 		$humano = aleatorio(array('Antonio', 'Tapia','Oso'));
 		break;
 	case ID_NANO:
-		$humano=aleatorio(array('Nano','Gnomo'));
+		$humano=aleatorio(array('Nano','Gnomo', 'Reducto'));
 		break;
 	case ID_YONI:
 		$humano = aleatorio(array('Yoni', 'Ori'));
@@ -63,13 +63,13 @@ switch ($humanoId) {
 		$humano=aleatorio(array('Álvaro', 'Zato', 'Bárbol'));
 		break;
 	case ID_RULO:
-		$humano=aleatorio(array('Raúl','Rulo'));
+		$humano=aleatorio(array('Raúl','Rulo', 'Tomasa'));
 		break;
 	case ID_MATUTE:
 		$humano=aleatorio(array('Matute','Doctor'));
 		break;
 	case ID_LUCHO:
-		$humano==aleatorio(array('Luciano','Lutxo','Luz&Ano'));
+		$humano==aleatorio(array('Luciano','Lucho','Luz&Ano'));
 		break;
 	case ID_BORJA:
 		$humano=aleatorio(array('Borja','Barbudo','Barba Humana'));
@@ -864,7 +864,8 @@ function getInsultoSingular(){
 	                            'Parguela', 
 	                            'Mierdaseca', 
 	                            'Hijo de puta',
-	                            'Gilipipas'));
+	                            'Gilipipas',
+	                            'Mascachapas'));
 }
 
 function getInsultoPlural(){
