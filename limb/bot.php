@@ -30,10 +30,10 @@ switch ($humanoId) {
 		$humano = aleatorio(array('Ángel', 'Caballero', 'Ario', 'Veleta'));
 		break;
 	case ID_TAPIA:
-		$humano = aleatorio(array('Antonio', 'Tapia'));
+		$humano = aleatorio(array('Antonio', 'Tapia','Oso'));
 		break;
 	case ID_NANO:
-		$humano="Nano";
+		$humano=aleatorio(array('Nano','Gnomo'));
 		break;
 	case ID_YONI:
 		$humano = aleatorio(array('Yoni', 'Ori'));
@@ -60,19 +60,19 @@ switch ($humanoId) {
 		$humano= aleatorio(array('Vicente', 'Comandante'));
 		break;
 	case ID_ZATO:
-		$humano="Álvaro";
+		$humano=aleatorio(array('Álvaro', 'Zato', 'Bárbol'));
 		break;
 	case ID_RULO:
-		$humano="Raúl";
+		$humano=aleatorio(array('Raúl','Rulo'));
 		break;
 	case ID_MATUTE:
-		$humano="Matute";
+		$humano=aleatorio(array('Matute','Doctor'));
 		break;
 	case ID_LUCHO:
-		$humano="Luciano";
+		$humano==aleatorio(array('Luciano','Lutxo','Luz&Ano'));
 		break;
 	case ID_BORJA:
-		$humano="Borja";
+		$humano=aleatorio(array('Borja','Barbudo','Barba Humana'));
 		break;
 }
 
@@ -234,6 +234,9 @@ switch ($command) {
 		break;
 	case '/euros':
 		euros($chatid, $urlApi);
+		break;
+	case '/apostadya':
+		apostadYa($chatid, $urlApi);
 		break;
 	case '/web':
 		web($urlWeb, $chatid);
@@ -678,6 +681,39 @@ function euros($chatid, $urlApi){
     enviarTexto($text,$chatid, false);
 }
 
+function apostadYa($chatid, $urlApi){
+    global $log;
+    $log->debug('apostadYa');
+    enviarAccionChat('typing',$chatid);
+
+    $json = file_get_contents($urlApi . 'apostantes');
+    $jsonApostantes = json_decode($json);
+    $arrayFaltan = array();
+	
+	foreach($jsonApostantes as $apostante){
+		$arrayFaltan[$apostante->id] = $apostante->nombre;
+		//array_push($arrayFaltan, $apostante->nombre);
+	}
+  
+    $json = file_get_contents($urlApi . 'apuestas');
+    $jsonApuestas = json_decode($json);
+    foreach($jsonApuestas as $apuesta){
+
+			if($key = array_search( $apuesta->apostante,$arrayFaltan) !==false){
+				unset($arrayFaltan[$key]);	
+			}
+    }
+	$emoji_pointing= unichr(0x1F449);
+    $text='Faltan por apostar:'.PHP_EOL;
+    foreach($arrayFaltan as $apostante){
+        $text=$text.$emoji_pointing.$apostante .PHP_EOL;
+    }
+
+    $text=$text.'Apostad ya '.getInsultoPlural();
+    
+    enviarTexto($text,$chatid, false);
+}
+
 function web($urlWeb, $chatid){
 	$text=$urlWeb;
     enviarTexto($text,$chatid, false);
@@ -789,18 +825,7 @@ function insultar($chatid, $humano){
 			$text = $text.$insulto.' '.$humano.'. ';
 		}
 	}
-	$insulto = aleatorio(array('¿Eres idiota?', 
-	                            '¿Eres bobo?', 
-	                            '¿Eres falto?', 
-	                            '¿Eres imbécil?', 
-	                            'Cómeme un huevo', 
-	                            '¿Estás beodo?', 
-	                            'Papanatas', 
-	                            'Mentecato', 
-	                            'Parguela', 
-	                            'Mierdaseca', 
-	                            'Hijo de puta',
-	                            'Gilipipas'));
+	$insulto = getInsultoSingular();
 	$text .= $insulto;
 	if($humano=='Ario')
 			enviarFoto('AgADBAADLKkxG4jtnAABsbSkFxkCLImgn2kwAARwTik8oQSyGj3nAQABAg', $chatid);
@@ -825,6 +850,39 @@ function insultar($chatid, $humano){
 
 function aleatorio($elementos){
 	return $elementos[rand(0,count($elementos)-1)];
+}
+
+function getInsultoSingular(){
+    return aleatorio(array('¿Eres idiota?', 
+	                            '¿Eres bobo?', 
+	                            '¿Eres falto?', 
+	                            '¿Eres imbécil?', 
+	                            'Cómeme un huevo', 
+	                            '¿Estás beodo?', 
+	                            'Papanatas', 
+	                            'Mentecato', 
+	                            'Parguela', 
+	                            'Mierdaseca', 
+	                            'Hijo de puta',
+	                            'Gilipipas'));
+}
+
+function getInsultoPlural(){
+    return aleatorio(array('idiotas', 
+				'lamenalgas', 
+				'chupaculos', 
+				'hijos de perra', 
+				'bobos', 
+				'cabrones', 
+				'memos', 
+				'imbéciles', 
+				'comehuevos', 
+				'papanatas', 
+				'mentecatos', 
+				'podemitas',
+				'parguelas', 
+				'mierdasecas', 
+				'malnacidos'));
 }
 
 ?>
