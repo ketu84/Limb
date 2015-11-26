@@ -573,13 +573,14 @@ function clasificacion($chatid, $urlApi, $log){
     $log->debug($urlApi . 'clasificacion');
     $json = file_get_contents($urlApi . 'clasificacion');
     $obj = json_decode($json);
-    $emoji_up= unichr(0x2B06;
+    $emoji_up= unichr(0x2B06);
     $emoji_down= unichr(0x2B07);
     foreach($obj as $valor) {
-    	if((int)$valor->pos > 9)
+    	if((int)$valor->pos > 9){
         	$text=$text.$emoji_up.' '.$valor->pos.'.- '.$valor->nombre.': '.$valor->neto.'€'.PHP_EOL;
-        else
-        	$text=$text.$emoji_down.' '$valor->pos.'.- '.$valor->nombre.': '.$valor->neto.'€'.PHP_EOL;
+        }else{
+        	$text=$text.$emoji_down.' '.    $valor->pos.'.- '.$valor->nombre.': '.$valor->neto.'€'.PHP_EOL;
+        }
     }
     enviarTexto($text,$chatid, false);
 }
