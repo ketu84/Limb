@@ -308,6 +308,20 @@
             $file_id='BQADBAADawEAAquCfgABAhruCPned4AC';
             return Response::create_audio_response($endpoint, $request->get_chat_id(), $file_id);
         }
-         
+
+		private function wololo($endpoint, $request){
+			$file_id='BQADBAADOQADmw-YAAEVi-CBIwOYXQI';
+			return Response::create_audio_response($endpoint, $request->get_chat_id(), $file_id);
+		}
+		
+		private function cuentanosmas($endpoint, $request){
+			return $this->cuentamemas($endpoint, $request);
+		}
+
+		private function cuentamemas($endpoint, $request){
+			$file_id = Utils::aleatorio(array('BQADBAADPQADmw-YAAEhWGbVFye0lQI', 'BQADBAADPgADmw-YAAH-FnGmrZjAewI'));
+			return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
+        }
+
     }
 ?>
