@@ -2,27 +2,9 @@
  
     <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
     
-    <appender name="gusfileAppender" class="LoggerAppenderRollingFile">
-         <layout class="LoggerLayoutPattern">
-            <param name="conversionPattern" value="%date (%level) [%logger] %message%newline" />
-        </layout>
-        <param name="file" value="logs/gusLimb_bot.log" />
-        <param name="maxFileSize" value="1MB" />
-        <param name="maxBackupIndex" value="5" />
-    </appender>
-    
-    <appender name="champfileAppender" class="LoggerAppenderRollingFile">
-         <layout class="LoggerLayoutPattern">
-            <param name="conversionPattern" value="%date (%level) [%logger] %message%newline" />
-        </layout>
-        <param name="file" value="logs/championsLimb_bot.log" />
-        <param name="maxFileSize" value="1MB" />
-        <param name="maxBackupIndex" value="5" />
-    </appender>
-    
     <appender name="fileAppender" class="LoggerAppenderRollingFile">
          <layout class="LoggerLayoutPattern">
-            <param name="conversionPattern" value="%date (%level) [%logger] %message%newline" />
+            <param name="conversionPattern" value="%date (%level) [%logger] %message%newline%ex" />
         </layout>
         <param name="file" value="logs/bot.log" />
         <param name="maxFileSize" value="1MB" />
@@ -34,16 +16,6 @@
         <appender_ref ref="fileAppender" />
     </logger>
 
-    <logger name="gusLimbLogger">
-        <level value="debug" />
-        <appender_ref ref="gusfileAppender" />
-    </logger>
-    
-    <logger name="championsLimbLogger">
-        <level value="debug" />
-        <appender_ref ref="champfileAppender" />
-    </logger>
-    
     <root>
         <level value="ERROR" />
         <appender_ref ref="myConsoleAppender" />
