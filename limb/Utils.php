@@ -72,7 +72,12 @@
                     'Mierdaseca', 
                     'Hijo de puta',
                     'Gilipipas',
-                    'Mascachapas'));
+                    'Mascachapas',
+                    'Soplanucas',
+                    'Muerdealmohadas',
+                    'Sodomita',
+                    'Aborto',
+                    'Anormal'));
         }
         
         static function getInsultoPlural(){
@@ -92,7 +97,10 @@
     				'podemitas',
     				'parguelas', 
     				'mierdasecas', 
-    				'malnacidos'));
+    				'malnacidos',
+    				'borbones',
+	    			'retardados',
+		    		'hijos de mil putas sifilíticas'));
         }
         
         static function get_humano_name($humanoId){

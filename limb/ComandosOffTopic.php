@@ -62,8 +62,8 @@
             }
             
             if (strpos($request->get_command(),'coleta') !== false) {
-                $file_id = 'AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC';
-                return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
+                $file_id = 'BQADBAAD7AAD-WxHAtGrH8UmWiiXAg';
+                return Response::create_sticker_response($endpoint, $request->get_chat_id(), $file_id);
             }
             
             return $this->insultar($endpoint, $request);
@@ -192,7 +192,7 @@
         }
         
         private function agevapipa($endpoint, $request){
-            $file_id = Utils::aleatorio(array('AgADBAADsLExG6uCfgAB11V67VOSyHQhd4wwAATniw8DzMJf0yJcAQABAg', 'AgADBAADsbExG6uCfgABdK4Br7b7bjPOCnEwAASIQJwfY4Wa6v7QAQABAg', 'AgADBAADsrExG6uCfgABcOiowovh9m2J83AwAAQXyvtk28XB_s7RAQABAg'));
+            $file_id = Utils::aleatorio(array('AgADBAADsLExG6uCfgAB11V67VOSyHQhd4wwAATniw8DzMJf0yJcAQABAg', 'AgADBAADsbExG6uCfgABdK4Br7b7bjPOCnEwAASIQJwfY4Wa6v7QAQABAg', 'AgADBAADsrExG6uCfgABcOiowovh9m2J83AwAAQXyvtk28XB_s7RAQABAg', 'AgADBAADu7ExG6uCfgABxjIl6YqoTCSzMIswAAT06vz4TKuqGnVhAQABAg', 'AgADBAADyqoxG3lazgABhV1-CGUlYW4fA3EwAASKHnfeO00-ih3XAQABAg'));
             return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
         }
         
@@ -220,21 +220,21 @@
         }
         
         private function aupa($endpoint, $request){
-        	$index = rand(0,2);
+        	$index = rand(0,4);
         	
         	switch($index){
         	    case 0:
                     $file_id='BQADBAADOAAECiQB3V1ov-88-qgC';
                     return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         	        break;
-    	        case 1:
+            	case 2:
+            		$file_id='BAADBAAD-gADq4J-AAGsDCkH3vElRwI';
+            		return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            		break;
+    	        default:
     	            $humano = Utils::get_humano_name($request->get_from_id());
                     $text= $humano.' eres un pajero.';
         	        return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
-        	        break;
-    	        case 2:
-    	            $file_id='BQADBAADOgEAAquCfgABXRORytopeMsC';
-    	            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         	        break;
         	}
         }
