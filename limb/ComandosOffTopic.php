@@ -220,7 +220,7 @@
         }
         
         private function aupa($endpoint, $request){
-        	$index = rand(0,2);
+        	$index = rand(0,3);
         	
         	switch($index){
         	    case 0:
@@ -229,6 +229,10 @@
         	        break;
             	case 1:
             		$file_id='BAADBAAD-gADq4J-AAGsDCkH3vElRwI';
+            		return Response::create_video_response($endpoint, $request->get_chat_id(), $file_id);
+            		break;
+        		case 2:
+            		$file_id='BQADBAADOgEAAquCfgABXRORytopeMsC';
             		return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
             		break;
     	        default:
