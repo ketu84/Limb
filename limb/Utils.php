@@ -22,9 +22,12 @@
                 case GUSLIMB_GROUPID:
                     return GUSLIMB_URL_API;
                     break;
-                default:
+                
                 case CHAMPIONSLIMB_GROUPID:
                     return CHAMPIONSLIMB_URL_API;
+                    break;
+                default:
+                    return null;
                     break;
             }
         }
@@ -46,9 +49,11 @@
                 case GUSLIMB_GROUPID:
                     return GUSLIMB_URL;
                     break;
-                default:
                 case CHAMPIONSLIMB_GROUPID:
                     return CHAMPIONSLIMB_URL;
+                    break;
+                default:
+                    return null;
                     break;
             }
         }

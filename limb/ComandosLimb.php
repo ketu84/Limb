@@ -2,6 +2,13 @@
     class ComandosLimb{
         
         static function ejecutar($func,$endpoint, $request){
+            
+            //Si el usuario o grupo no está configurado para Limb, se sale de estos comandos
+            $urlApi=Utils::get_url_api($request);
+            if(is_null($urlApi)){
+                return null;
+            }
+            
             if(method_exists(ComandosLimb,$func)){
                 $commandDev = new ComandosLimb();
                 return $commandDev->$func($endpoint, $request);
