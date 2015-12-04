@@ -320,7 +320,7 @@
 
 		private function cuentamemas($endpoint, $request){
 			$file_id = Utils::aleatorio(array('BQADBAADPQADmw-YAAEhWGbVFye0lQI', 'BQADBAADPgADmw-YAAH-FnGmrZjAewI'));
-			return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
+			return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
     }
