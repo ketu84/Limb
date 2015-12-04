@@ -220,14 +220,14 @@
         }
         
         private function aupa($endpoint, $request){
-        	$index = rand(0,4);
+        	$index = rand(0,2);
         	
         	switch($index){
         	    case 0:
                     $file_id='BQADBAADOAAECiQB3V1ov-88-qgC';
                     return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         	        break;
-            	case 2:
+            	case 1:
             		$file_id='BAADBAAD-gADq4J-AAGsDCkH3vElRwI';
             		return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
             		break;
