@@ -54,7 +54,7 @@ if($request->get_message_type()==Request::TYPE_TEXT){
         $response->text='Recibido mensaje de tipo *'.$request->get_message_type_desc().'* con id: '.$request->get_file_id();
         $response->markdown=true;
         $resultado = $response->send();
-        
+
         $result = json_decode($resultado, true);
         if($result["ok"]){
             $log->info('Respuesta enviada correctamente');

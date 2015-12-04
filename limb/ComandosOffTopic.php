@@ -304,14 +304,14 @@
         	return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
         }
         
-        private function cantar($endpoint, $request){
+        private function canta($endpoint, $request){
             $file_id='BQADBAADawEAAquCfgABAhruCPned4AC';
-            return Response::create_audio_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
 		private function wololo($endpoint, $request){
 			$file_id='BQADBAADOQADmw-YAAEVi-CBIwOYXQI';
-			return Response::create_audio_response($endpoint, $request->get_chat_id(), $file_id);
+			return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
 		}
 		
 		private function cuentanosmas($endpoint, $request){
