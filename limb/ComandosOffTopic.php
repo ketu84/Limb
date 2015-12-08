@@ -326,6 +326,12 @@
 			$file_id = Utils::aleatorio(array('BQADBAADPQADmw-YAAEhWGbVFye0lQI', 'BQADBAADPgADmw-YAAH-FnGmrZjAewI'));
 			return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
+        
+        private function siagesi($endpoint, $request){
+            $file_id='BQADBAAD6gADmEw-AAGGLIPvh6gpqwI';
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }
+        
 
     }
 ?>
