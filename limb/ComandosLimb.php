@@ -178,7 +178,7 @@
                 $text=$text.$emoji_pointing.$apostante .PHP_EOL;
             }
         
-            $text=$text.'Apostad ya '.getInsultoPlural();
+            $text=$text.'Apostad ya '.Utils::getInsultoPlural();
             
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
             $response->text=$text;
