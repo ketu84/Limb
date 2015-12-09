@@ -157,25 +157,26 @@
             $urlApi=Utils::get_url_api($request);
             $json = file_get_contents($urlApi . 'apostantes');
             $jsonApostantes = json_decode($json);
-            $arrayFaltan = array();
-        	
+            $arrayApostantes = array();
+            $arrayApostantesYaApostados = array();
+    
         	foreach($jsonApostantes as $apostante){
-        		$arrayFaltan[$apostante->id] = $apostante->nombre;
-        		//array_push($arrayFaltan, $apostante->nombre);
+        		$arrayApostantes[$apostante->id] = $apostante->nombre;
         	}
           
             $json = file_get_contents($urlApi . 'apuestas');
             $jsonApuestas = json_decode($json);
             foreach($jsonApuestas as $apuesta){
-        
-        			if($key = array_search( $apuesta->apostante,$arrayFaltan) !==false){
-        				unset($arrayFaltan[$key]);	
-        			}
+                if(!in_array($apuesta->apostante,$arrayApostantesYaApostados)){
+                    array_push($arrayApostantesYaApostados,$apuesta->apostante);
+                }
             }
         	$emoji_pointing= Utils::convert_emoji(0x1F449);
             $text='*Faltan por apostar:*'.PHP_EOL;
-            foreach($arrayFaltan as $apostante){
-                $text=$text.$emoji_pointing.$apostante .PHP_EOL;
+            foreach($arrayApostantes as $apostante){
+                if (!in_array($apostante,$arrayApostantesYaApostados)){
+                    $text=$text.$emoji_pointing.$apostante .PHP_EOL;
+                }
             }
         
             $text=$text.'Apostad ya '.Utils::getInsultoPlural();
