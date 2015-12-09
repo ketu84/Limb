@@ -171,11 +171,23 @@
                     array_push($arrayApostantesYaApostados,$apuesta->apostante);
                 }
             }
-        	$emoji_pointing= Utils::convert_emoji(0x1F449);
+            
+            $json = file_get_contents($urlApi . 'prox_jornada');
+            $jsonProxJornada = json_decode($json);
+
+            $mapApostantesPartidos = array();
+	
+            foreach($jsonProxJornada as $valor) {     
+                $idPartido=$valor->id;
+                $mapApostantesPartidos[$valor->apostante] =substr($valor->hora,0,5).' '.$valor->local_c.' vs '.$valor->visitante_c;
+            }
+            
+            $emoji_pointing= Utils::convert_emoji(0x1F449);
+        	$emoji_r_arrow= Utils::convert_emoji(0x27A1);
             $text='*Faltan por apostar:*'.PHP_EOL;
             foreach($arrayApostantes as $apostante){
                 if (!in_array($apostante,$arrayApostantesYaApostados)){
-                    $text=$text.$emoji_pointing.$apostante .PHP_EOL;
+                    $text=$text.$emoji_pointing.$apostante . ' ' .$emoji_r_arrow. ' ' .$mapApostantesPartidos[$apostante].PHP_EOL;
                 }
             }
         
