@@ -67,7 +67,7 @@
             }
             if (strpos($request->get_command(),'InsultaA') !== false) {
                 $file_id = 'BQADBAAD7AAD-WxHAtGrH8UmWiiXAg';
-                return $this->insultarAOtroHumano($endpoint, $request;
+                return $this->insultarAOtroHumano($endpoint, $request);
             }
             
             return $this->insultar($endpoint, $request);
