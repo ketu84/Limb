@@ -65,10 +65,7 @@
                 $file_id = 'BQADBAAD7AAD-WxHAtGrH8UmWiiXAg';
                 return Response::create_sticker_response($endpoint, $request->get_chat_id(), $file_id);
             }
-            if (strpos($request->get_command(),'InsultaA') !== false) {
-                $file_id = 'BQADBAAD7AAD-WxHAtGrH8UmWiiXAg';
-                return $this->insultarAOtroHumano($endpoint, $request);
-            }
+            
             
             return $this->insultar($endpoint, $request);
         }
@@ -312,17 +309,6 @@
         	return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
         }
         
-         private function insultarAOtroHumano($endpoint, $request){
-            $humano = Utils::get_humano_name($request->get_from_id());
-            $newrequest = $new_url = str_replace("insultara","",$request);
-        	$text = $humano;
-        	$text .= ',tienes razón, ';
-        	$text .= $request;
-        	$text .= ' es un '
-        	$text .=  Utils::aleatorio(['maldito', 'jodido perturbado', 'estúpido', 'condenado', 'retrasado', 'podemita', 'pederasta', 'enfermo', 'hijo de puta', 'maricón', 'sodomita', 'gilipollas', 'subnormal', 'aborto', 'judio', ]);
-        	return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
-        }
-        
         private function canta($endpoint, $request){
             $file_id='BQADBAADawEAAquCfgABAhruCPned4AC';
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
@@ -347,6 +333,23 @@
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
         
+        private function insultaa($endpoint, $request){
+            $humano = Utils::get_humano_name($request->get_from_id());
+            
+            $params = $request->get_command_params();
+            if(count($params)>0){
+        	    $text = $humano;
+        	    $text .= ' tienes razón, ';
+        	    $text .= $params[0];
+        	    $text .= ' es un ';
+        	    $text .=  Utils::aleatorio(['maldito', 'jodido perturbado', 'estúpido', 'condenado', 'retrasado', 'podemita', 'pederasta', 'enfermo', 'hijo de puta', 'maricón', 'sodomita', 'gilipollas', 'subnormal', 'aborto', 'judio', ]);
+            }else{
+                $text = 'A quién, eh? a quién, bobo, el Bobo. Puto retrasado';
+            }
+            
+        	return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
+            
+        }
 
     }
 ?>
