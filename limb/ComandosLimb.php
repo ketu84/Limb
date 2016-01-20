@@ -134,13 +134,13 @@
             $text='*Acumulado:*'.PHP_EOL;
         
             $urlApi=Utils::get_url_api($request);
-            $json = file_get_contents($urlApi . 'clasificacion');
+            $json = file_get_contents($urlApi . 'euros');
+            
+            echo $json;
+            
             $obj = json_decode($json);
             
-            $sumatorio = 0;
-            foreach($obj as $valor) {
-                $sumatorio += $valor->neto;
-            }
+            $sumatorio = $obj->total;
             $text=$text.$sumatorio.'€'.PHP_EOL;
             
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
