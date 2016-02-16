@@ -187,7 +187,10 @@
             $text='*Faltan por apostar:*'.PHP_EOL;
             foreach($arrayApostantes as $apostante){
                 if (!in_array($apostante,$arrayApostantesYaApostados)){
-                    $text=$text.$emoji_pointing.$apostante . ' ' .$emoji_r_arrow. ' ' .$mapApostantesPartidos[$apostante].PHP_EOL;
+                    //Si no tiene partido de la próxima jornada se excluye
+                    if($mapApostantesPartidos[$apostante]!=null){
+                        $text=$text.$emoji_pointing.$apostante . ' ' .$emoji_r_arrow. ' ' .$mapApostantesPartidos[$apostante].PHP_EOL;
+                    }
                 }
             }
         
