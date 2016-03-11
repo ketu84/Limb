@@ -23,7 +23,14 @@
             $text='*Clasificación de la última fase en curso:*'.PHP_EOL.PHP_EOL;
             
             $urlApi=Utils::get_url_api($request);
-            $json = file_get_contents($urlApi . 'clasificacion');
+            
+            
+            if($request->get_chat_id()==CHAMPIONSLIMB_GROUPID){
+                $json = file_get_contents($urlApi . 'clasificacion&especial=1');
+            }else{
+                $json = file_get_contents($urlApi . 'clasificacion');    
+            }
+            
             $obj = json_decode($json);
             
             $emoji_down= Utils::convert_emoji(0x2B06);
@@ -31,7 +38,7 @@
             
             foreach($obj as $valor) {
                 /**TODO Adaptar esto para todas las rondas de clasificación*/
-            	if((int)$valor->pos > 8){
+            	if((int)$valor->pos > 4){
                 	$text=$text.'*'.$valor->pos.'*.- '.$valor->nombre.': '.$valor->neto.'€ '.$emoji_up.PHP_EOL;
                 }else{
                 	$text=$text.'*'.$valor->pos.'*.- '.$valor->nombre.': '.$valor->neto.'€'.PHP_EOL;
