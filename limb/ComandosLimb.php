@@ -257,8 +257,8 @@
                     if($apostante->apostado==$max_apostable){
                         $i=0;
                         foreach($arrApostantes as $apost){        
-                            if($apost->id ==$apostante->id){
-                                array_splice($arrApostantes,i,1);
+                            if($apost->id ==$apostante->idapostante){
+                                array_splice($arrApostantes,$i,1);
                                 continue;
                             }
                             $i++;
