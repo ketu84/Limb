@@ -202,9 +202,10 @@
                 $response->markdown=true;
                 return $response;
             }
-
-            $text.='Apostado: '.$obj->jugado.'€'.PHP_EOL;
-            $text.='Ganado: '.$obj->ganancia.'€'.PHP_EOL;
+            $jugado = 0 + floatval($obj->jugado);
+            $ganado = 0 + floatval($obj->ganancia);
+            $text.='Apostado: '.$jugado.'€'.PHP_EOL;
+            $text.='Ganado: '.$ganado.'€'.PHP_EOL;
             
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
             $response->text=$text;
@@ -228,32 +229,55 @@
             //Se obtiene la fase actual
             $jsonFaseActual = Utils::callApi($request, 'util/faseActual');
             $faseActual = json_decode($jsonFaseActual);
-            $max_apostable = $faseActual[0]->importe;
-            
+            $max_apostable = floatval($faseActual[0]->importe);
             
             //Se obtiene la fecha del proximo partido
             $jsonFecha = Utils::callApi($request, 'util/fechaProxPartido/');
             $fecha = json_decode($jsonFecha);
+            
             //Partidos de esa fecha
             $jsonPartidos = Utils::callApi($request, 'partidos/fecha/'.$fecha->fecha);
             $partidos = json_decode($jsonPartidos);
-            
+
             $text='*Faltan por apostar:*'.PHP_EOL;
+            
+            $insultar=false;
             foreach($partidos as $partido){
-                $text.=PHP_EOL.substr($partido->fecha,8,2).'/'.substr($partido->fecha,5,2).'/'.substr($partido->fecha,0,4).' *'.$partido->local->nombre_corto.' vs '.$partido->visitante->nombre_corto.'* '.substr($partido->hora,0,5).PHP_EOL;
                 
+                setlocale(LC_ALL,"es_ES");
+                $auxFecha =  strftime("%d %b",strtotime($partido->fecha));
+                $text.=PHP_EOL.$auxFecha.' *'.$partido->local->nombre_corto.' vs '.$partido->visitante->nombre_corto.'* '.substr($partido->hora,0,5).PHP_EOL;
                 //Apostado en ese partido
                 $jsonApostantes = Utils::callApi($request, '/util/apostadoApostantePartido/'.$partido->id);
                 $apostantes = json_decode($jsonApostantes);
-                 
+                
+                $arrApostantes = $partido->usuarios;
+                
                 foreach($apostantes as $apostante){
-                    if($apostante->apostado<$max_apostable){
-                         $text.=$emoji_pointing.$apostante->nombre . PHP_EOL;
+                    if($apostante->apostado==$max_apostable){
+                        $i=0;
+                        foreach($arrApostantes as $apost){        
+                            if($apost->id ==$apostante->id){
+                                array_splice($arrApostantes,i,1);
+                                continue;
+                            }
+                            $i++;
+                        }
+                    }
+                }
+                
+                if(sizeof($arrApostantes)==0){
+                    $text.="Han apostado todos". PHP_EOL;
+                }else{
+                    $insultar=true;
+                    foreach($arrApostantes as $apost){  
+                        $text.=$emoji_pointing.$apost->nombre . PHP_EOL;
                     }
                 }
             }
-        
-            $text.='Apostad ya '.Utils::getInsultoPlural();
+            if($insultar){
+                $text.=PHP_EOL.'Apostad ya '.Utils::getInsultoPlural();
+            }
             
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
             $response->text=$text;

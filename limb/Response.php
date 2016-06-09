@@ -141,7 +141,7 @@
 	                $data["video"]=$this->file_id;
 	                $accion='/sendVideo';
 	                break;
-                case TYPE_VOICE:
+                case self::TYPE_VOICE:
 	                $data["voice"]=$this->file_id;
 	                $accion='/sendVoice';
 	                break;
