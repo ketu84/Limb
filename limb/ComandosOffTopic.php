@@ -7,7 +7,7 @@
         private $log;
         
         static function ejecutar($func,$endpoint, $request){
-            $logStatic = Logger::getLogger('botLogger');
+            $logStatic = Logger::getLogger('com.hotelpene.limbBot.ComandosOffTopic');
             $logStatic->debug("Comienza OffTopic");
             
             $command = new ComandosOffTopic();
@@ -19,7 +19,7 @@
         }
         
         public function __construct(){
-            $this->log = Logger::getLogger('botLogger');
+            $this->log = Logger::getLogger('com.hotelpene.limbBot.ComandosOffTopic');
         }
         
         private function por_defecto ($endpoint, $request){

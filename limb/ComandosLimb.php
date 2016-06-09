@@ -11,7 +11,7 @@
                 return null;
             }
             
-            if(method_exists(ComandosLimb,$func)){
+            if(method_exists('ComandosLimb',$func)){
                 $commandDev = new ComandosLimb();
                 return $commandDev->$func($endpoint, $request);
             }
@@ -20,25 +20,24 @@
         
         
         function __construct() {
-            $this->log = Logger::getLogger('es.hotelpene.ComandosLimb');
+            $this->log = Logger::getLogger('com.hotelpene.limbBot.ComandosLimb');
         }
         
         
         private function clasificacion($endpoint, $request){
             $this->log->debug("Obteniedo clasificacion");
+            $time = microtime(true);
             
             $response_chat_typing = Response::create_typing_response($endpoint, $request->get_chat_id());
             $response_chat_typing->send();
             
             $text='*Clasificación de la última fase en curso:*'.PHP_EOL.PHP_EOL;
             
-            $urlApi=Utils::get_url_api($request);
-            
             //Se obtiene la fase actual
-            $jsonFaseActual = file_get_contents($urlApi . 'util/faseActual');
+            $jsonFaseActual = Utils::callApi($request, 'util/faseActual');
             $faseActual = json_decode($jsonFaseActual);
             
-            $json = file_get_contents($urlApi . 'clasificacion'.$faseActual[0]->id);
+            $json = Utils::callApi($request, 'clasificacion'.$faseActual[0]->id);
             $obj = json_decode($json);
 
             if(sizeof($obj)>0 && property_exists($obj[0],'error')){
@@ -61,31 +60,27 @@
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
             $response->text=$text;
             $response->markdown=true;
+            
+            $this->log->debug("Fin Obteniedo Clasificación (".(microtime(true)-$time)." s): ");
             return $response;
         }
         
         private function prox_jornada($endpoint, $request){
             $this->log->debug("Obteniedo Próxima jornada");
+            $time = microtime(true);
             
             
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
             $response->chat_action='typing';
             $response->send();
         
-            $urlApi=Utils::get_url_api($request);
-            
             //Se obtiene la fecha del proximo partido
-            $this->log->debug("Llamando api: ".$urlApi . 'util/fechaProxPartido');
-            $time = microtime(true);
-            $jsonFecha = file_get_contents($urlApi . 'util/fechaProxPartido');
-            $this->log->debug("Fecha prox partido(".(microtime(true)-$time)." ms): ".$jsonFecha);
-            
-            
+            $jsonFecha = Utils::callApi($request,'util/fechaProxPartido');
             $fecha = json_decode($jsonFecha);
             
-            $json = file_get_contents($urlApi . 'partidos/fecha/'.$fecha->fecha);
+            $json = Utils::callApi($request, 'partidos/fecha/'.$fecha->fecha);
             $obj = json_decode($json);
-            $this->log->debug("Partidos en esa fecha: ".sizeof($obj));
+            
             $text='';
             $fecha='';
             
@@ -107,28 +102,30 @@
                     $text=$text.substr($valor->hora,0,5).' '.$valor->local->nombre_corto.' vs '.$valor->visitante->nombre_corto.'=>'.$apostantes;
             }
         
-            $this->log->debug("Texto result: ".$text);
             $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
             $text='*Próxima jornada '.$fecha.':* '.PHP_EOL.$text;
             
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
             $response->text=$text;
             $response->markdown=true;
+            
+            $this->log->debug("Fin Obteniedo Próxima jornada (".(microtime(true)-$time)." s): ");
             return $response;
         }
         
         private function apuestas($endpoint, $request){
+            $this->log->debug("Obteniedo apuestas");
+            $time = microtime(true);
+            
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
             $response->chat_action='typing';
             $response->send();
         
-            $urlApi=Utils::get_url_api($request);
-            
             //Se obtiene la fecha del proximo partido
-            $jsonFecha = file_get_contents($urlApi . 'util/fechaProxPartido/');
+            $jsonFecha = Utils::callApi($request, 'util/fechaProxPartido/');
             $fecha = json_decode($jsonFecha);
             
-            $jsonPartidos = file_get_contents($urlApi . 'partidos/fecha/'.$fecha->fecha);
+            $jsonPartidos = Utils::callApi($request, 'partidos/fecha/'.$fecha->fecha);
             $partidos = json_decode($jsonPartidos);
             
             
@@ -149,7 +146,7 @@
                 //apuestas/partido/104
                 $text.=PHP_EOL.$emoji_star.$partido->local->nombre_corto.' vs '.$partido->visitante->nombre_corto.$emoji_star.PHP_EOL;
                 
-                $jsonApuestas = file_get_contents($urlApi . 'apuestas/partido/'.$partido->id);
+                $jsonApuestas = Utils::callApi($request, 'apuestas/partido/'.$partido->id);
                 $apuestas = json_decode($jsonApuestas);
                 foreach($apuestas as $apuesta) {
                     
@@ -180,18 +177,22 @@
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
             $response->text=$text;
             $response->markdown=true;
+            
+            $this->log->debug("Fin Obteniedo apuestas (".(microtime(true)-$time)." s): ");
             return $response;
         }
         
         private function euros($endpoint, $request){
+            $this->log->debug("Obteniedo euros");
+            $time = microtime(true);
+            
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
             $response->chat_action='typing';
             $response->send();
         
             $text='*Euros:*'.PHP_EOL;
         
-            $urlApi=Utils::get_url_api($request);
-            $json = file_get_contents($urlApi . 'util/euros');
+            $json = Utils::callApi($request, 'util/euros');
             $obj = json_decode($json);
             
             
@@ -208,10 +209,15 @@
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
             $response->text=$text;
             $response->markdown=true;
+            
+            $this->log->debug("Fin Obteniedo euros (".(microtime(true)-$time)." s): ");
             return $response;
         }
         
         private function apostadYa($endpoint, $request){
+            $this->log->debug("Obteniedo apostadYa");
+            $time = microtime(true);
+            
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
             $response->chat_action='typing';
             $response->send();
@@ -219,18 +225,17 @@
             $emoji_pointing= Utils::convert_emoji(0x1F449);
         	$emoji_r_arrow= Utils::convert_emoji(0x27A1);
         
-            $urlApi=Utils::get_url_api($request);
             //Se obtiene la fase actual
-            $jsonFaseActual = file_get_contents($urlApi . 'util/faseActual');
+            $jsonFaseActual = Utils::callApi($request, 'util/faseActual');
             $faseActual = json_decode($jsonFaseActual);
             $max_apostable = $faseActual[0]->importe;
             
             
             //Se obtiene la fecha del proximo partido
-            $jsonFecha = file_get_contents($urlApi . 'util/fechaProxPartido/');
+            $jsonFecha = Utils::callApi($request, 'util/fechaProxPartido/');
             $fecha = json_decode($jsonFecha);
             //Partidos de esa fecha
-            $jsonPartidos = file_get_contents($urlApi . 'partidos/fecha/'.$fecha->fecha);
+            $jsonPartidos = Utils::callApi($request, 'partidos/fecha/'.$fecha->fecha);
             $partidos = json_decode($jsonPartidos);
             
             $text='*Faltan por apostar:*'.PHP_EOL;
@@ -238,7 +243,7 @@
                 $text.=PHP_EOL.substr($partido->fecha,8,2).'/'.substr($partido->fecha,5,2).'/'.substr($partido->fecha,0,4).' *'.$partido->local->nombre_corto.' vs '.$partido->visitante->nombre_corto.'* '.substr($partido->hora,0,5).PHP_EOL;
                 
                 //Apostado en ese partido
-                $jsonApostantes = file_get_contents($urlApi . '/util/apostadoApostantePartido/'.$partido->id);
+                $jsonApostantes = Utils::callApi($request, '/util/apostadoApostantePartido/'.$partido->id);
                 $apostantes = json_decode($jsonApostantes);
                  
                 foreach($apostantes as $apostante){
@@ -253,6 +258,8 @@
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
             $response->text=$text;
             $response->markdown=true;
+            
+            $this->log->debug("Fin Obteniedo apostadYa (".(microtime(true)-$time)." s): ");
             return $response;
         }
         
@@ -260,5 +267,6 @@
         	$text=Utils::get_url_web($request);
         	return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
         }
+        
     }
 ?>

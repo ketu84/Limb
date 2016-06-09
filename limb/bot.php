@@ -12,7 +12,7 @@ require_once __DIR__ . '/properties.php';
 require_once __DIR__ . '/Comandos.php';
 
 Logger::configure(__DIR__ .'/../config.xml');
-$log = Logger::getLogger('es.hotelpene.bot');
+$log = Logger::getLogger('com.hotelpene.limbBot.bot');
 
 $log->debug("Comienza la ejecución");
 
