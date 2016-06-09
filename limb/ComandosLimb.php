@@ -75,9 +75,13 @@
             $urlApi=Utils::get_url_api($request);
             
             //Se obtiene la fecha del proximo partido
+            $this->log->debug("Llamando api: ".$urlApi . 'util/fechaProxPartido');
+            $time = microtime();
             $jsonFecha = file_get_contents($urlApi . 'util/fechaProxPartido');
+            $this->log->debug("Fecha prox partido(".(microtime()-$time)." ms): ".$jsonFecha);
+            
+            
             $fecha = json_decode($jsonFecha);
-            $this->log->debug("Fecha prox partido: ".$jsonFecha);
             
             $json = file_get_contents($urlApi . 'partidos/fecha/'.$fecha->fecha);
             $obj = json_decode($json);
