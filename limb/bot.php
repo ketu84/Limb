@@ -12,7 +12,7 @@ require_once __DIR__ . '/properties.php';
 require_once __DIR__ . '/Comandos.php';
 
 Logger::configure(__DIR__ .'/../config.xml');
-$log = Logger::getLogger('botLogger');
+$log = Logger::getLogger('es.hotelpene.bot');
 
 $log->debug("Comienza la ejecución");
 
@@ -36,7 +36,6 @@ try{
 
 
 if($request->get_message_type()==Request::TYPE_TEXT){
-	$log->debug("Cama ");
     $response = Comandos::ejecutar($endpoint, $request);
     if($response != false){
         $log->debug('Response: '.$response->to_string());

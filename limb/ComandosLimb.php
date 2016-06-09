@@ -1,6 +1,8 @@
 <?php
     class ComandosLimb{
         
+        private $log;
+        
         static function ejecutar($func,$endpoint, $request){
             
             //Si el usuario o grupo no está configurado para Limb, se sale de estos comandos
@@ -16,7 +18,15 @@
             return null;
         }
         
+        
+        function __construct() {
+            $this->log = Logger::getLogger('es.hotelpene.ComandosLimb');
+        }
+        
+        
         private function clasificacion($endpoint, $request){
+            $this->log->debug("Obteniedo clasificacion");
+            
             $response_chat_typing = Response::create_typing_response($endpoint, $request->get_chat_id());
             $response_chat_typing->send();
             
@@ -55,6 +65,9 @@
         }
         
         private function prox_jornada($endpoint, $request){
+            $this->log->debug("Obteniedo Próxima jornada");
+            
+            
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
             $response->chat_action='typing';
             $response->send();
@@ -62,12 +75,13 @@
             $urlApi=Utils::get_url_api($request);
             
             //Se obtiene la fecha del proximo partido
-            $jsonFecha = file_get_contents($urlApi . 'util/fechaProxPartido/');
+            $jsonFecha = file_get_contents($urlApi . 'util/fechaProxPartido');
             $fecha = json_decode($jsonFecha);
+            $this->log->debug("Fecha prox partido: ".$jsonFecha);
             
             $json = file_get_contents($urlApi . 'partidos/fecha/'.$fecha->fecha);
             $obj = json_decode($json);
-            
+            $this->log->debug("Partidos en esa fecha: ".sizeof($obj));
             $text='';
             $fecha='';
             
@@ -89,6 +103,7 @@
                     $text=$text.substr($valor->hora,0,5).' '.$valor->local->nombre_corto.' vs '.$valor->visitante->nombre_corto.'=>'.$apostantes;
             }
         
+            $this->log->debug("Texto result: ".$text);
             $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
             $text='*Próxima jornada '.$fecha.':* '.PHP_EOL.$text;
             
