@@ -28,12 +28,10 @@
             $jsonFaseActual = file_get_contents($urlApi . 'util/faseActual');
             $faseActual = json_decode($jsonFaseActual);
             
-            $json = file_get_contents($urlApi . 'clasificacion/'.$faseActual[0]->id);
-            
-            
+            $json = file_get_contents($urlApi . 'clasificacion'.$faseActual[0]->id);
             $obj = json_decode($json);
-            
-            if(property_exists($obj[0],'error')){
+
+            if(sizeof($obj)>0 && property_exists($obj[0],'error')){
                 $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
                 $response->text=$obj[0]->error->text;
                 $response->markdown=true;
