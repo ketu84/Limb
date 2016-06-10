@@ -368,5 +368,10 @@
             $file_id='BQADBAADGwEAAphMPgABI26EAcZ0dg0C';
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
+        
+        private function acierto($endpoint, $request){
+            $file_id='BQADBAADOQEAAphMPgABREm9f5CcR-kC';
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }
     }
 ?>
