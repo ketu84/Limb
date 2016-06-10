@@ -350,6 +350,19 @@
         	return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
             
         }
+        
+        
+        private function españa($endpoint, $request, $insulto){
+        	$emoji_e=Utils::convert_emoji(0x1F1EA);
+            $emoji_s=Utils::convert_emoji(0x1F1F8);
+        	$text = $emoji_e.$emoji_s;
+        	return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+        }
+        
+        private function stihl($endpoint, $request){
+			$file_id='BQADBAADOgEAAphMPgABZZKRawyaaBwC';
+			return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+		}
 
     }
 ?>

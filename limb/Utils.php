@@ -82,7 +82,8 @@
                     'Muerdealmohadas',
                     'Sodomita',
                     'Aborto',
-                    'Anormal'));
+                    'Anormal',
+                    '¿Pero tú sabes quien es tu padre?'));
         }
         
         static function getInsultoPlural(){
