@@ -36,8 +36,8 @@
             //Se obtiene la fase actual
             $jsonFaseActual = Utils::callApi($request, 'util/faseActual');
             $faseActual = json_decode($jsonFaseActual);
-            
-            $json = Utils::callApi($request, 'clasificacion'.$faseActual[0]->id);
+
+            $json = Utils::callApi($request, 'clasificacion/'.$faseActual[0]->id);
             $obj = json_decode($json);
 
             if(sizeof($obj)>0 && property_exists($obj[0],'error')){
