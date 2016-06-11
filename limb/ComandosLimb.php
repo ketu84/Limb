@@ -239,14 +239,13 @@
             $jsonPartidos = Utils::callApi($request, 'partidos/fecha/'.$fecha->fecha);
             $partidos = json_decode($jsonPartidos);
 
-            $text='*Faltan por apostar:*'.PHP_EOL;
+            //$text='*Faltan por apostar:*'.PHP_EOL;
+            setlocale(LC_ALL,"es_ES");
+            $text .=  '*'.strftime("%d %b",strtotime($fecha->fecha)).' - Faltan por apostar:*'.PHP_EOL.PHP_EOL;
             
             $insultar=false;
             foreach($partidos as $partido){
                 
-                setlocale(LC_ALL,"es_ES");
-                $auxFecha =  strftime("%d %b",strtotime($partido->fecha));
-                $text.=PHP_EOL.$auxFecha.' *'.$partido->local->nombre_corto.' vs '.$partido->visitante->nombre_corto.'* '.substr($partido->hora,0,5).PHP_EOL;
                 //Apostado en ese partido
                 $jsonApostantes = Utils::callApi($request, '/util/apostadoApostantePartido/'.$partido->id);
                 $apostantes = json_decode($jsonApostantes);
@@ -266,9 +265,8 @@
                     }
                 }
                 
-                if(sizeof($arrApostantes)==0){
-                    $text.="Han apostado todos". PHP_EOL;
-                }else{
+                if(sizeof($arrApostantes)>0){
+                     $text.=' *'.$partido->local->nombre_corto.' vs '.$partido->visitante->nombre_corto.'* '.substr($partido->hora,0,5).PHP_EOL;
                     $insultar=true;
                     foreach($arrApostantes as $apost){  
                         $text.=$emoji_pointing.$apost->nombre . PHP_EOL;
@@ -277,6 +275,8 @@
             }
             if($insultar){
                 $text.=PHP_EOL.'Apostad ya '.Utils::getInsultoPlural();
+            }else{
+                $text.="Han apostado todos". PHP_EOL;
             }
             
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
