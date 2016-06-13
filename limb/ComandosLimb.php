@@ -53,7 +53,7 @@
             
             $i=1;
             foreach($obj as $valor) {
-            	$text=$text.'*'.$i.'*.- '.$valor->nombre.': '.number_format((float)$valor->ganancia,2).'€ '.PHP_EOL;
+            	$text=$text.'*'.$i.'*.- '.$valor->nombre.' ('.$valor->num_partidos.'): '.number_format((float)$valor->ganancia,2).'€ '.PHP_EOL;
             	$i++;
             }
             
