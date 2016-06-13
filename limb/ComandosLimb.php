@@ -50,10 +50,16 @@
             
             $emoji_down= Utils::convert_emoji(0x2B06);
             $emoji_up= Utils::convert_emoji(0x2B07);
+            $emoji_balon= Utils::convert_emoji(0x26BD);
+            $emoji_dinero= Utils::convert_emoji(0x1F4B0);
+            $emoji_yield= Utils::convert_emoji(0x1F4A5);
             
             $i=1;
             foreach($obj as $valor) {
-            	$text=$text.'*'.$i.'*.- '.$valor->nombre.' ('.$valor->num_partidos.'): '.number_format((float)$valor->ganancia,2).'€ '.PHP_EOL;
+                $jugado = 0 + floatval($valor->jugado);
+                $ganado = 0 + floatval($valor->ganancia);
+                $yield = ($ganado/$jugado)*100;
+            	$text=$text.'*'.$i.'.- '.$valor->nombre.'*'.$emoji_dinero.number_format((float)$valor->ganancia,2).'€ '.$emoji_yield.round($yield,2).'%'.$emoji_balon.$valor->num_partidos.PHP_EOL;
             	$i++;
             }
             
@@ -204,8 +210,10 @@
             }
             $jugado = 0 + floatval($obj->jugado);
             $ganado = 0 + floatval($obj->ganancia);
-            $text.='Apostado: '.$jugado.'€'.PHP_EOL;
-            $text.='Ganado: '.$ganado.'€'.PHP_EOL;
+            $yield = ($ganado/$jugado)*100;
+            $text.='Apostado: '.round($jugado,2).'€'.PHP_EOL;
+            $text.='Ganado: '.round($ganado,2).'€'.PHP_EOL;
+            $text.='Yield: '.round($yield,2).'%'.PHP_EOL;
             
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
             $response->text=$text;
