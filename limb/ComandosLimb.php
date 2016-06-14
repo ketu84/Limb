@@ -249,7 +249,7 @@
 
             //$text='*Faltan por apostar:*'.PHP_EOL;
             setlocale(LC_ALL,"es_ES");
-            $text .=  '*'.strftime("%d %b",strtotime($fecha->fecha)).' - Faltan por apostar:*'.PHP_EOL.PHP_EOL;
+            $text =  '*'.strftime("%d %b",strtotime($fecha->fecha)).' - Faltan por apostar:*'.PHP_EOL.PHP_EOL;
             
             $insultar=false;
             foreach($partidos as $partido){
