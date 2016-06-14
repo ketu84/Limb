@@ -59,7 +59,7 @@
                 $jugado = 0 + floatval($valor->jugado);
                 $ganado = 0 + floatval($valor->ganancia);
                 $yield = ($ganado/$jugado)*100;
-            	$text=$text.'*'.$i.'.- '.$valor->nombre.'*'.$emoji_dinero.number_format((float)$valor->ganancia,2).'€ '.$emoji_yield.round($yield,2).'%'.$emoji_balon.$valor->num_partidos.PHP_EOL;
+            	$text=$text.'*'.$i.'.'.$valor->nombre.'*'.$emoji_dinero.number_format((float)$valor->ganancia,2).'€'.$emoji_yield.round($yield,2).'%'.$emoji_balon.$valor->num_partidos.PHP_EOL;
             	$i++;
             }
             
