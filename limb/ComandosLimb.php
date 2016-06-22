@@ -108,8 +108,12 @@
                     $text=$text.substr($valor->hora,0,5).' '.$valor->local->nombre_corto.' vs '.$valor->visitante->nombre_corto.'=>'.$apostantes;
             }
         
-            $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
-            $text='*Próxima jornada '.$fecha.':* '.PHP_EOL.$text;
+            if($fecha==null){
+                $text='*No hay próxima jornada :* '.PHP_EOL;
+            }else{
+                $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
+                $text='*Próxima jornada '.$fecha.':* '.PHP_EOL.$text;
+            }
             
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
             $response->text=$text;
