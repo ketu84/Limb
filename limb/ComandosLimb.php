@@ -105,11 +105,14 @@
                         }
                         $idx++;
                     }
-                    $text=$text.substr($valor->hora,0,5).' '.$valor->local->nombre_corto.' vs '.$valor->visitante->nombre_corto.'=>'.$apostantes;
+                    $text=$text.substr($valor->hora,0,5).' '.$valor->local->nombre_corto.' vs '.$valor->visitante->nombre_corto;
+                    if($apostantes!=null){
+                        $text.='=>'.$apostantes;   
+                    }
             }
         
             if($fecha==null){
-                $text='*No hay próxima jornada :* '.PHP_EOL;
+                $text='*No hay próxima jornada* '.PHP_EOL;
             }else{
                 $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
                 $text='*Próxima jornada '.$fecha.':* '.PHP_EOL.$text;
@@ -135,8 +138,20 @@
             $jsonFecha = Utils::callApi($request, 'util/fechaProxPartido/');
             $fecha = json_decode($jsonFecha);
             
-            $jsonPartidos = Utils::callApi($request, 'partidos/fecha/'.$fecha->fecha);
+            
+            //Se obtienen los partidos de HOY. Si no hay, se obtienen los de la próxima jornada
+            $fechaHoy = date('Y-m-d');
+            $jsonPartidos = Utils::callApi($request, 'partidos/fecha/'.$fechaHoy);
             $partidos = json_decode($jsonPartidos);
+
+            if(sizeof($partidos)==0){
+                //Se obtiene la fecha del proximo partido
+                $jsonFecha = Utils::callApi($request, 'util/fechaProxPartido/');
+                $fecha = json_decode($jsonFecha);
+                $jsonPartidos = Utils::callApi($request, 'partidos/fecha/'.$fecha->fecha);
+                $partidos = json_decode($jsonPartidos);
+
+            }
             
             
             $text='';
@@ -176,14 +191,19 @@
                     }else if($apuesta->acertada=="3"){
                         $iconoApuesta=$iconoApuesta.$emoji_cerdo;
                     }
+                    
                     $text.=$iconoApuesta.$apuesta->desc.':'.$apuesta->importe.'@'.$apuesta->cuota.PHP_EOL;
                 }
             }
         
-            $fechaTit= substr($fecha->fecha,8,2).'/'.substr($fecha->fecha,5,2).'/'.substr($fecha->fecha,0,4);
-            //$fechaTit= $fecha->fecha;
-            $text='*Apuestas '.$fechaTit.': *'.PHP_EOL.PHP_EOL.$text;
-
+            if(sizeof($partidos)>0){
+                $fechaTit= substr($fecha->fecha,8,2).'/'.substr($fecha->fecha,5,2).'/'.substr($fecha->fecha,0,4);
+                //$fechaTit= $fecha->fecha;
+                $text='*Apuestas '.$fechaTit.': *'.PHP_EOL.$text;
+            }else{
+                $text='*No hay próximos partidos*'.PHP_EOL;
+            }
+            
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
             $response->text=$text;
             $response->markdown=true;
