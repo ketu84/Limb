@@ -2,7 +2,7 @@
     class ComandosDev{
         
         static function ejecutar($func,$endpoint, $request){
-            if(method_exists(ComandosDev,$func)){
+            if(method_exists('ComandosDev',$func)){
                 $commandDev = new ComandosDev();
                 return $commandDev->$func($endpoint, $request);
             }

@@ -7,7 +7,7 @@
         private $log;
         
         static function ejecutar($func,$endpoint, $request){
-            $logStatic = Logger::getLogger('botLogger');
+            $logStatic = Logger::getLogger('com.hotelpene.limbBot.ComandosOffTopic');
             $logStatic->debug("Comienza OffTopic");
             
             $command = new ComandosOffTopic();
@@ -19,7 +19,7 @@
         }
         
         public function __construct(){
-            $this->log = Logger::getLogger('botLogger');
+            $this->log = Logger::getLogger('com.hotelpene.limbBot.ComandosOffTopic');
         }
         
         private function por_defecto ($endpoint, $request){
@@ -342,7 +342,11 @@
         	    $text .= ' tienes razón, ';
         	    $text .= $params[0];
         	    $text .= ' es un ';
-        	    $text .=  Utils::aleatorio(['maldito', 'jodido perturbado', 'estúpido', 'condenado', 'retrasado', 'podemita', 'pederasta', 'enfermo', 'hijo de puta', 'maricón', 'sodomita', 'gilipollas', 'subnormal', 'aborto', 'judio', ]);
+        	    $text .=  Utils::aleatorio(['jodido perturbado', 'estúpido', 'retrasado', 'podemita', 'pederasta', 
+                                                'enfermo', 'hijo de puta', 'maricón', 'sodomita', 'gilipollas', 'subnormal', 
+                                                'aborto', 'judio', 'bebedor de semen', 'soplanucas', 'abrazafarolas',
+                                                'baboso', 'caraculo', 'mascachapas', 'cuerpoescombro', 'zurcefrenillos',
+                                                'cabronazo' ]);
             }else{
                 $text = 'A quién, eh? a quién, bobo, el Bobo. Puto retrasado';
             }
@@ -350,6 +354,29 @@
         	return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
             
         }
+        
+        
+        private function españa($endpoint, $request, $insulto){
+        	$emoji_e=Utils::convert_emoji(0x1F1EA);
+            $emoji_s=Utils::convert_emoji(0x1F1F8);
+        	$text = $emoji_e.$emoji_s;
+        	return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+        }
+        
+        private function stihl($endpoint, $request){
+			$file_id='BQADBAADOgEAAphMPgABZZKRawyaaBwC';
+			return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+		}
 
+        private function señor($endpoint, $request){
+            $file_id='BQADBAADGwEAAphMPgABI26EAcZ0dg0C';
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }
+        
+        private function acierto($endpoint, $request){
+            $file_id='BQADBAADOQEAAphMPgABREm9f5CcR-kC';
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }
+        
     }
 ?>

@@ -2,6 +2,8 @@
 
 Bot de Telegram con información útil sobre Limb
 
+Modificación para EuroLimb
+
 ---
 
 #####Se han añadido funcionalidades para ayudar a crear comandos:
