@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/Request.php';
 require_once __DIR__ . '/Response.php';
@@ -8,7 +12,7 @@ require_once __DIR__ . '/properties.php';
 require_once __DIR__ . '/Comandos.php';
 
 Logger::configure(__DIR__ .'/../config.xml');
-$log = Logger::getLogger('botLogger');
+$log = Logger::getLogger('com.hotelpene.limbBot.bot');
 
 $log->debug("Comienza la ejecución");
 
@@ -35,9 +39,9 @@ if($request->get_message_type()==Request::TYPE_TEXT){
     $response = Comandos::ejecutar($endpoint, $request);
     if($response != false){
         $log->debug('Response: '.$response->to_string());
-        
+
         $resultado = $response->send();
-        
+
         $result = json_decode($resultado, true);
         if($result["ok"]){
             $log->info('Respuesta enviada correctamente');

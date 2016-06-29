@@ -6,7 +6,7 @@
          <layout class="LoggerLayoutPattern">
             <param name="conversionPattern" value="%date (%level) [%logger] %message%newline%ex" />
         </layout>
-        <param name="file" value="logs/bot.log" />
+        <param name="file" value="/var/www/html/guslimb_bot/Limb/limb/logs/bot.log" />
         <param name="maxFileSize" value="1MB" />
         <param name="maxBackupIndex" value="5" />
     </appender>

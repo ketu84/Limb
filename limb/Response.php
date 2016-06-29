@@ -141,7 +141,7 @@
 	                $data["video"]=$this->file_id;
 	                $accion='/sendVideo';
 	                break;
-                case TYPE_VOICE:
+                case self::TYPE_VOICE:
 	                $data["voice"]=$this->file_id;
 	                $accion='/sendVoice';
 	                break;
@@ -188,13 +188,13 @@
             $result.= 'file_id: '.$this->file_id.PHP_EOL;
             $result.= 'chat_action: '.$this->chat_action.PHP_EOL;
             
-            if($this->command_params!=null && $this->command_params!==false){
+            if( property_exists($this, 'command_params') &&  $this->command_params!=null && $this->command_params!==false){
                  $result.= 'command_params: ';
                 foreach ($this->command_params as &$valor) {
                      $result.= $valor.', ';
                 }
             }
-            return $result;        
+            return $result;
         }
         
     }
