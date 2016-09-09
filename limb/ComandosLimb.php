@@ -73,7 +73,8 @@
                 $tokenUsuario = json_decode($jsonTokenUser);
                 //var_dump($tokenUsuario);
                 //Si hay token de usuario del chat, se invoca el comando con el token
-                if(property_exists($tokenUsuario[0],'token')){
+                $objeto = $tokenUsuario[0];
+                if(property_exists($objeto,'token')){
                     $url='clasificacion/'.$faseActual->id.'?token='.$tokenUsuario[0]->token;
                 }
             }
