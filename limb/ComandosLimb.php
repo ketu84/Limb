@@ -12,8 +12,35 @@
             }
             
             if(method_exists('ComandosLimb',$func)){
-                $commandDev = new ComandosLimb();
-                return $commandDev->$func($endpoint, $request);
+                $command = new ComandosLimb();
+                
+                /**********************************/
+                
+                $grupo = '';
+                
+                $params = $request->get_command_params();
+                if(count($params)==0){
+                    $grupoAux = Utils::get_grupo($endpoint, $request, $func);
+                    if($grupoAux instanceof Response)   {
+                        return $grupoAux;
+                    }else{
+                        $grupo=$grupoAux;
+                    }
+                    
+                }else{
+                    $grupo=$params[0];
+                }
+                
+                if($grupo=='ChampionsLimb'){
+                    $urlApi = CHAMPIONSLIMB_URL_API;
+                }else{
+                    $urlApi = GUSLIMB_URL_API;
+                }
+                
+                
+                /********************************/
+                
+                return $command->$func($endpoint, $request, $urlApi);
             }
             return null;
         }
@@ -24,7 +51,7 @@
         }
         
         
-        private function clasificacion($endpoint, $request){
+        private function clasificacion($endpoint, $request,$urlApi){
             $this->log->debug("Obteniedo clasificacion");
             $time = microtime(true);
             
@@ -34,10 +61,25 @@
             $text='*Clasificación de la última fase en curso:*'.PHP_EOL.PHP_EOL;
             
             //Se obtiene la fase actual
-            $jsonFaseActual = Utils::callApi($request, 'util/faseActual');
+            $jsonFaseActual = Utils::callApi($request, 'util/faseActual', $urlApi);
             $faseActual = json_decode($jsonFaseActual);
+            
+            
+            $url='clasificacion/'.$faseActual->id;
+            
+            //Se comprueba si es un chat privado, para obtener el token del usuario
+            if($request->is_private_chat()){
+                $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT, $urlApi);
+                $tokenUsuario = json_decode($jsonTokenUser);
+                //var_dump($tokenUsuario);
+                //Si hay token de usuario del chat, se invoca el comando con el token
+                if(property_exists($tokenUsuario[0],'token')){
+                    $url='clasificacion/'.$faseActual->id.'?token='.$tokenUsuario[0]->token;
+                }
+            }
+                        
 
-            $json = Utils::callApi($request, 'clasificacion/'.$faseActual->id);
+            $json = Utils::callApi($request, $url, $urlApi);
             $obj = json_decode($json);
 
             if(sizeof($obj)>0 && property_exists($obj[0],'error')){
@@ -71,7 +113,7 @@
             return $response;
         }
         
-        private function prox_jornada($endpoint, $request){
+        private function prox_jornada($endpoint, $request, $urlApi){
             $this->log->debug("Obteniedo Próxima jornada");
             $time = microtime(true);
             
@@ -81,10 +123,10 @@
             $response->send();
         
             //Se obtiene la fecha del proximo partido
-            $jsonFecha = Utils::callApi($request,'util/fechaProxPartido');
+            $jsonFecha = Utils::callApi($request,'util/fechaProxPartido', $urlApi);
             $fecha = json_decode($jsonFecha);
             
-            $json = Utils::callApi($request, 'partidos/fecha/'.$fecha->fecha);
+            $json = Utils::callApi($request, 'partidos/fecha/'.$fecha->fecha, $urlApi);
             $obj = json_decode($json);
             
             $text='';
@@ -126,7 +168,7 @@
             return $response;
         }
         
-        private function apuestas($endpoint, $request){
+        private function apuestas($endpoint, $request, $urlApi){
             $this->log->debug("Obteniedo apuestas");
             $time = microtime(true);
             
@@ -135,20 +177,20 @@
             $response->send();
         
             //Se obtiene la fecha del proximo partido
-            $jsonFecha = Utils::callApi($request, 'util/fechaProxPartido/');
+            $jsonFecha = Utils::callApi($request, 'util/fechaProxPartido/', $urlApi);
             $fecha = json_decode($jsonFecha);
             
             
             //Se obtienen los partidos de HOY. Si no hay, se obtienen los de la próxima jornada
             $fechaHoy = date('Y-m-d');
-            $jsonPartidos = Utils::callApi($request, 'partidos/fecha/'.$fechaHoy);
+            $jsonPartidos = Utils::callApi($request, 'partidos/fecha/'.$fechaHoy, $urlApi);
             $partidos = json_decode($jsonPartidos);
 
             if(sizeof($partidos)==0){
                 //Se obtiene la fecha del proximo partido
-                $jsonFecha = Utils::callApi($request, 'util/fechaProxPartido/');
+                $jsonFecha = Utils::callApi($request, 'util/fechaProxPartido/', $urlApi);
                 $fecha = json_decode($jsonFecha);
-                $jsonPartidos = Utils::callApi($request, 'partidos/fecha/'.$fecha->fecha);
+                $jsonPartidos = Utils::callApi($request, 'partidos/fecha/'.$fecha->fecha, $urlApi);
                 $partidos = json_decode($jsonPartidos);
 
             }
@@ -167,11 +209,24 @@
             $emoji_cerdo=Utils::convert_emoji(0x1F416);
             
         
+            $finUrl='';
+            
+            //Se comprueba si es un chat privado, para obtener el token del usuario
+            if($request->is_private_chat()){
+                $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT, $urlApi);
+                $tokenUsuario = json_decode($jsonTokenUser);
+                //var_dump($tokenUsuario);
+                //Si hay token de usuario del chat, se invoca el comando con el token
+                if(property_exists($tokenUsuario[0],'token')){
+                    $finUrl='?token='.$tokenUsuario[0]->token;
+                }
+            }
+        
             foreach($partidos as $partido) {
                 //apuestas/partido/104
                 $text.=PHP_EOL.$emoji_star.$partido->local->nombre_corto.' vs '.$partido->visitante->nombre_corto.$emoji_star.PHP_EOL;
                 
-                $jsonApuestas = Utils::callApi($request, 'apuestas/partido/'.$partido->id);
+                $jsonApuestas = Utils::callApi($request, 'apuestas/partido/'.$partido->id.$finUrl, $urlApi);
                 $apuestas = json_decode($jsonApuestas);
                 foreach($apuestas as $apuesta) {
                     
@@ -212,7 +267,7 @@
             return $response;
         }
         
-        private function euros($endpoint, $request){
+        private function euros($endpoint, $request, $urlApi){
             $this->log->debug("Obteniedo euros");
             $time = microtime(true);
             
@@ -222,9 +277,21 @@
         
             $text='*Euros:*'.PHP_EOL;
         
-            $json = Utils::callApi($request, 'util/euros');
+        
+            $url='';
+             //Se comprueba si es un chat privado, para obtener el token del usuario
+            if($request->is_private_chat()){
+                $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT, $urlApi);
+                $tokenUsuario = json_decode($jsonTokenUser);
+                //var_dump($tokenUsuario);
+                //Si hay token de usuario del chat, se invoca el comando con el token
+                if(property_exists($tokenUsuario[0],'token')){
+                    $url='?token='.$tokenUsuario[0]->token;
+                }
+            }
+        
+            $json = Utils::callApi($request, 'util/euros'.$url, $urlApi);
             $obj = json_decode($json);
-            
             
             if(is_array($obj) && property_exists($obj[0],'error')){
                 $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
@@ -234,7 +301,11 @@
             }
             $jugado = 0 + floatval($obj->jugado);
             $ganado = 0 + floatval($obj->ganancia);
-            $yield = ($ganado/$jugado)*100;
+            if($jugado==0){
+                $yield=0;
+            }else{
+                $yield = ($ganado/$jugado)*100;
+            }
             $text.='Apostado: '.round($jugado,2).'€'.PHP_EOL;
             $text.='Ganado: '.round($ganado,2).'€'.PHP_EOL;
             $text.='Yield: '.round($yield,2).'%'.PHP_EOL;
@@ -247,7 +318,7 @@
             return $response;
         }
         
-        private function apostadYa($endpoint, $request){
+        private function apostadYa($endpoint, $request, $urlApi){
             $this->log->debug("Obteniedo apostadYa");
             $time = microtime(true);
             
@@ -259,16 +330,16 @@
         	$emoji_r_arrow= Utils::convert_emoji(0x27A1);
         
             //Se obtiene la fase actual
-            $jsonFaseActual = Utils::callApi($request, 'util/faseActual');
+            $jsonFaseActual = Utils::callApi($request, 'util/faseActual', $urlApi);
             $faseActual = json_decode($jsonFaseActual);
             $max_apostable = floatval($faseActual->importe);
             
             //Se obtiene la fecha del proximo partido
-            $jsonFecha = Utils::callApi($request, 'util/fechaProxPartido/');
+            $jsonFecha = Utils::callApi($request, 'util/fechaProxPartido/', $urlApi);
             $fecha = json_decode($jsonFecha);
             
             //Partidos de esa fecha
-            $jsonPartidos = Utils::callApi($request, 'partidos/fecha/'.$fecha->fecha);
+            $jsonPartidos = Utils::callApi($request, 'partidos/fecha/'.$fecha->fecha, $urlApi);
             $partidos = json_decode($jsonPartidos);
 
             //$text='*Faltan por apostar:*'.PHP_EOL;
@@ -279,7 +350,7 @@
             foreach($partidos as $partido){
                 
                 //Apostado en ese partido
-                $jsonApostantes = Utils::callApi($request, '/util/apostadoApostantePartido/'.$partido->id);
+                $jsonApostantes = Utils::callApi($request, '/util/apostadoApostantePartido/'.$partido->id, $urlApi);
                 $apostantes = json_decode($jsonApostantes);
                 
                 $arrApostantes = $partido->usuarios;
@@ -320,9 +391,97 @@
         }
         
         private function web($endpoint, $request){
-        	$text=Utils::get_url_web($request);
-        	return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+            
+            $grupo = '';
+            
+            $params = $request->get_command_params();
+            if(count($params)==0){
+                $grupoAux = Utils::get_grupo($endpoint, $request, 'web');
+                if($grupoAux instanceof Response)   {
+                    return $grupoAux;
+                }else{
+                    $grupo=$grupoAux;
+                }
+                
+            }else{
+                $grupo=$params[0];
+            }
+            
+            if($grupo=='ChampionsLimb'){
+                $text = CHAMPIONSLIMB_URL;
+            }else{
+                $text = GUSLIMB_URL;
+            }
+            
+            $object = new stdClass();
+            $object->hide_keyboard =true;
+            return Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
+            
         }
+        
+        private function mispartidos($endpoint, $request){
+            
+            //Se comprueba si es un chat privado, para obtener el token del usuario
+            if($request->is_private_chat()){
+                    
+                $grupo = '';
+                
+                $params = $request->get_command_params();
+                if(count($params)==0){
+                    $grupoAux = Utils::get_grupo($endpoint, $request, 'mispartidos');
+                    if($grupoAux instanceof Response)   {
+                        return $grupoAux;
+                    }else{
+                        $grupo=$grupoAux;
+                    }
+                    
+                }else{
+                    $grupo=$params[0];
+                }
+                
+                if($grupo=='ChampionsLimb'){
+                    $urlApi = CHAMPIONSLIMB_URL_API;
+                }else{
+                    $urlApi = GUSLIMB_URL_API;
+                }
+                
+                $text = self::sendMisPartidos($request, $urlApi);
+                
+            }else{
+                $text = 'Esto solo se puede usar en privado, motherfucker!!';
+            }
+            
+            return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+        }
+        
+        
+        private function sendMisPartidos($request, $urlApi){
+            $text='';
+            
+            $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT, $urlApi);
+            $tokenUsuario = json_decode($jsonTokenUser);
+
+            //Si hay token de usuario del chat, se invoca el comando con el token
+            if(property_exists($tokenUsuario[0],'token')){
+                $finUrl='?token='.$tokenUsuario[0]->token;
+                $jsonPartidos = Utils::callApi($request, 'partidos/usuario/'.$tokenUsuario[0]->token, $urlApi);
+                $partidos = json_decode($jsonPartidos);
+                
+                $fechaaux='';
+                foreach($partidos as $part){  
+                    setlocale(LC_ALL,"es_ES");
+                    $fecha = strftime("%d %b %Y",strtotime($part->fecha));
+                    if($fecha != $fechaaux){
+                        $text.='*'.$fecha.'*'.PHP_EOL;
+                        $fechaaux=$fecha;
+                    }
+                    $text.='*     '.substr($part->hora,0,5).': *'.$part->local->nombre_corto.' vs '.$part->visitante->nombre_corto.PHP_EOL;
+                }
+            }
+            return $text;
+        }
+        
+        
         
     }
 ?>

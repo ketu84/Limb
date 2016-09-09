@@ -58,6 +58,24 @@
             }
         }
         
+        
+        
+        /*
+        * Devuelve true si es un usuario que solo pertenece a un grupo
+        */
+        static function usuarios_simples($chat_id){
+            switch ($chat_id) {
+                case ID_AGE:
+                case ID_TAPIA:
+                case ID_NANO:
+                    return false;
+                    break;
+                default:
+                    return true;
+                    break;
+            }
+        }
+        
         static function aleatorio($elementos){
 	        return $elementos[rand(0,count($elementos)-1)];
         }
@@ -163,10 +181,10 @@
             
             return $humano;
         }
-        
-        static function callApi($request,$url){
+
+        static function callApi($request, $url, $urlApi){
             $curl = curl_init();
-            $urlApi = self::get_url_api($request);
+            
             curl_setopt($curl, CURLOPT_URL,$urlApi. $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         
@@ -176,6 +194,64 @@
         
             return $result;
         }
+        
+        static function urlTokenUsuario($request){
+            $finUrl='';
+            
+            //Se comprueba si es un chat privado, para obtener el token del usuario
+            if($request->is_private_chat()){
+                $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT);
+                $tokenUsuario = json_decode($jsonTokenUser);
+                //var_dump($tokenUsuario);
+                //Si hay token de usuario del chat, se invoca el comando con el token
+                if(property_exists($tokenUsuario[0],'token')){
+                    $finUrl='?token='.$tokenUsuario[0]->token;
+                }
+            }
+            return $finUrl;
+        }
+        
+        
+        static function get_grupo($endpoint,$request, $comando_original){
+            
+            if(!self::usuarios_simples($request->get_chat_id())){
+                $InlineKeyboardButton=new stdClass();
+                $InlineKeyboardButton->text='ChampionsLimb';
+                $InlineKeyboardButton->callback_data='/'.$comando_original.' ChampionsLimb';
+                
+                $InlineKeyboardButton2=new stdClass();
+                $InlineKeyboardButton2->text='GusLimb';
+                $InlineKeyboardButton2->callback_data='/'.$comando_original.' GusLimb';
+                
+                $inline_keyboard = new stdClass();
+                $arr = Array($InlineKeyboardButton, $InlineKeyboardButton2);
+                $inline_keyboard->inline_keyboard = [$arr];
+                
+                return Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), 'Dime el grupo, pringao!', json_encode($inline_keyboard));
+                
+            }else{
+                switch ($request->get_chat_id()) {
+                    case ID_YONI:
+                    case ID_CAS: 
+                    case ID_JAVI:
+                    case ID_KETU:
+                    case ID_PACO:
+                    case ID_RIOJANO:
+                    case ID_BARTOL:
+                    case ID_VICENTE:
+                    case GUSLIMB_GROUPID:
+                        return "GusLimb";
+                        break;
+                    case CHAMPIONSLIMB_GROUPID:
+                        return "ChampionsLimb";
+                        break;
+                    default:
+                        return null;
+                    
+                 }
+            }
+        }
+            
     }
 
 ?>

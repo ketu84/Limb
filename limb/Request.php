@@ -22,12 +22,34 @@
         private $command;
         private $command_params;
         
-        
+        private $log ;
         
         public function __construct($message) {
+            $log= Logger::getLogger('com.hotelpene.limbBot.bot');
             if(is_null($message)){
                 throw new RequestException("El mensaje es nulo");
             }
+            
+            //Se convierte el mensaje, sea del tipo que sea a mensaje
+            if(isset($message["message"]["chat"]["id"])){
+                $log->debug("Mensaje normal");
+                $message=$message;
+            }elseif(isset($message["edited_message"]["chat"]["id"])){
+                $log->debug("Mensaje editado");
+                $message["message"]=$message["edited_message"];
+            }elseif(isset($message["callback_query"]["message"]["chat"]["id"])){
+                $log->debug("Mensaje callback query");
+                $message["message"]=$message["callback_query"]["message"];
+                $message["message"]["text"]=$message["callback_query"]["data"];
+                
+                
+                
+                
+                
+            }
+            
+           // $log->debug("Mensaje:".$message);
+            //var_dump($message);
             
             //Se obtiene el chat_id
             if(isset($message["message"]["chat"]["id"])){

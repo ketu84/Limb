@@ -111,6 +111,55 @@
                 return false;
             }
         }
+        
+              
+        private function cama($endpoint, $request){
+            $object = new stdClass();
+            //ReplyKeyboardMarkup
+            $object->keyboard = [['/web ano'],['/web culo']];
+            $object->resize_keyboard=true;
+            $object->one_time_keyboard=true;
+            return Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), 'ReplyKeyboardMarkup', json_encode($object));
+        }
+        private function cama2($endpoint, $request){
+            //InlineKeyboardMarkup
+            $InlineKeyboardButton=new stdClass();
+            $InlineKeyboardButton->text='ChampionsLimb';
+            //$InlineKeyboardButton->url='google.es';
+            $InlineKeyboardButton->callback_data='/web ChampionsLimb';
+            
+            $InlineKeyboardButton2=new stdClass();
+            $InlineKeyboardButton2->text='GusLimb';
+            //$InlineKeyboardButton->url='google.es';
+            $InlineKeyboardButton2->callback_data='/web GusLimb';
+            
+            $InlineKeyboardButton3=new stdClass();
+            $InlineKeyboardButton3->text='Culo Limb';
+            //$InlineKeyboardButton->url='google.es';
+            $InlineKeyboardButton3->callback_data='/web GusLimb';
+            
+            $inline_keyboard = new stdClass();
+            $arr = Array($InlineKeyboardButton, $InlineKeyboardButton2, $InlineKeyboardButton3);
+            $inline_keyboard->inline_keyboard = [$arr];
+            
+            return Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), 'InlineKeyboardMarkup', json_encode($inline_keyboard));
+        }
+        
+        private function cama3($endpoint, $request){
+            $object = new stdClass();
+            //ReplyKeyboardHide
+            $object->hide_keyboard =true;
+            return Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), 'oculto teclado - ReplyKeyboardHide', json_encode($object));
+        }
+        
+        private function cama4($endpoint, $request){
+            //force_reply
+             $object = new stdClass();
+            //ForceReply
+            $object->force_reply =true;
+            return Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), 'ForceReply', json_encode($object));
+        
+        }
     }
         
   
