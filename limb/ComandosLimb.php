@@ -214,11 +214,11 @@
             //Se comprueba si es un chat privado, para obtener el token del usuario
             if($request->is_private_chat()){
                 $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT, $urlApi);
-                $tokenUsuario = json_decode($jsonTokenUser);
+                $tokenUsuario = json_decode($jsonTokenUser, true);
                 //var_dump($tokenUsuario);
                 //Si hay token de usuario del chat, se invoca el comando con el token
-                if(property_exists($tokenUsuario[0],'token')){
-                    $finUrl='?token='.$tokenUsuario[0]->token;
+                if($tokenUsuario[0]['token']){
+                    $finUrl='?token='.$tokenUsuario[0]['token'];
                 }
             }
         
@@ -282,11 +282,11 @@
              //Se comprueba si es un chat privado, para obtener el token del usuario
             if($request->is_private_chat()){
                 $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT, $urlApi);
-                $tokenUsuario = json_decode($jsonTokenUser);
+                $tokenUsuario = json_decode($jsonTokenUser, true);
                 //var_dump($tokenUsuario);
                 //Si hay token de usuario del chat, se invoca el comando con el token
-                if(property_exists($tokenUsuario[0],'token')){
-                    $url='?token='.$tokenUsuario[0]->token;
+                if($tokenUsuario[0]['token']){
+                    $url='?token='.$tokenUsuario[0]['token'];
                 }
             }
         
@@ -459,12 +459,12 @@
             $text='';
             
             $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT, $urlApi);
-            $tokenUsuario = json_decode($jsonTokenUser);
+            $tokenUsuario = json_decode($jsonTokenUser, true);
 
             //Si hay token de usuario del chat, se invoca el comando con el token
-            if(property_exists($tokenUsuario[0],'token')){
-                $finUrl='?token='.$tokenUsuario[0]->token;
-                $jsonPartidos = Utils::callApi($request, 'partidos/usuario/'.$tokenUsuario[0]->token, $urlApi);
+            if($tokenUsuario[0]['token']){
+                $finUrl='?token='.$tokenUsuario[0]['token'];
+                $jsonPartidos = Utils::callApi($request, 'partidos/usuario/'.$tokenUsuario[0]['token'], $urlApi);
                 $partidos = json_decode($jsonPartidos);
                 
                 $fechaaux='';
