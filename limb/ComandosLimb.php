@@ -64,7 +64,6 @@
             $jsonFaseActual = Utils::callApi($request, 'util/faseActual', $urlApi);
             $faseActual = json_decode($jsonFaseActual);
             
-            
             $url='clasificacion/'.$faseActual->id;
             
             //Se comprueba si es un chat privado, para obtener el token del usuario
@@ -73,8 +72,8 @@
                 $tokenUsuario = json_decode($jsonTokenUser);
                 //var_dump($tokenUsuario);
                 //Si hay token de usuario del chat, se invoca el comando con el token
-                $objeto = $tokenUsuario[0];
-                if(property_exists($objeto,'token')){
+                //$objeto = $tokenUsuario[0];
+                if($tokenUsuario[0]->token){
                     $url='clasificacion/'.$faseActual->id.'?token='.$tokenUsuario[0]->token;
                 }
             }
