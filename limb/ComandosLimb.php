@@ -69,12 +69,12 @@
             //Se comprueba si es un chat privado, para obtener el token del usuario
             if($request->is_private_chat()){
                 $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT, $urlApi);
-                $tokenUsuario = json_decode($jsonTokenUser);
+                $tokenUsuario = json_decode($jsonTokenUser, true);
                 //var_dump($tokenUsuario);
                 //Si hay token de usuario del chat, se invoca el comando con el token
-                //$objeto = $tokenUsuario[0];
-                if($tokenUsuario[0]->token){
-                    $url='clasificacion/'.$faseActual->id.'?token='.$tokenUsuario[0]->token;
+               // $objeto = $tokenUsuario[0];
+                if($tokenUsuario[0]['token']){
+                    $url='clasificacion/'.$faseActual->id.'?token='.$tokenUsuario[0]['token'];
                 }
             }
                         
