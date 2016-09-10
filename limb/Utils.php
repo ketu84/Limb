@@ -19,6 +19,7 @@
                 case ID_RIOJANO:
                 case ID_BARTOL:
                 case ID_VICENTE:
+                case ID_IBAN:
                 case GUSLIMB_GROUPID:
                     return GUSLIMB_URL_API;
                     break;
@@ -46,6 +47,7 @@
                 case ID_RIOJANO:
                 case ID_BARTOL:
                 case ID_VICENTE:
+                case ID_IBAN:
                 case GUSLIMB_GROUPID:
                     return GUSLIMB_URL;
                     break;
@@ -162,6 +164,9 @@
             	case ID_VICENTE:
             		$humano= self::aleatorio(array('Vicente', 'Comandante'));
             		break;
+        		case ID_IBAN:
+        		    $humano= self::aleatorio(array('Ibán'));
+            		break;
             	case ID_ZATO:
             		$humano=self::aleatorio(array('Álvaro', 'Zato', 'Bárbol'));
             		break;
@@ -201,11 +206,11 @@
             //Se comprueba si es un chat privado, para obtener el token del usuario
             if($request->is_private_chat()){
                 $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT);
-                $tokenUsuario = json_decode($jsonTokenUser);
+                $tokenUsuario = json_decode($jsonTokenUser, true);
                 //var_dump($tokenUsuario);
                 //Si hay token de usuario del chat, se invoca el comando con el token
-                if(property_exists($tokenUsuario[0],'token')){
-                    $finUrl='?token='.$tokenUsuario[0]->token;
+                if($tokenUsuario[0]['token']){
+                    $finUrl='?token='.$tokenUsuario[0]['token'];
                 }
             }
             return $finUrl;
@@ -239,6 +244,7 @@
                     case ID_RIOJANO:
                     case ID_BARTOL:
                     case ID_VICENTE:
+                    case ID_IBAN:
                     case GUSLIMB_GROUPID:
                         return "GusLimb";
                         break;
