@@ -451,6 +451,9 @@
                 $text = 'Esto solo se puede usar en privado, motherfucker!!';
             }
             
+            if($text==''){
+                $text='No tienes partidos pendientes';
+            }
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
         }
         
