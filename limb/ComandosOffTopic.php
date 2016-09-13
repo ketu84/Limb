@@ -378,5 +378,11 @@
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
         
+        private function tehasexcedido($endpoint, $request){
+            $file_id='BQADBAADJR0AAsseZAf3QgvdLNg82AI';
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }
+        
+        
     }
 ?>
