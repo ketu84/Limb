@@ -253,11 +253,11 @@
         }
         
         private function sorteo($endpoint, $request){
-        	$file_id = 'AgADBAADKqkxG5hMPgABj_DlPCsJq_QnvI8wAATxeRhugBnP6DH_AAIC';
-        	$response = Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
+            $file_id = 'AgADBAADKqkxG5hMPgABj_DlPCsJq_QnvI8wAATxeRhugBnP6DH_AAIC';
+            $response = Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
             $text='¿Quieres dejar de molestar?';
-        	$response->caption=$text;
-        	return $response;
+            $response->caption=$text;
+            return $response;
         }
         
         private function comovalacosa($endpoint, $request){
@@ -271,32 +271,32 @@
         }
         
         private function insultar($endpoint, $request){
-        	$text = 'Función no implementada. ';
-        	
-        	if($request->get_from_id()!=null){
-        		if($request->get_from_id()==ID_PACO){
-        			$text = $text.'¡¡¡Pacooooooooooooooooooo!!! ';
-        		} else {
-        	        $humano = Utils::get_humano_name($request->get_from_id());
-        			$insulto = Utils::aleatorio(['Maldito', 'Jodido', 'Estúpido', 'Condenado', 'Retrasado', 'Podemita']);
-        			$text = $text. $insulto.' '.$humano.'. ';
-        		}
-        	}
-        	
-        	$insulto = Utils::getInsultoSingular();
-        	$text .= $insulto;
-        	if($humano=='Ario'){
-        	    $file_id='AgADBAADLKkxG4jtnAABsbSkFxkCLImgn2kwAARwTik8oQSyGj3nAQABAg';
+            $text = 'Función no implementada. ';
+            
+            if($request->get_from_id()!=null){
+                if($request->get_from_id()==ID_PACO){
+                    $text = $text.'¡¡¡Pacooooooooooooooooooo!!! ';
+                } else {
+                    $humano = Utils::get_humano_name($request->get_from_id());
+                    $insulto = Utils::aleatorio(['Maldito', 'Jodido', 'Estúpido', 'Condenado', 'Retrasado', 'Podemita']);
+                    $text = $text. $insulto.' '.$humano.'. ';
+                }
+            }
+            
+            $insulto = Utils::getInsultoSingular();
+            $text .= $insulto;
+            if($humano=='Ario'){
+                $file_id='AgADBAADLKkxG4jtnAABsbSkFxkCLImgn2kwAARwTik8oQSyGj3nAQABAg';
                 $response= Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
                 $response->send();
-        	}
+            }
             
-        	return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);        		
+            return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);        		
         }
          
         private function insultarAMadre($endpoint, $request, $insulto){
-        	$text = 'Tu madre si que es '.$insulto;
-        	return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+            $text = 'Tu madre si que es '.$insulto;
+            return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
         }
         
         private function insultarAHumano($endpoint, $request, $insulto){
@@ -353,10 +353,10 @@
         
         
         private function españa($endpoint, $request, $insulto){
-        	$emoji_e=Utils::convert_emoji(0x1F1EA);
+            $emoji_e=Utils::convert_emoji(0x1F1EA);
             $emoji_s=Utils::convert_emoji(0x1F1F8);
-        	$text = $emoji_e.$emoji_s;
-        	return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+            $text = $emoji_e.$emoji_s;
+            return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
         }
         
         private function stihl($endpoint, $request){
