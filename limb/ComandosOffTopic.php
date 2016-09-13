@@ -380,7 +380,11 @@
         
         private function tehasexcedido($endpoint, $request){
             $file_id='BQADBAADJR0AAsseZAf3QgvdLNg82AI';
-            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            $response_doc = Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            $response_doc->send();
+            
+            $audio_id='BQADBAADVAEAAphMPgABNc-CEJQck9oC';
+            return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
         }
         
         
