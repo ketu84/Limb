@@ -14,8 +14,6 @@
             if(method_exists('ComandosLimb',$func)){
                 $command = new ComandosLimb();
                 
-                /**********************************/
-                
                 $grupo = '';
                 
                 $params = $request->get_command_params();
@@ -36,9 +34,6 @@
                 }else{
                     $urlApi = GUSLIMB_URL_API;
                 }
-                
-                
-                /********************************/
                 
                 return $command->$func($endpoint, $request, $urlApi);
             }
@@ -419,34 +414,11 @@
             
         }
         
-        private function mispartidos($endpoint, $request){
+        private function mispartidos($endpoint, $request, $urlApi){
             
             //Se comprueba si es un chat privado, para obtener el token del usuario
             if($request->is_private_chat()){
-                    
-                $grupo = '';
-                
-                $params = $request->get_command_params();
-                if(count($params)==0){
-                    $grupoAux = Utils::get_grupo($endpoint, $request, 'mispartidos');
-                    if($grupoAux instanceof Response)   {
-                        return $grupoAux;
-                    }else{
-                        $grupo=$grupoAux;
-                    }
-                    
-                }else{
-                    $grupo=$params[0];
-                }
-                
-                if($grupo=='ChampionsLimb'){
-                    $urlApi = CHAMPIONSLIMB_URL_API;
-                }else{
-                    $urlApi = GUSLIMB_URL_API;
-                }
-                
                 $text = self::sendMisPartidos($request, $urlApi);
-                
             }else{
                 $text = 'Esto solo se puede usar en privado, motherfucker!!';
             }
@@ -466,25 +438,62 @@
 
             //Si hay token de usuario del chat, se invoca el comando con el token
             if($tokenUsuario[0]['token']){
+                $idUsuario = $tokenUsuario[0]['id'];
+                
                 $finUrl='?token='.$tokenUsuario[0]['token'];
                 $jsonPartidos = Utils::callApi($request, 'partidos/usuario/'.$tokenUsuario[0]['token'], $urlApi);
                 $partidos = json_decode($jsonPartidos);
                 
                 $fechaaux='';
+                
+                $emoji_star= Utils::convert_emoji(0x1F538);
+                $emoji_guion= Utils::convert_emoji(0x2796);
+                $emoji_cara=Utils::convert_emoji(0x1F633);
+                $emoji_ok=Utils::convert_emoji(0x2705);
+                $emoji_mal=Utils::convert_emoji(0x274C);
+                $emoji_tijeras=Utils::convert_emoji(0x2702);
+                $emoji_cerdo=Utils::convert_emoji(0x1F416);
+            
                 foreach($partidos as $part){  
                     setlocale(LC_ALL,"es_ES");
                     $fecha = strftime("%d %b %Y",strtotime($part->fecha));
                     if($fecha != $fechaaux){
-                        $text.='*'.$fecha.'*'.PHP_EOL;
+                        $text.=PHP_EOL.'`      '.$fecha.' `'.PHP_EOL;
                         $fechaaux=$fecha;
                     }
-                    $text.='*     '.substr($part->hora,0,5).': *'.$part->local->nombre_corto.' vs '.$part->visitante->nombre_corto.PHP_EOL;
+                    $text.='*'.substr($part->hora,0,5).': '.$part->local->nombre_corto.' vs '.$part->visitante->nombre_corto.'*'.PHP_EOL;
+                    
+                    
+                    /*Se obtienen las apuestas*/
+                    $jsonApuestasPartidos = Utils::callApi($request, 'apuestas/partido/'.$part->id.'/'.$idUsuario.$finUrl, $urlApi);
+                    $apuestas = json_decode($jsonApuestasPartidos);
+                    
+                    foreach($apuestas as $apuesta) {
+
+                        $iconoApuesta=$emoji_guion;
+                        //1 acertada
+                        if($apuesta->acertada=="1"){
+                            $iconoApuesta=$iconoApuesta.$emoji_ok;
+                        }else if($apuesta->acertada=="2"){
+                            $iconoApuesta=$iconoApuesta.$emoji_mal;
+                        }else if($apuesta->acertada=="4"){
+                            $iconoApuesta=$iconoApuesta.$emoji_tijeras;
+                        }else if($apuesta->acertada=="3"){
+                            $iconoApuesta=$iconoApuesta.$emoji_cerdo;
+                        }
+                        
+                        $text.=$iconoApuesta.$apuesta->desc.':'.$apuesta->importe;
+                        if($apuesta->cuota==0){
+                            $text.='€'.PHP_EOL;
+                        }else{
+                            $text.='@'.$apuesta->cuota.PHP_EOL;
+                        }
+                    }
+                    
                 }
             }
             return $text;
         }
-        
-        
         
     }
 ?>
