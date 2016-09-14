@@ -242,7 +242,12 @@
                         $iconoApuesta=$iconoApuesta.$emoji_cerdo;
                     }
                     
-                    $text.=$iconoApuesta.$apuesta->desc.':'.$apuesta->importe.'@'.$apuesta->cuota.PHP_EOL;
+                    $text.=$iconoApuesta.$apuesta->desc.':'.$apuesta->importe;
+                        if($apuesta->cuota==0){
+                            $text.='€'.PHP_EOL;
+                        }else{
+                            $text.='@'.$apuesta->cuota.PHP_EOL;
+                        }
                 }
             }
         
@@ -495,5 +500,6 @@
             return $text;
         }
         
+
     }
 ?>
