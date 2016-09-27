@@ -108,6 +108,68 @@
             return $response;
         }
         
+        private function clasificacionJornada($endpoint, $request,$urlApi){
+            $this->log->debug("Obteniedo clasificacion de jornada");
+            $time = microtime(true);
+            
+            $response_chat_typing = Response::create_typing_response($endpoint, $request->get_chat_id());
+            $response_chat_typing->send();
+            
+            $text='*Clasificación de la última Jornada en curso:*'.PHP_EOL.PHP_EOL;
+            
+            //Se obtiene la fase actual
+            $jsonFaseActual = Utils::callApi($request, 'util/faseActual', $urlApi);
+            $faseActual = json_decode($jsonFaseActual);
+            
+            $url='clasificacionfasetipo/'.$faseActual->id.'/tipofase/'.$faseActual->tipo->id;
+            
+            //Se comprueba si es un chat privado, para obtener el token del usuario
+            if($request->is_private_chat()){
+                $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT, $urlApi);
+                $tokenUsuario = json_decode($jsonTokenUser, true);
+                //var_dump($tokenUsuario);
+                //Si hay token de usuario del chat, se invoca el comando con el token
+               // $objeto = $tokenUsuario[0];
+                if($tokenUsuario[0]['token']){
+                    $url.='?token='.$tokenUsuario[0]['token'];
+                }
+            }
+                        
+
+            $json = Utils::callApi($request, $url, $urlApi);
+            $obj = json_decode($json);
+
+            if(sizeof($obj)>0 && property_exists($obj[0],'error')){
+                $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
+                $response->text=$obj[0]->error->text;
+                $response->markdown=true;
+                return $response;
+            }
+            
+            
+            $emoji_down= Utils::convert_emoji(0x2B06);
+            $emoji_up= Utils::convert_emoji(0x2B07);
+            $emoji_balon= Utils::convert_emoji(0x26BD);
+            $emoji_dinero= Utils::convert_emoji(0x1F4B0);
+            $emoji_yield= Utils::convert_emoji(0x1F4A5);
+            
+            $i=1;
+            foreach($obj as $valor) {
+                $jugado = 0 + floatval($valor->jugado);
+                $ganado = 0 + floatval($valor->ganancia);
+                $yield = ($ganado/$jugado)*100;
+            	$text=$text.'*'.$i.'.'.$valor->nombre.'*'.$emoji_dinero.number_format((float)$valor->ganancia,2).'€'.$emoji_yield.round($yield,2).'%'.$emoji_balon.$valor->num_partidos.PHP_EOL;
+            	$i++;
+            }
+            
+            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
+            $response->text=$text;
+            $response->markdown=true;
+            
+            $this->log->debug("Fin Obteniedo Clasificación fase y jornada (".(microtime(true)-$time)." s): ");
+            return $response;
+        }
+        
         private function prox_jornada($endpoint, $request, $urlApi){
             $this->log->debug("Obteniedo Próxima jornada");
             $time = microtime(true);
@@ -500,6 +562,78 @@
             return $text;
         }
         
+        private function apostar($endpoint, $request, $urlApi){
+            //Se comprueba si es un chat privado, para obtener el token del usuario
+            if($request->is_private_chat()){
 
+                $params = $request->get_command_params();
+                switch (count($params)) {
+                    case 1: //Hay Grupo
+                        return self::preguntarPartido($endpoint, $request, $urlApi);
+                        break;
+                    case 2: //Hay partido
+                        self::preguntarImporte($endpoint, $request, $urlApi);
+                        break;
+                    case 3: //Hay importe
+                        break;
+                }
+
+
+
+                
+                
+            }else{
+                $text = 'Esto solo se puede usar en privado, nigga!!';
+            }
+            
+            if($text==''){
+                $text='No tienes partidos pendientes';
+            }
+            return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+        }
+        
+        
+        private function preguntarPartido($endpoint, $request, $urlApi){
+            $this->log->debug("preguntar partidos ");
+            $params = $request->get_command_params();
+            $text='';
+            
+            $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT, $urlApi);
+            $tokenUsuario = json_decode($jsonTokenUser, true);
+
+            //Si hay token de usuario del chat, se invoca el comando con el token
+            if($tokenUsuario[0]['token']){
+                $finUrl='?token='.$tokenUsuario[0]['token'];
+                $jsonPartidos = Utils::callApi($request, 'partidos/usuario/'.$tokenUsuario[0]['token'], $urlApi);
+                $partidos = json_decode($jsonPartidos);
+                $text='¿A que partido quieres apostar?'.PHP_EOL.PHP_EOL;
+                $fechaaux='';
+                $arr = Array();
+                foreach($partidos as $part){  
+                    setlocale(LC_ALL,"es_ES");
+                    $fecha = strftime("%d %b %Y",strtotime($part->fecha));
+                    if($fecha != $fechaaux){
+                        $text.='*'.$fecha.'*'.PHP_EOL;
+                        $fechaaux=$fecha;
+                    }
+                    $text.='*     '.substr($part->hora,0,5).': *'.$part->local->nombre_corto.' vs '.$part->visitante->nombre_corto.PHP_EOL;
+                    
+                    $InlineKeyboardButton=new stdClass();
+                    $InlineKeyboardButton->text=substr($part->hora,0,5).': '.$part->local->nombre_corto.' vs '.$part->visitante->nombre_corto;
+                    $InlineKeyboardButton->callback_data='/apostar '.$params[0].' '.$part->id;
+                    
+                    array_push($arr, $InlineKeyboardButton);
+                    
+                }
+                $inline_keyboard = new stdClass();
+                $inline_keyboard->inline_keyboard = [$arr];
+                
+                return Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($inline_keyboard));
+            }
+        }
+        
+        private function preguntarImporte($endpoint, $request, $urlApi){
+            $this->log->debug("preguntar importe ");
+        }
     }
 ?>
