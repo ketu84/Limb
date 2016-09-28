@@ -10,6 +10,7 @@
         const TYPE_VIDEO = 6;
         const TYPE_VOICE = 7;
         const TYPE_CHAT_ACTION = 8;
+        const TYPE_KEYBOARD = 9;
         
         private $chat_id;
         private $endpoint;
@@ -20,6 +21,7 @@
         public $file_id;
         public $chat_action;
         public $caption;
+        public $reply_markup;
         
         /**
          * Crea un objeto Response de tipo Text, con el markdown activado.
@@ -28,6 +30,17 @@
             $response = new Response($endpoint, $chat_id, self::TYPE_TEXT);
             $response->text=$text;
             $response->markdown=true;
+            return $response;
+        }
+        
+        /**
+         * Crea un objeto Response de tipo Text, con el markdown activado.
+        */
+        static function create_text_replymarkup_response($endpoint, $chat_id, $text, $reply_markup){
+            $response = new Response($endpoint, $chat_id, self::TYPE_TEXT);
+            $response->text=$text;
+            $response->markdown=true;
+            $response->reply_markup=$reply_markup;
             return $response;
         }
         
@@ -76,7 +89,7 @@
             return $response;
         }
         
-         /**
+        /**
          * Crea un objeto Response de tipo Voice.
         */
         static function create_voice_response($endpoint, $chat_id, $file_id){
@@ -93,7 +106,6 @@
             $response->chat_action='typing';
             return $response;
         }
-        
         
         public function __construct($endpoint, $chat_id, $type){
             $this->endpoint=$endpoint;
@@ -114,6 +126,9 @@
 	                $data["text"]=$this->text;
 	                if($this->markdown){
 	                    $data["parse_mode"]="Markdown";
+	                }
+	                if($this->reply_markup){
+	                    $data["reply_markup"]=$this->reply_markup;
 	                }
 	                
 	                $accion='/sendMessage';
@@ -141,7 +156,7 @@
 	                $data["video"]=$this->file_id;
 	                $accion='/sendVideo';
 	                break;
-                case TYPE_VOICE:
+                case self::TYPE_VOICE:
 	                $data["voice"]=$this->file_id;
 	                $accion='/sendVoice';
 	                break;
@@ -149,6 +164,7 @@
                     $data["action"]=$this->chat_action;
                     $accion='/sendChatAction';
 	                break;
+	                
             }
             
             
@@ -166,7 +182,7 @@
                     $options[CURLOPT_POSTFIELDS] = $data;
                 }
             
-            
+               // var_dump($data);
                 $curl = curl_init();
                 curl_setopt_array($curl, $options);
                 $result = curl_exec($curl);
@@ -188,13 +204,13 @@
             $result.= 'file_id: '.$this->file_id.PHP_EOL;
             $result.= 'chat_action: '.$this->chat_action.PHP_EOL;
             
-            if($this->command_params!=null && $this->command_params!==false){
+            if( property_exists($this, 'command_params') &&  $this->command_params!=null && $this->command_params!==false){
                  $result.= 'command_params: ';
                 foreach ($this->command_params as &$valor) {
                      $result.= $valor.', ';
                 }
             }
-            return $result;        
+            return $result;
         }
         
     }
