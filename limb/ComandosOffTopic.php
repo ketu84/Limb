@@ -88,9 +88,35 @@
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
         
-        private function cuantoHaPerdidoRiojas($endpoint, $request){
-            $text='jajaja, pues todo pringaos';
-            return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+       private function cuantoHaPerdidoRiojas($endpoint, $request,$urlApi){
+            $result= Utils::quien_ha_perdido_mas($endpoint, $request,$urlApi);
+            
+            switch($result){
+                case 0:
+                    $humano = Utils::get_humano_name($request->get_from_id());
+                    $text= $text. $humano. '. De momento llevas más pasta que el cocacolitas, sigue así';
+                    return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+                    break;
+                case 1:
+                    $humano = Utils::get_humano_name($request->get_from_id());
+                    $insulto = Utils::aleatorio(['Maldito', 'Jodido', 'Estúpido', 'Condenado', 'Retrasado', 'Podemita']);
+                    $text = $text. $insulto.' '.$humano.'. Si has perdido más pasta tú ';
+                    return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+                    break;
+                case 2:
+                    $text= 'Pero mira que eres bobo gelete... No sabes ni lo que has perdido. Eres el Pedro Sánchez de las apuestas.';
+                    return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+                    break;
+                case 4:
+                    $text= 'No se ni quién eres, mejor que ni me hables muerto de hambre.';
+                    return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+                    break;
+                default:
+                    $text='Ni más ni menos que tú, parguela';
+                    return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+                    break;
+            }            
+           
         }
         
         
