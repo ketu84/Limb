@@ -394,11 +394,20 @@
 			$json = json_decode($content, true);
 			foreach($json['fixtures'] as $item) {
 				$today = date('Y-m-d');
-				$buscar = strpos($item['date'],$today).'<BR>';
 				if(strpos($item['date'],$today) !== false)
 				{
-					$estado = ($item['status']=='IN_PLAY') ? ' (En juego)' : '';
-					$text.=$item['homeTeamName'].' '.$item['result']['goalsHomeTeam'].' - '.$item['result']['goalsAwayTeam'].' '.$item['awayTeamName'].$estado.PHP_EOL;
+					$estado = $item['status'];
+					switch($estado) {
+						case "IN_PLAY":
+							$text.=$item['homeTeamName'].' '.$item['result']['goalsHomeTeam'].' - '.$item['result']['goalsAwayTeam'].' '.$item['awayTeamName'].' (En juego)'.PHP_EOL;
+							break;
+						case "TIMED":
+							$text.=$item['homeTeamName'].' - '.$item['awayTeamName'].PHP_EOL;
+							break;
+						case "FINISHED":
+							$text.=$item['homeTeamName'].' '.$item['result']['goalsHomeTeam'].' - '.$item['result']['goalsAwayTeam'].' '.$item['awayTeamName'].PHP_EOL;
+							break;
+					}
 				}
 			}
 			$response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
