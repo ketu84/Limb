@@ -167,8 +167,16 @@
         }
         
         private function gus($endpoint, $request){
-    	    $file_id = Utils::aleatorio(array('AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg', 'AgADBAAD3KkxG5sPmAABKqtTAAHWZbY3NQWLMAAEmP0iZZyVDtfYMAEAAQI'));
-            return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
+            $index = rand(0,1);
+
+            switch($index) {
+                case 0: 
+    	            $file_id = Utils::aleatorio(array('AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg', 'AgADBAAD3KkxG5sPmAABKqtTAAHWZbY3NQWLMAAEmP0iZZyVDtfYMAEAAQI'));
+                    return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
+                case 1:
+                    $file_id = Utils::aleatorio(array('BQADBAADVwIAAmCIgQABk85Zb6xxMZwC'));
+                    return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            }
         }
         
         private function nogus($endpoint, $request){
@@ -371,7 +379,11 @@
 
         private function señor($endpoint, $request){
             $file_id='BQADBAADGwEAAphMPgABI26EAcZ0dg0C';
-            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            $response_doc = Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            $response_doc->send();
+            
+            $audio_id='BQADBAADnAADmw-YAAGj6L0TKXyxjAI';
+            return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
         }
         
         private function acierto($endpoint, $request){
