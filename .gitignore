@@ -1,8 +1,7 @@
-.gitignore
-config.xml
-vendor/*
+composer.lock
+composer.phar
+vendor/
+limb/logs/
+limb/test.json
 limb/properties.php
-limb/logs
-limb/logs/*
-composer*
-MISNOTAS.md
+config.xml
