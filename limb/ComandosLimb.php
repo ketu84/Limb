@@ -387,14 +387,19 @@
 			$response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
             $response->chat_action='typing';
             $response->send();
+            
+            $params = $request->get_command_params();
+            $numparams = count($params);
 			
-			$text='*Resultados:*'.PHP_EOL;
+			$fecha = ($numparams == 0) ? date('Y-m-d') : date('Y-m-d', strtotime($params[0]));
+			$fechaFormateada = date('d/m/Y', strtotime($fecha));
+			$text='*Resultados ('.$fechaFormateada.'):*'.PHP_EOL;
 			$apiurl = 'http://api.football-data.org/v1/competitions/440/fixtures';
 			$content = file_get_contents($apiurl);
 			$json = json_decode($content, true);
-			foreach($json['fixtures'] as $item) {
-				$today = date('Y-m-d');
-				if(strpos($item['date'],$today) !== false)
+			foreach($json['fixtures'] as $item) 
+			{
+				if(strpos($item['date'],$fecha) !== false)
 				{
 					$estado = $item['status'];
 					switch($estado) {

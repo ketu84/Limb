@@ -351,6 +351,11 @@
             
         }
         
+        private function elbobo($endpoint, $request, $insulto){
+            $file_id='BQADBAADUQAECiQBwXY8yQTw4psC';
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            
+        }
         
         private function españa($endpoint, $request, $insulto){
             $emoji_e=Utils::convert_emoji(0x1F1EA);
