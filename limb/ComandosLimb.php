@@ -379,6 +379,49 @@
             $this->log->debug("Fin Obteniedo euros (".(microtime(true)-$time)." s): ");
             return $response;
         }
+		
+		private function resultados($endpoint, $request, $urlApi){
+            $this->log->debug("Resultados");
+            $time = microtime(true);
+		
+			$response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
+            $response->chat_action='typing';
+            $response->send();
+            
+            $params = $request->get_command_params();
+            $numparams = count($params);
+			
+			$fecha = ($numparams == 0) ? date('Y-m-d') : date('Y-m-d', strtotime($params[0]));
+			$fechaFormateada = date('d/m/Y', strtotime($fecha));
+			$text='*Resultados ('.$fechaFormateada.'):*'.PHP_EOL;
+			$apiurl = 'http://api.football-data.org/v1/competitions/440/fixtures';
+			$content = file_get_contents($apiurl);
+			$json = json_decode($content, true);
+			foreach($json['fixtures'] as $item) 
+			{
+				if(strpos($item['date'],$fecha) !== false)
+				{
+					$estado = $item['status'];
+					switch($estado) {
+						case "IN_PLAY":
+							$text.=$item['homeTeamName'].' '.$item['result']['goalsHomeTeam'].' - '.$item['result']['goalsAwayTeam'].' '.$item['awayTeamName'].' (En juego)'.PHP_EOL;
+							break;
+						case "TIMED":
+							$text.=$item['homeTeamName'].' - '.$item['awayTeamName'].PHP_EOL;
+							break;
+						case "FINISHED":
+							$text.=$item['homeTeamName'].' '.$item['result']['goalsHomeTeam'].' - '.$item['result']['goalsAwayTeam'].' '.$item['awayTeamName'].PHP_EOL;
+							break;
+					}
+				}
+			}
+			$response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
+            $response->text=$text;
+            $response->markdown=true;
+	
+		    $this->log->debug("Fin Resultados (".(microtime(true)-$time)." s): ");
+            return $response;
+		}
         
         private function apostadYa($endpoint, $request, $urlApi){
             $this->log->debug("Obteniedo apostadYa");
