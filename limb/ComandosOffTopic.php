@@ -195,6 +195,11 @@
             $file_id = Utils::aleatorio(array('AgADBAADsLExG6uCfgAB11V67VOSyHQhd4wwAATniw8DzMJf0yJcAQABAg', 'AgADBAADsbExG6uCfgABdK4Br7b7bjPOCnEwAASIQJwfY4Wa6v7QAQABAg', 'AgADBAADsrExG6uCfgABcOiowovh9m2J83AwAAQXyvtk28XB_s7RAQABAg', 'AgADBAADu7ExG6uCfgABxjIl6YqoTCSzMIswAAT06vz4TKuqGnVhAQABAg', 'AgADBAADyqoxG3lazgABhV1-CGUlYW4fA3EwAASKHnfeO00-ih3XAQABAg'));
             return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
         }
+	    
+        private function agevamuypipa($endpoint, $request){
+         $file_id='BQADBAADWAEAAphMPgAB-oBIaV81Y04C';
+         return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }
         
         private function telacomiste($endpoint, $request){
             $file_id = 'AgADBAADK7ExG6uCfgAB9rTpspMp9VRGYGkwAAS8GdFc47A_whSFAQABAg';
@@ -220,7 +225,7 @@
         }
         
         private function aupa($endpoint, $request){
-            $index = rand(0,3);
+            $index = rand(0,4);
 
             switch($index){
                 case 0:
@@ -234,6 +239,10 @@
                 case 2:
                     $file_id='BQADBAADOgEAAquCfgABXRORytopeMsC';
                     return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+                    break;
+		case 3:
+                    $file_id= Utils::aleatorio(array('AgADBAADyrExG6uCfgAByJa4e096PDrUuqYwAAT4WookikriBOAAIC', 'AgADBAADzLExG6uCfgABl0UQFLI2ny9wvY8wAATndl-8tzyDq9zyAAIC', 'AgADBAADyLExG6uCfgABiop-lux6czIfQYswAASIWlelkQEKZedyAQABAg', 'AgADBAADzLExG6uCfgABl0UQFLI2ny9wvY8wAATndl-8tzyDq9zyAAIC'));
+                    return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
                 default:
                     $humano = Utils::get_humano_name($request->get_from_id());
@@ -382,6 +391,12 @@
             $audio_id='BQADBAADVAEAAphMPgABNc-CEJQck9oC';
             return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
         }
+					       
+	private function melafo($endpoint, $request){
+            $file_id=Utils::aleatorio(['BQADBAAD0gAECiQBmf8x2MUKMbsC', 'BQADBAAD3xgAAtwXZAeef-gdoL82-QI']);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }				       
+					       
         
         
     }
