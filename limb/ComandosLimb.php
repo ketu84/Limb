@@ -379,49 +379,6 @@
             $this->log->debug("Fin Obteniedo euros (".(microtime(true)-$time)." s): ");
             return $response;
         }
-		
-		private function resultados($endpoint, $request, $urlApi){
-            $this->log->debug("Resultados");
-            $time = microtime(true);
-		
-			$response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
-            $response->chat_action='typing';
-            $response->send();
-            
-            $params = $request->get_command_params();
-            $numparams = count($params);
-			
-			$fecha = ($numparams == 0) ? date('Y-m-d') : date('Y-m-d', strtotime($params[0]));
-			$fechaFormateada = date('d/m/Y', strtotime($fecha));
-			$text='*Resultados ('.$fechaFormateada.'):*'.PHP_EOL;
-			$apiurl = 'http://api.football-data.org/v1/competitions/440/fixtures';
-			$content = file_get_contents($apiurl);
-			$json = json_decode($content, true);
-			foreach($json['fixtures'] as $item) 
-			{
-				if(strpos($item['date'],$fecha) !== false)
-				{
-					$estado = $item['status'];
-					switch($estado) {
-						case "IN_PLAY":
-							$text.=$item['homeTeamName'].' '.$item['result']['goalsHomeTeam'].' - '.$item['result']['goalsAwayTeam'].' '.$item['awayTeamName'].' (En juego)'.PHP_EOL;
-							break;
-						case "TIMED":
-							$text.=$item['homeTeamName'].' - '.$item['awayTeamName'].PHP_EOL;
-							break;
-						case "FINISHED":
-							$text.=$item['homeTeamName'].' '.$item['result']['goalsHomeTeam'].' - '.$item['result']['goalsAwayTeam'].' '.$item['awayTeamName'].PHP_EOL;
-							break;
-					}
-				}
-			}
-			$response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
-            $response->text=$text;
-            $response->markdown=true;
-	
-		    $this->log->debug("Fin Resultados (".(microtime(true)-$time)." s): ");
-            return $response;
-		}
         
         private function apostadYa($endpoint, $request, $urlApi){
             $this->log->debug("Obteniedo apostadYa");
@@ -677,6 +634,36 @@
         
         private function preguntarImporte($endpoint, $request, $urlApi){
             $this->log->debug("preguntar importe ");
+        }
+        
+        private function cuantoHaPerdidoRiojas($endpoint, $request, $urlApi){
+            $result= Utils::quien_ha_perdido_mas($endpoint, $request, $urlApi);
+            $humano = Utils::get_humano_name($request->get_from_id());
+             $this->log->debug("Humano: ".$humano." - ".$request->get_from_id());
+            switch($result){
+                case 0:
+                    $text= $humano. ', de momento llevas más pasta que el cocacolitas, sigue así';
+                    return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+                    break;
+                case 1:
+                    $insulto = Utils::aleatorio(['Maldito', 'Jodido', 'Estúpido', 'Condenado', 'Retrasado', 'Podemita']);
+                    $text = $insulto.' '.$humano.', si has perdido más pasta tú ';
+                    return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+                    break;
+                case 2:
+                    $text= 'Pero mira que eres bobo gelete... No sabes ni lo que has perdido. Eres el Pedro Sánchez de las apuestas.';
+                    return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+                    break;
+                case 4:
+                    $text= 'No se ni quién eres, mejor que ni me hables muerto de hambre.';
+                    return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+                    break;
+                default:
+                    $text='Ni más ni menos que tú, parguela';
+                    return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+                    break;
+            }            
+           
         }
     }
 ?>
