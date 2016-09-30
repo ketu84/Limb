@@ -60,7 +60,96 @@
             }
         }
         
-        
+        static function quien_ha_perdido_mas($endpoint, $request,$urlApi){
+           
+            switch ($request->get_chat_id()) {
+                case ID_AGE:
+                case ID_TAPIA:
+                case ID_NANO:
+                case ID_YONI:
+                case ID_CAS: 
+                case ID_JAVI:
+                case ID_KETU:
+                case ID_PACO:
+                case ID_BARTOL:
+                case ID_VICENTE:
+                case ID_IBAN:
+                    
+                        $this->log->debug("Obteniedo clasificacion");
+                        $time = microtime(true);
+                        
+                        $response_chat_typing = Response::create_typing_response($endpoint, $request->get_chat_id());
+                        $response_chat_typing->send();
+                        
+                        $text='*Clasificación de la última fase en curso:*'.PHP_EOL.PHP_EOL;
+                        
+                        //Se obtiene la fase actual
+                        $jsonFaseActual = Utils::callApi($request, 'util/faseActual', $urlApi);
+                        $faseActual = json_decode($jsonFaseActual);
+                        
+                        $url='clasificacion/'.$faseActual->id;
+                        
+                        //Se comprueba si es un chat privado, para obtener el token del usuario
+                        if($request->is_private_chat()){
+                            $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT, $urlApi);
+                            $tokenUsuario = json_decode($jsonTokenUser, true);
+                            //var_dump($tokenUsuario);
+                            //Si hay token de usuario del chat, se invoca el comando con el token
+                           // $objeto = $tokenUsuario[0];
+                            if($tokenUsuario[0]['token']){
+                                $url='clasificacion/'.$faseActual->id.'?token='.$tokenUsuario[0]['token'];
+                            }
+                        }
+                                    
+            
+                        $json = Utils::callApi($request, $url, $urlApi);
+                        $obj = json_decode($json);
+            
+                        if(sizeof($obj)>0 && property_exists($obj[0],'error')){
+                            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
+                            $response->text=$obj[0]->error->text;
+                            $response->markdown=true;
+                            return $response;
+                        }
+                        
+                        $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT);
+                        $tokenUsuario = json_decode($jsonTokenUser, true);
+                        
+                        $nombreUsuario='';
+                        
+                        if($tokenUsuario[0]['nombre']){
+                            $nombreUsuario='?nombre='.$tokenUsuario[0]['nombre'];
+                        }
+                        
+                        $i=1;
+                        $ganadoUsuario = 0;
+                        $ganadoCocacolas = 0;
+                        foreach($obj as $valor) {
+                            if($valor->nombre=='Rio')
+                                $ganadoCocacolas = 0 + floatval($valor->ganancia);
+                            if($valor->nombre==$nombreUsuario)
+                                $ganadoUsuario = 0 + floatval($valor->ganancia);   
+                            $i++;
+                        }
+                        
+                        if($ganadoCocacolas > $ganadoUsuario)
+                            return 1;
+                            
+                         if($ganadoCocacolas < $ganadoUsuario)
+                            return 0;
+                            
+                        if($ganadoCocacolas < $ganadoUsuario)
+                            return 5;
+                        
+                    break;
+                case ID_RIOJANO:
+                    return 2;
+                    
+                default:
+                    return 4;
+                    
+            }
+        }
         
         /*
         * Devuelve true si es un usuario que solo pertenece a un grupo
