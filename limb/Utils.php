@@ -62,7 +62,7 @@
         
         static function quien_ha_perdido_mas($endpoint, $request,$urlApi){
            
-            switch ($request->get_chat_id()) {
+            switch ($request->get_from_id()) {
                 case ID_AGE:
                 case ID_TAPIA:
                 case ID_NANO:

@@ -639,7 +639,7 @@
         private function cuantoHaPerdidoRiojas($endpoint, $request, $urlApi){
             $result= Utils::quien_ha_perdido_mas($endpoint, $request, $urlApi);
             $humano = Utils::get_humano_name($request->get_from_id());
-             $this->log->debug("Humano: ".$humano." - ".$request->get_from_id());
+            $this->log->debug("Humano: ".$humano." - ".$request->get_from_id());
             switch($result){
                 case 0:
                     $text= $humano. ', de momento llevas más pasta que el cocacolitas, sigue así';
