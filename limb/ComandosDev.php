@@ -160,6 +160,25 @@
             return Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), 'ForceReply', json_encode($object));
         
         }
+        
+        private function emitirmensaje($endpoint, $request) {
+            global $TOKEN;
+            $params = $request->get_command_params();
+            if(count($params)<3) {
+
+                $texto = 'Uso /emitirmensaje token destino mensaje';
+            }
+            else if($params[0] != $TOKEN){
+                $texto = 'Token invalido';
+            }
+            else {
+                $texto = implode(" ", array_slice($params, 2));
+                $chat_id = $params[1];
+            }
+            $chat_id = isset($chat_id) ? $chat_id : $request->get_chat_id();
+            return Response::create_text_response($endpoint, $chat_id, $texto);
+        }
+        
     }
         
   
