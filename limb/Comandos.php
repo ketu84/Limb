@@ -17,11 +17,11 @@
                     $response = ComandosDev::ejecutar($func,$endpoint, $request );
                 }
                 
-                if(is_null($response)){
+                if(!isset($response)){
                     $response = ComandosLimb::ejecutar($func,$endpoint, $request );
                 }
                 
-                if(is_null($response)){
+                if(!isset($response)){
                     $response = ComandosOffTopic::ejecutar($func,$endpoint, $request );
                 }
                 
