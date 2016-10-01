@@ -420,23 +420,24 @@
             $numparams = count($params);
 
             $fecha = date('Y-m-d');
-			$competicion = "Champions";			
+			$competicion = null;			
 			if($numparams > 0 && $numparams <=2)
 			{
+			    
 			    if(Utils::IsDate($params[0]))
 			        $fecha = $params[0];
-			    else 
+			    else if(is_string($params[0]))
 			        $competicion = $params[0];
-			        
-                if(Utils::IsDate($params[1]))
+			       
+                if($numparams == 2 && Utils::IsDate($params[1]))
 			        $fecha=$params[1];
-                else 
+                else if($numparams == 2 && is_string($params[1]))
 			        $competicion = $params[1];
 			}
 			$idCompeticion = 440; // por defecto, la champions
 			switch(strtolower($competicion))
 			{
-                case 'inglaterra'. $idCompeticion = 426; break;
+                case 'inglaterra': $idCompeticion = 426; break;
                 case 'inglaterra2': $idCompeticion = 427; break;
                 case 'alemania': $idCompeticion = 430; break;
                 case 'holanda': $idCompeticion = 433; break;
