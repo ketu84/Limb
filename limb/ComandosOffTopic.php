@@ -418,11 +418,11 @@
             
             $params = $request->get_command_params();
             $numparams = count($params);
-			
+
+            $fecha = date('Y-m-d');
+			$competicion = "Champions";			
 			if($numparams > 0 && $numparams <=2)
 			{
-			    $fecha = date('Y-m-d');
-			    $competicion = "Champions";
 			    if(Utils::IsDate($params[0]))
 			        $fecha = $params[0];
 			    else 
