@@ -408,7 +408,7 @@
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }				       
 
-    private function resultados($endpoint, $request, $urlApi){
+    private function resultados($endpoint, $request){
             $this->log->debug("Resultados");
             $time = microtime(true);
 		
