@@ -463,7 +463,9 @@
 							$text.=$item['homeTeamName'].' '.$item['result']['goalsHomeTeam'].' - '.$item['result']['goalsAwayTeam'].' '.$item['awayTeamName'].' (En juego)'.PHP_EOL;
 							break;
 						case "TIMED":
-							$text.=$item['homeTeamName'].' - '.$item['awayTeamName'].PHP_EOL;
+						    $date = new DateTime($item['date'], new DateTimeZone('UTC'));
+						    $date->setTimezone(new DateTimeZone('Europe/Madrid'));
+							$text.=$item['homeTeamName'].' - '.$item['awayTeamName'].' ('.$date->format('H:i').')'.PHP_EOL;
 							break;
 						case "FINISHED":
 							$text.=$item['homeTeamName'].' '.$item['result']['goalsHomeTeam'].' - '.$item['result']['goalsAwayTeam'].' '.$item['awayTeamName'].PHP_EOL;
