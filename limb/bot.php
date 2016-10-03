@@ -15,16 +15,15 @@ Logger::configure(__DIR__ .'/../config.xml');
 $log = Logger::getLogger('com.hotelpene.limbBot.bot');
 
 $log->debug("Comienza la ejecución");
+//$log->debug("Cabeceras: ".print_r(getallheaders(), true));
 
-
-$rawMsg = file_get_contents('php://input');
-$log->debug("Mensaje: ".$rawMsg);
-
-$message = json_decode($rawMsg, true);
+$telegramAPI = !isset($_POST["token"]) || $_POST["token"]!=$TOKEN;
+$rawMsg = $telegramAPI ? file_get_contents('php://input') : $_POST;
+$log->debug("Mensaje: ".$telegramAPI ? $rawMsg : print_r($rawMsg, true));
 
 try{
     //Se procesa el mensaje recibido
-    $request = new Request($message);
+    $request = new Request($rawMsg, $telegramAPI);
     $log->debug('Request: '.$request->to_string());
     
 }catch(RequestException $e){

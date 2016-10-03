@@ -24,7 +24,19 @@
         
         private $log ;
         
-        public function __construct($message) {
+        public function __construct($message, $telegramAPI) {
+            if($telegramAPI) {
+                $message = json_decode($message, true);
+                $this->RequestTelegramAPI($message);
+            }
+            else {
+                $this->RequestPOST($message);
+            }
+        }
+        
+        
+        private function RequestTelegramAPI($message) {
+            
             $log= Logger::getLogger('com.hotelpene.limbBot.bot');
             if(is_null($message)){
                 throw new RequestException("El mensaje es nulo");
@@ -131,6 +143,56 @@
             }
             
         }
+        
+        
+        private function RequestPOST($message) {
+            
+            $log= Logger::getLogger('com.hotelpene.limbBot.bot');
+            if(is_null($message)){
+                throw new RequestException("El mensaje es nulo");
+            }
+
+            //Se obtiene el chat_id
+            if(isset($message["chat_id"])){
+                $this->chat_id=$message["chat_id"];
+            }else{
+                throw new RequestException("No hay chat_id");
+            }
+            
+            $this->from_id=$message["from_id"];
+            $this->is_chat_private=false;
+            $this->chat_type=='public'; // es public
+            
+            $this->message_type=self::TYPE_TEXT;
+            $this->message_type_desc='texto';
+            $this->text=$message["text"];
+            
+            //Se obtiene el comando
+            if((strpos($this->text,'/') !== false) && (strpos($this->text,'/')==0)){
+                
+                $finCommand=strpos($this->text,'@');
+                
+                if($finCommand===false){
+                    $finCommand=strpos($this->text,' ');
+                    if($finCommand===false){
+                        $finCommand=strlen($this->text);
+                    }else{
+                        $finCommand=$finCommand-1;
+                    }
+                }else{
+                    $finCommand=$finCommand-1;
+                }
+                
+                $this->command=strtolower(substr($this->text,1,$finCommand));
+                
+                //Se obtienen los parámetros del comando
+                $this->command_params=explode(' ',$this->text);
+                array_splice($this->command_params, 0,1);
+                
+                
+            }            
+        }
+        
         
         public function is_private_chat(){
             return $this->is_chat_private;

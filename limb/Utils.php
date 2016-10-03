@@ -558,6 +558,10 @@
                  }
             }
         }
+        
+        public static function IsDate($date) {
+            return (strtotime($date) !== false);
+        }
             
     }
 
