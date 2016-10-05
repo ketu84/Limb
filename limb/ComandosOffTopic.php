@@ -65,6 +65,14 @@
                 $file_id = 'BQADBAAD7AAD-WxHAtGrH8UmWiiXAg';
                 return Response::create_sticker_response($endpoint, $request->get_chat_id(), $file_id);
             }
+            if (strpos($request->get_command(),'bot') !== false) {
+                $file_id='BQADBAADZgEAAphMPgAB-gq0Aunt4koC';
+                return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
+            }
+            if (strpos($request->get_command(),'bot') !== false && strpos($request->get_command(),'noches') !== false) {
+                $file_id='BQADBAADaAEAAphMPgABFMy-yOPil3AC';
+                return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
+            }
             
             return $this->insultar($endpoint, $request);
         }
@@ -403,12 +411,12 @@
             return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
         }
 					       
-	private function melafo($endpoint, $request){
+    	private function melafo($endpoint, $request){
             $file_id=Utils::aleatorio(['BQADBAAD0gAECiQBmf8x2MUKMbsC', 'BQADBAAD3xgAAtwXZAeef-gdoL82-QI']);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }				       
 
-    private function resultados($endpoint, $request, $urlApi){
+        private function resultados($endpoint, $request, $urlApi){
 
             $this->log->debug("Resultados");
             $time = microtime(true);
@@ -422,22 +430,22 @@
 
             $fecha = date('Y-m-d');
 			$competicion = null;			
-			if($numparams > 0 && $numparams <=2)
-			{
+			if($numparams > 0 && $numparams <=2){
 			    
-			    if(Utils::IsDate($params[0]))
+			    if(Utils::IsDate($params[0])){
 			        $fecha = $params[0];
-			    else if(is_string($params[0]))
+			    }else if(is_string($params[0])){
 			        $competicion = $params[0];
-			       
-                if($numparams == 2 && Utils::IsDate($params[1]))
+			    }
+			    
+                if($numparams == 2 && Utils::IsDate($params[1])){
 			        $fecha=$params[1];
-                else if($numparams == 2 && is_string($params[1]))
+                }else if($numparams == 2 && is_string($params[1])){
 			        $competicion = $params[1];
+                }
 			}
 			$idCompeticion = 440; // por defecto, la champions
-			switch(strtolower($competicion))
-			{
+			switch(strtolower($competicion)){
                 case 'inglaterra': $idCompeticion = 426; break;
                 case 'inglaterra2': $idCompeticion = 427; break;
                 case 'alemania': $idCompeticion = 430; break;
