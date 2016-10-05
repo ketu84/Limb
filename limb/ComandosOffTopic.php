@@ -66,11 +66,11 @@
                 return Response::create_sticker_response($endpoint, $request->get_chat_id(), $file_id);
             }
             if (strpos($request->get_command(),'bot') !== false && strpos($request->get_command(),'noches') !== false) {
-                $audio_id='BQADBAADaAEAAphMPgABFMy-yOPil3AC';
+                $audio_id='BQADBAADcQEAAphMPgABdmsYKexJZEgC';
                 return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
             }
             if (strpos($request->get_command(),'bot') !== false) {
-                $audio_id='BQADBAADZgEAAphMPgAB-gq0Aunt4koC';
+                $audio_id=Utils::aleatorio(array('BQADBAADbwEAAphMPgABUcWq1P4OzV0C', 'BQADBAADbgEAAphMPgABj5mdNk8qdSoC','BQADBAADcgEAAphMPgABKJO0iiQdQ5gC'));
                 return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
             }
             
