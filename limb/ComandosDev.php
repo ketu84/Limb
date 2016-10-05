@@ -161,6 +161,150 @@
         
         }
         
+        private function selectcurrent($endpoint, $request){
+            
+            $currentCMDDAO = new CurrentCMDDAO();
+            $result = $currentCMDDAO->select($request->get_chat_id());
+            $text='Chatid: '.$result['chat_id'];
+            $text.='. CMD: '.$result['cmd'];
+            $text.=' fec_actividad: '.$result['fec_actividad'];
+            $text.=' grupo: '.$result['grupo'];
+            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
+            $response->text=$text;
+            return $response;
+        
+        }
+        
+         private function insertcurrent($endpoint, $request){
+            
+            $currentCMDDAO = new CurrentCMDDAO();
+            
+            $cmd = new CurrentCMDVO();
+            $cmd->chat_id=$request->get_chat_id();
+            $cmd->cmd='mear';
+            $cmd->grupo=1;
+            
+            $result = $currentCMDDAO->insert($cmd);
+            //var_dump($result);
+            $text='Insertado --Chatid: '.$result->chat_id;
+            $text.='. CMD: '.$result->cmd;
+            $text.=' fec_actividad: '.$result->fec_actividad;
+            $text.=' grupo: '.$result->grupo;
+            
+            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
+            $response->text=$text;
+            return $response;
+        
+        }
+        
+         private function updatecurrent($endpoint, $request){
+            
+            $currentCMDDAO = new CurrentCMDDAO();
+            $result = $currentCMDDAO->update($request->get_chat_id());
+            if($result){
+                $text='actualizado con exito';
+            }else{
+                $text='Error al actualizar';
+            }
+            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
+            $response->text=$text;
+            return $response;
+        
+        }
+        
+         private function deletecurrent($endpoint, $request){
+            
+            $currentCMDDAO = new CurrentCMDDAO();
+            $result = $currentCMDDAO->delete($request->get_chat_id());
+            $text='';
+            if($result){
+                $text='Borrando con exito';
+            }else{
+                $text='Error al borrar';
+            }
+            
+            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
+            $response->text=$text;
+            return $response;
+        
+        }
+        
+        private function selectapostar($endpoint, $request){
+            
+            $apostarCMDDAO = new ApostarCMDDAO();
+            $result = $apostarCMDDAO->select($request->get_chat_id());
+            $text='Chatid: '.$result['chat_id'];
+            $text.='. descrip: '.$result['descrip'];
+            $text.=' importe: '.$result['importe'];
+            $text.=' partido: '.$result['partido'];
+            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
+            $response->text=$text;
+            return $response;
+        
+        }
+        
+         private function insertapostar($endpoint, $request){
+            
+            $apostarCMDDAO = new ApostarCMDDAO();
+            
+            $cmd = new ApostarCMDVO();
+            $cmd->chat_id=$request->get_chat_id();
+            $cmd->descrip='ambos marcan';
+            $cmd->importe=1.34;
+            $cmd->partido=25;
+            
+            $result = $apostarCMDDAO->insert($cmd);
+            //var_dump($result);
+            $text='Insertado --Chatid: '.$result->chat_id;
+            $text.='. descrip: '.$result->descrip;
+            $text.=' importe: '.$result->importe;
+            $text.=' partido: '.$result->partido;
+            
+            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
+            $response->text=$text;
+            return $response;
+        
+        }
+        
+         private function updateapostar($endpoint, $request){
+            
+            $cmd = new ApostarCMDVO();
+            $cmd->chat_id=$request->get_chat_id();
+            $cmd->descrip='ambos marcan por los cojones';
+            $cmd->importe=2.34;
+            $cmd->partido=27;
+            
+            
+            $apostarCMDDAO = new ApostarCMDDAO();
+            $result = $apostarCMDDAO->update($cmd);
+            if($result){
+                $text='actualizado con exito';
+            }else{
+                $text='Error al actualizar';
+            }
+            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
+            $response->text=$text;
+            return $response;
+        
+        }
+        
+         private function deleteapostar($endpoint, $request){
+            
+            $apostarCMDDAO = new ApostarCMDDAO();
+            $result = $apostarCMDDAO->delete($request->get_chat_id());
+            $text='';
+            if($result){
+                $text='Borrando con exito';
+            }else{
+                $text='Error al borrar';
+            }
+            
+            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
+            $response->text=$text;
+            return $response;
+        
+        }
+        
         private function emitirmensaje($endpoint, $request) {
             global $TOKEN;
             $params = $request->get_command_params();

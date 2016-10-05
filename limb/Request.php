@@ -222,8 +222,16 @@
             return $this->command_params;
         }
         
+        public function set_command_params($params){
+            $this->command_params=$params;
+        }
+        
         public function get_from_id(){
             return $this->from_id;
+        }
+        
+        public function get_text(){
+            return $this->text;
         }
         
         public function to_string(){

@@ -501,6 +501,7 @@
             return $result;
         }
         
+        
         static function urlTokenUsuario($request){
             $finUrl='';
             

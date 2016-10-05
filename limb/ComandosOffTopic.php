@@ -416,7 +416,7 @@
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }				       
 
-        private function resultados($endpoint, $request, $urlApi){
+        private function resultados($endpoint, $request){
 
             $this->log->debug("Resultados");
             $time = microtime(true);
@@ -446,18 +446,40 @@
 			}
 			$idCompeticion = 440; // por defecto, la champions
 			switch(strtolower($competicion)){
-                case 'inglaterra': $idCompeticion = 426; break;
-                case 'inglaterra2': $idCompeticion = 427; break;
-                case 'alemania': $idCompeticion = 430; break;
-                case 'holanda': $idCompeticion = 433; break;
-                case 'españa': $idCompeticion = 436; break;
-                case 'españa2': $idCompeticion = 437; break;
-                case 'francia': $idCompeticion = 434; break;
-                case 'francia2': $idCompeticion = 435; break;
-                case 'italia': $idCompeticion = 438; break;
-                case 'portugal': $idCompeticion = 439; break;
-                default: $competicion = 'champions';
+                case 'inglaterra': 
+                    $idCompeticion = 426; 
+                    break;
+                case 'inglaterra2': 
+                    $idCompeticion = 427; 
+                    break;
+                case 'alemania': 
+                    $idCompeticion = 430; 
+                    break;
+                case 'holanda': 
+                    $idCompeticion = 433; 
+                    break;
+                case 'españa': 
+                    $idCompeticion = 436; 
+                    break;
+                case 'españa2': 
+                    $idCompeticion = 437; 
+                    break;
+                case 'francia':
+                    $idCompeticion = 434; 
+                    break;
+                case 'francia2': 
+                    $idCompeticion = 435; 
+                    break;
+                case 'italia': 
+                    $idCompeticion = 438; 
+                    break;
+                case 'portugal': 
+                    $idCompeticion = 439; 
+                    break;
+                default: 
+                    $competicion = 'champions';
 			}
+			
 			$competicion = str_replace('2', ' 2', ucfirst($competicion));
 			$fechaFormateada = date('d/m/Y', strtotime($fecha));
 			

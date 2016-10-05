@@ -17,12 +17,15 @@
                 $grupo = '';
                 
                 $params = $request->get_command_params();
+                
                 if(count($params)==0){
                     $grupoAux = Utils::get_grupo($endpoint, $request, $func);
-                    if($grupoAux instanceof Response)   {
+                    if($grupoAux instanceof Response) {
                         return $grupoAux;
                     }else{
                         $grupo=$grupoAux;
+                        array_push($params, $grupo);
+                        $request->set_command_params($params);
                     }
                     
                 }else{
@@ -564,31 +567,40 @@
         
         private function apostar($endpoint, $request, $urlApi){
             //Se comprueba si es un chat privado, para obtener el token del usuario
+            $text='';
             if($request->is_private_chat()){
-
                 $params = $request->get_command_params();
-                switch (count($params)) {
-                    case 1: //Hay Grupo
-                        return self::preguntarPartido($endpoint, $request, $urlApi);
-                        break;
-                    case 2: //Hay partido
-                        self::preguntarImporte($endpoint, $request, $urlApi);
-                        break;
-                    case 3: //Hay importe
-                        break;
+                    
+                $currentCMDDAO = new CurrentCMDDAO();
+                $result = $currentCMDDAO->select($request->get_chat_id());
+                if($result!=null){
+                    //Si hay comando en curso, se borra y se inserta este
+                    $currentCMDDAO->delete($request->get_chat_id());
                 }
-
-
-
                 
+                $cmd=new CurrentCMDVO();
+                $cmd->chat_id=$request->get_chat_id();
+                $cmd->cmd='apostar';
+                if($params[0]=='ChampionsLimb'){
+                    $cmd->grupo=0;
+                }else{
+                    $cmd->grupo=1;
+                }
                 
+                $resultInsertCMD = $currentCMDDAO->insert($cmd);
+    
+                $apostarCMDDAO = new ApostarCMDDAO();
+                $cmd = new ApostarCMDVO();
+                $cmd->chat_id=$request->get_chat_id();
+                $resultInsertApostarCMD = $apostarCMDDAO->insert($cmd);
+                
+                $this->log->debug("apostar al grupo: ".$params[0]);
+                return self::preguntarPartido($endpoint, $request, $urlApi);
+                  
             }else{
                 $text = 'Esto solo se puede usar en privado, nigga!!';
             }
             
-            if($text==''){
-                $text='No tienes partidos pendientes';
-            }
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
         }
         
@@ -617,23 +629,23 @@
                         $fechaaux=$fecha;
                     }
                     $text.='*     '.substr($part->hora,0,5).': *'.$part->local->nombre_corto.' vs '.$part->visitante->nombre_corto.PHP_EOL;
-                    
-                    $InlineKeyboardButton=new stdClass();
-                    $InlineKeyboardButton->text=substr($part->hora,0,5).': '.$part->local->nombre_corto.' vs '.$part->visitante->nombre_corto;
-                    $InlineKeyboardButton->callback_data='/apostar '.$params[0].' '.$part->id;
-                    
-                    array_push($arr, $InlineKeyboardButton);
-                    
+                    array_push($arr, [$part->id.' | '.substr($part->hora,0,5).': '.$part->local->nombre_corto.' vs '.$part->visitante->nombre_corto]);
                 }
-                $inline_keyboard = new stdClass();
-                $inline_keyboard->inline_keyboard = [$arr];
                 
-                return Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($inline_keyboard));
+                if(count($arr)==0){
+                    $text='No tienes partidos pendientes';
+                    return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+                }else{
+                    $object = new stdClass();
+                    $object->keyboard = $arr;
+                    $object->resize_keyboard=true;
+                    $object->one_time_keyboard=true;
+                    return  Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
+                }
+            }else{
+                $text='No he podido identificarte, cama';
+                return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
             }
-        }
-        
-        private function preguntarImporte($endpoint, $request, $urlApi){
-            $this->log->debug("preguntar importe ");
         }
         
         private function cuantoHaPerdidoRiojas($endpoint, $request, $urlApi){
