@@ -74,7 +74,23 @@
                 return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
             }
             
-            return $this->insultar($endpoint, $request);
+            //El comando no existe
+            $index = rand(0,2);
+
+            switch($index) {
+                case 0: 
+                    return $this->insultar($endpoint, $request);
+                case 1:
+                    $audio_id='BQADBAADjwEAAphMPgABSEw32ygsbFIC';
+                    return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
+                case 2:
+                    $audio_id='BQADBAADiwEAAphMPgABaFOwoeYdAUkC';
+                    return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
+            }
+            
+            
+            
+            
         }
        
          
