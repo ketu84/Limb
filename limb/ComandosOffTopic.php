@@ -66,12 +66,12 @@
                 return Response::create_sticker_response($endpoint, $request->get_chat_id(), $file_id);
             }
             if (strpos($request->get_command(),'bot') !== false) {
-                $file_id='BQADBAADZgEAAphMPgAB-gq0Aunt4koC';
+                $audio_id='BQADBAADZgEAAphMPgAB-gq0Aunt4koC';
                 return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
             }
             if (strpos($request->get_command(),'bot') !== false && strpos($request->get_command(),'noches') !== false) {
-                $file_id='BQADBAADaAEAAphMPgABFMy-yOPil3AC';
-                return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
+                $audio_id='BQADBAADaAEAAphMPgABFMy-yOPil3AC';
+                return Response::create_audio_response($endpoint, $request->get_chat_id(), $file_id);
             }
             
             return $this->insultar($endpoint, $request);
