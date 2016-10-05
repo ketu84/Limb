@@ -3,6 +3,7 @@
     
     require_once __DIR__ . '/ComandosDev.php';
     require_once __DIR__ . '/ComandosLimb.php';
+    require_once __DIR__ . '/ComandosFutbol.php';
     require_once __DIR__ . '/ComandosOffTopic.php';
     
     
@@ -31,6 +32,10 @@
                 
                 if(!isset($response)){
                     $response = ComandosLimb::ejecutar($func,$endpoint, $request );
+                }
+                
+                if(!isset($response)){
+                    $response = ComandosFutbol::ejecutar($func,$endpoint, $request );
                 }
                 
                 if(!isset($response)){
