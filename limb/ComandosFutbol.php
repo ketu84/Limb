@@ -95,7 +95,7 @@
 			$fechaFormateada = date('d/m/Y', strtotime($fecha));
 			
 			$apiurl = 'http://api.football-data.org/v1/competitions/'.$idCompeticion.'/fixtures';
-
+            $this->log->debug("URL ".$apiurl);
 			$content = file_get_contents($apiurl);
 			$json = json_decode($content, true);
 			foreach($json['fixtures'] as $item) {
@@ -106,7 +106,7 @@
 							$text.=$item['homeTeamName'].' '.$item['result']['goalsHomeTeam'].' - '.$item['result']['goalsAwayTeam'].' '.$item['awayTeamName'].' (En juego)'.PHP_EOL;
 							break;
 						case "TIMED":
-
+                        case "SCHEDULED":
 						    $date = new DateTime($item['date'], new DateTimeZone('UTC'));
 						    $date->setTimezone(new DateTimeZone('Europe/Madrid'));
 							$text.=$item['homeTeamName'].' - '.$item['awayTeamName'].' ('.$date->format('H:i').')'.PHP_EOL;
