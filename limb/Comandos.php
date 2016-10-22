@@ -50,12 +50,32 @@
                 $currentCMDDAO = new CurrentCMDDAO();
                 $currentCMD = $currentCMDDAO->select($request->get_chat_id());
                 
+                if($currentCMD['grupo']==null){
+                    $grupoDAO = new GrupoDAO();
+                    $grupoVO=$grupoDAO->selectByNombre($request->get_text());
+                    if($grupoVO!=null){
+                        $currentCMDDAO->updateGrupo($request->get_chat_id(), $grupoVO->id);
+                    
+                        $func = $currentCMD['cmd'];
+                        return $response = ComandosLimb::ejecutar($func,$endpoint, $request );
+                    } 
+                }
+                
                 if($currentCMD!=null){
                     $logStatic->debug("Hay un comando en marcha: ".$currentCMD['cmd']);
                     
                     if($currentCMD['cmd']=='apostar'){
                         $apostarCMD = new ApostarCMD();
                         return $apostarCMD->apostar($endpoint, $request, $currentCMD );
+                    }else{
+                        $grupoDAO = new GrupoDAO();
+                        $grupoVO=$grupoDAO->selectByNombre($request->get_text());
+                        if($grupoVO!=null){
+                            $currentCMDDAO->updateGrupo($request->get_chat_id(), $grupoVO->id);
+                        
+                            $func = $currentCMD['cmd'];
+                            return $response = ComandosLimb::ejecutar($func,$endpoint, $request );
+                        }
                     }
                     
                 }else{

@@ -64,6 +64,22 @@
             return true;
         }
         
+        public function updateGrupo($chatid, $grupo){
+            $this->log->debug("Actualizando grupo cmd, grupo: ".$grupo);
+            
+            $db = Database::getInstance();
+            $dbCon = $db->getConnection();
+    
+            $consulta=$dbCon->prepare("UPDATE CMD_CURRENT SET grupo=:grupo WHERE chat_id=:chat_id");
+            $estado=$consulta->execute(
+                array(
+                    'grupo'=>$grupo,
+                    'chat_id'=> $chatid
+                    )
+                );
+            return true;
+        }
+        
         public function delete($chatid){
             $this->log->debug("Eliminando current cmd: ".$chatid);
             

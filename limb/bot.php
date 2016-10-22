@@ -13,6 +13,8 @@ require_once __DIR__ . '/Comandos.php';
 require_once __DIR__ . '/database.php';
 require_once __DIR__ . '/dao/currentCMDDAO.php';
 require_once __DIR__ . '/dao/apostarCMDDAO.php';
+require_once __DIR__ . '/dao/chatDAO.php';
+require_once __DIR__ . '/dao/grupoDAO.php';
 require_once __DIR__ . '/ApostarCMD.php';
 
 Logger::configure(__DIR__ .'/../config.xml');

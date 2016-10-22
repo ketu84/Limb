@@ -5,61 +5,6 @@
             return iconv('UCS-4LE', 'UTF-8', pack('V', $utf8));
         }
         
-        static function get_url_api($request){
-           
-            switch ($request->get_chat_id()) {
-                case ID_AGE:
-                case ID_TAPIA:
-                case ID_NANO:
-                case ID_YONI:
-                case ID_CAS: 
-                case ID_JAVI:
-                case ID_KETU:
-                case ID_PACO:
-                case ID_RIOJANO:
-                case ID_BARTOL:
-                case ID_VICENTE:
-                case ID_IBAN:
-                case GUSLIMB_GROUPID:
-                    return GUSLIMB_URL_API;
-                    break;
-                
-                case CHAMPIONSLIMB_GROUPID:
-                    return CHAMPIONSLIMB_URL_API;
-                    break;
-                default:
-                    return null;
-                    break;
-            }
-        }
-        
-        static function get_url_web($request){
-           
-            switch ($request->get_chat_id()) {
-                case ID_AGE:
-                case ID_TAPIA:
-                case ID_NANO:
-                case ID_YONI:
-                case ID_CAS: 
-                case ID_JAVI:
-                case ID_KETU:
-                case ID_PACO:
-                case ID_RIOJANO:
-                case ID_BARTOL:
-                case ID_VICENTE:
-                case ID_IBAN:
-                case GUSLIMB_GROUPID:
-                    return GUSLIMB_URL;
-                    break;
-                case CHAMPIONSLIMB_GROUPID:
-                    return CHAMPIONSLIMB_URL;
-                    break;
-                default:
-                    return null;
-                    break;
-            }
-        }
-        
         static function quien_ha_perdido_mas($endpoint, $request,$urlApi){
            
             switch ($request->get_from_id()) {
@@ -141,22 +86,6 @@
                 default:
                     return 4;
                     
-            }
-        }
-        
-        /*
-        * Devuelve true si es un usuario que solo pertenece a un grupo
-        */
-        static function usuarios_simples($chat_id){
-            switch ($chat_id) {
-                case ID_AGE:
-                case ID_TAPIA:
-                case ID_NANO:
-                    return false;
-                    break;
-                default:
-                    return true;
-                    break;
             }
         }
         
@@ -518,52 +447,28 @@
             return $finUrl;
         }
         
-        
-        static function get_grupo($endpoint,$request, $comando_original){
+        static function pregunta_grupo($endpoint,$request){
+            $chatDao = new ChatDAO();
+            $arrGrupos = $chatDao->selectGruposChat($request->get_chat_id());
             
-            if(!self::usuarios_simples($request->get_chat_id())){
-                $InlineKeyboardButton=new stdClass();
-                $InlineKeyboardButton->text='ChampionsLimb';
-                $InlineKeyboardButton->callback_data='/'.$comando_original.' ChampionsLimb';
-                
-                $InlineKeyboardButton2=new stdClass();
-                $InlineKeyboardButton2->text='GusLimb';
-                $InlineKeyboardButton2->callback_data='/'.$comando_original.' GusLimb';
-                
-                $inline_keyboard = new stdClass();
-                $arr = Array($InlineKeyboardButton, $InlineKeyboardButton2);
-                $inline_keyboard->inline_keyboard = [$arr];
-                
-                return Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), 'Dime el grupo, pringao!', json_encode($inline_keyboard));
-                
-            }else{
-                switch ($request->get_chat_id()) {
-                    case ID_YONI:
-                    case ID_CAS: 
-                    case ID_JAVI:
-                    case ID_KETU:
-                    case ID_PACO:
-                    case ID_RIOJANO:
-                    case ID_BARTOL:
-                    case ID_VICENTE:
-                    case ID_IBAN:
-                    case GUSLIMB_GROUPID:
-                        return "GusLimb";
-                        break;
-                    case CHAMPIONSLIMB_GROUPID:
-                        return "ChampionsLimb";
-                        break;
-                    default:
-                        return null;
-                    
-                 }
+            $arrButtons=Array();
+            foreach($arrGrupos as $grupo){
+                array_push($arrButtons, [$grupo->nombre]);
             }
-        }
+            
+            $inline_keyboard = new stdClass();
+            $inline_keyboard->keyboard = $arrButtons;
+            $inline_keyboard->resize_keyboard=true;
+            $inline_keyboard->one_time_keyboard=true;
+            
+            return Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), 'Dime el grupo, pringao!', json_encode($inline_keyboard));
+        } 
+       
         
         public static function IsDate($date) {
             return (strtotime($date) !== false);
         }
             
     }
-
+    
 ?>

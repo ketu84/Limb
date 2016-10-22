@@ -4,41 +4,45 @@
         private $log;
         
         static function ejecutar($func,$endpoint, $request){
-            
             //Si el usuario o grupo no está configurado para Limb, se sale de estos comandos
-            $urlApi=Utils::get_url_api($request);
-            if(is_null($urlApi)){
-                return null;
-            }
             
             if(method_exists('ComandosLimb',$func)){
                 $command = new ComandosLimb();
                 
-                $grupo = '';
+                $chatDAO = new ChatDAO();
                 
-                $params = $request->get_command_params();
-                
-                if(count($params)==0){
-                    $grupoAux = Utils::get_grupo($endpoint, $request, $func);
-                    if($grupoAux instanceof Response) {
-                        return $grupoAux;
-                    }else{
-                        $grupo=$grupoAux;
-                        array_push($params, $grupo);
-                        $request->set_command_params($params);
+                $chat =$chatDAO->select($request->get_chat_id());
+                //Si el chat tiene asociado un solo grupo, se establece ese
+                if(sizeof($chat->arrGrupo)==1){
+                    return $command->$func($endpoint, $request,$chat->arrGrupo[0]);
+                }elseif(sizeof($chat->arrGrupo)>1){
+                    $currentCMDDAO = new CurrentCMDDAO();
+                    $result = $currentCMDDAO->select($request->get_chat_id());
+                    if($result!=null){
+                        if($result['grupo']!=null){
+                             //Obtener datos grupo
+                            $grupoDAO = new GrupoDAO();
+                            $grupoVO=$grupoDAO->select($result['grupo']);
+                            
+                            $currentCMDDAO->delete($request->get_chat_id());
+                            return $command->$func($endpoint, $request,$grupoVO);
+                        }
+                        //Si hay comando en curso, se borra y se inserta este
+                        $currentCMDDAO->delete($request->get_chat_id());
                     }
                     
+                    $cmd=new CurrentCMDVO();
+                    $cmd->chat_id=$request->get_chat_id();
+                    $cmd->cmd=$func;
+                    $resultInsertCMD = $currentCMDDAO->insert($cmd);
+
+                    //se pregunta por el grupo
+                    return Utils::pregunta_grupo($endpoint, $request);
+                    
                 }else{
-                    $grupo=$params[0];
+                    //El chat no está dado de alta
+                    return null;
                 }
-                
-                if($grupo=='ChampionsLimb'){
-                    $urlApi = CHAMPIONSLIMB_URL_API;
-                }else{
-                    $urlApi = GUSLIMB_URL_API;
-                }
-                
-                return $command->$func($endpoint, $request, $urlApi);
             }
             return null;
         }
@@ -49,9 +53,11 @@
         }
         
         
-        private function clasificacion($endpoint, $request,$urlApi){
+        private function clasificacion($endpoint, $request, $grupoVO){
             $this->log->debug("Obteniedo clasificacion");
             $time = microtime(true);
+            
+            $urlApi=$grupoVO->url_api;
             
             $response_chat_typing = Response::create_typing_response($endpoint, $request->get_chat_id());
             $response_chat_typing->send();
@@ -111,9 +117,11 @@
             return $response;
         }
         
-        private function clasificacionJornada($endpoint, $request,$urlApi){
+        private function clasificacionJornada($endpoint, $request,$grupoVO){
             $this->log->debug("Obteniedo clasificacion de jornada");
             $time = microtime(true);
+            
+            $urlApi=$grupoVO->url_api;
             
             $response_chat_typing = Response::create_typing_response($endpoint, $request->get_chat_id());
             $response_chat_typing->send();
@@ -173,10 +181,10 @@
             return $response;
         }
         
-        private function prox_jornada($endpoint, $request, $urlApi){
+        private function prox_jornada($endpoint, $request,$grupoVO){
             $this->log->debug("Obteniedo Próxima jornada");
             $time = microtime(true);
-            
+            $urlApi=$grupoVO->url_api;
             
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
             $response->chat_action='typing';
@@ -228,9 +236,10 @@
             return $response;
         }
         
-        private function apuestas($endpoint, $request, $urlApi){
+        private function apuestas($endpoint, $request,$grupoVO){
             $this->log->debug("Obteniedo apuestas");
             $time = microtime(true);
+            $urlApi=$grupoVO->url_api;
             
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
             $response->chat_action='typing';
@@ -332,9 +341,10 @@
             return $response;
         }
         
-        private function euros($endpoint, $request, $urlApi){
+        private function euros($endpoint, $request,$grupoVO){
             $this->log->debug("Obteniedo euros");
             $time = microtime(true);
+            $urlApi=$grupoVO->url_api;
             
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
             $response->chat_action='typing';
@@ -383,9 +393,10 @@
             return $response;
         }
         
-        private function apostadYa($endpoint, $request, $urlApi){
+        private function apostadYa($endpoint, $request,$grupoVO){
             $this->log->debug("Obteniedo apostadYa");
             $time = microtime(true);
+            $urlApi=$grupoVO->url_api;
             
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
             $response->chat_action='typing';
@@ -455,36 +466,14 @@
             return $response;
         }
         
-        private function web($endpoint, $request){
-            
-            $grupo = '';
-            
-            $params = $request->get_command_params();
-            if(count($params)==0){
-                $grupoAux = Utils::get_grupo($endpoint, $request, 'web');
-                if($grupoAux instanceof Response)   {
-                    return $grupoAux;
-                }else{
-                    $grupo=$grupoAux;
-                }
-                
-            }else{
-                $grupo=$params[0];
-            }
-            
-            if($grupo=='ChampionsLimb'){
-                $text = CHAMPIONSLIMB_URL;
-            }else{
-                $text = GUSLIMB_URL;
-            }
-            
-            $object = new stdClass();
-            $object->hide_keyboard =true;
-            return Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
-            
+        private function web($endpoint, $request,$grupoVO){
+            $url =$grupoVO->url_web;
+            return Response::create_text_response($endpoint,  $request->get_chat_id(), $url);
         }
         
-        private function mispartidos($endpoint, $request, $urlApi){
+        private function mispartidos($endpoint, $request,$grupoVO){
+            
+            $urlApi=$grupoVO->url_api;
             
             //Se comprueba si es un chat privado, para obtener el token del usuario
             if($request->is_private_chat()){
@@ -565,11 +554,11 @@
             return $text;
         }
         
-        private function apostar($endpoint, $request, $urlApi){
+        private function apostar($endpoint, $request,$grupoVO){
+            $urlApi=$grupoVO->url_api;
             //Se comprueba si es un chat privado, para obtener el token del usuario
             $text='';
             if($request->is_private_chat()){
-                $params = $request->get_command_params();
                     
                 $currentCMDDAO = new CurrentCMDDAO();
                 $result = $currentCMDDAO->select($request->get_chat_id());
@@ -581,11 +570,7 @@
                 $cmd=new CurrentCMDVO();
                 $cmd->chat_id=$request->get_chat_id();
                 $cmd->cmd='apostar';
-                if($params[0]=='ChampionsLimb'){
-                    $cmd->grupo=0;
-                }else{
-                    $cmd->grupo=1;
-                }
+                $cmd->grupo=$grupoVO->id;
                 
                 $resultInsertCMD = $currentCMDDAO->insert($cmd);
     
@@ -594,7 +579,7 @@
                 $cmd->chat_id=$request->get_chat_id();
                 $resultInsertApostarCMD = $apostarCMDDAO->insert($cmd);
                 
-                $this->log->debug("apostar al grupo: ".$params[0]);
+                $this->log->debug("apostar al grupo: ".$grupoVO->nombre);
                 return self::preguntarPartido($endpoint, $request, $urlApi);
                   
             }else{
@@ -607,7 +592,6 @@
         
         private function preguntarPartido($endpoint, $request, $urlApi){
             $this->log->debug("preguntar partidos ");
-            $params = $request->get_command_params();
             $text='';
             
             $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT, $urlApi);
@@ -648,7 +632,9 @@
             }
         }
         
-        private function cuantoHaPerdidoRiojas($endpoint, $request, $urlApi){
+        private function cuantoHaPerdidoRiojas($endpoint, $request,$grupoVO){
+            $urlApi=$grupoVO->url_api;
+            
             $result= Utils::quien_ha_perdido_mas($endpoint, $request, $urlApi);
             $humano = Utils::get_humano_name($request->get_from_id());
             $this->log->debug("Humano: ".$humano." - ".$request->get_from_id());
