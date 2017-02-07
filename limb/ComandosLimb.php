@@ -62,11 +62,12 @@
             $response_chat_typing = Response::create_typing_response($endpoint, $request->get_chat_id());
             $response_chat_typing->send();
             
-            $text='*Clasificación de la última fase en curso:*'.PHP_EOL.PHP_EOL;
             
             //Se obtiene la fase actual
-            $jsonFaseActual = Utils::callApi($request, 'util/faseActual', $urlApi);
+            $jsonFaseActual = Utils::callApi($request, 'util/faseActualClasif', $urlApi);
             $faseActual = json_decode($jsonFaseActual);
+            
+            $text='*Clasificación de la última fase en curso ('.$faseActual->titulo.'):*'.PHP_EOL.PHP_EOL;
             
             $url='clasificacion/'.$faseActual->id;
             
