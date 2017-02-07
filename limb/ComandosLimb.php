@@ -491,7 +491,11 @@
             if($text==''){
                 $text='No tienes partidos pendientes';
             }
-            return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+            
+            $object = new stdClass();
+            $object->hide_keyboard =true;
+            $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
+            return $response;
         }
         
         
