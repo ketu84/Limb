@@ -88,9 +88,9 @@
             $obj = json_decode($json);
 
             if(sizeof($obj)>0 && property_exists($obj[0],'error')){
-                $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
-                $response->text=$obj[0]->error->text;
-                $response->markdown=true;
+                $object = new stdClass();
+                $object->hide_keyboard =true;
+                $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $obj[0]->error->text, json_encode($object));
                 return $response;
             }
             
@@ -110,16 +110,9 @@
             	$i++;
             }
             
-            /*
-            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
-            $response->text=$text;
-            $response->markdown=true;
-            */
-            /*******************/
             $object = new stdClass();
             $object->hide_keyboard =true;
             $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
-            /********************/
             
             $this->log->debug("Fin Obteniedo Clasificación (".(microtime(true)-$time)." s): ");
             return $response;
@@ -160,9 +153,9 @@
             $obj = json_decode($json);
 
             if(sizeof($obj)>0 && property_exists($obj[0],'error')){
-                $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
-                $response->text=$obj[0]->error->text;
-                $response->markdown=true;
+                $object = new stdClass();
+                $object->hide_keyboard =true;
+                $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $obj[0]->error->text, json_encode($object));
                 return $response;
             }
             
@@ -182,9 +175,9 @@
             	$i++;
             }
             
-            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
-            $response->text=$text;
-            $response->markdown=true;
+            $object = new stdClass();
+            $object->hide_keyboard =true;
+            $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
             
             $this->log->debug("Fin Obteniedo Clasificación fase y jornada (".(microtime(true)-$time)." s): ");
             return $response;
@@ -237,9 +230,9 @@
                 $text='*Próxima jornada '.$fecha.':* '.PHP_EOL.$text;
             }
             
-            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
-            $response->text=$text;
-            $response->markdown=true;
+            $object = new stdClass();
+            $object->hide_keyboard =true;
+            $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
             
             $this->log->debug("Fin Obteniedo Próxima jornada (".(microtime(true)-$time)." s): ");
             return $response;
@@ -342,9 +335,9 @@
                 $text='*No hay próximos partidos*'.PHP_EOL;
             }
             
-            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
-            $response->text=$text;
-            $response->markdown=true;
+            $object = new stdClass();
+            $object->hide_keyboard =true;
+            $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
             
             $this->log->debug("Fin Obteniedo apuestas (".(microtime(true)-$time)." s): ");
             return $response;
@@ -378,9 +371,9 @@
             $obj = json_decode($json);
             
             if(is_array($obj) && property_exists($obj[0],'error')){
-                $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
-                $response->text=$obj[0]->error->text;
-                $response->markdown=true;
+                $object = new stdClass();
+                $object->hide_keyboard =true;
+                $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $obj[0]->error->text, json_encode($object));
                 return $response;
             }
             $jugado = 0 + floatval($obj->jugado);
@@ -394,9 +387,9 @@
             $text.='Ganado: '.round($ganado,2).'€'.PHP_EOL;
             $text.='Yield: '.round($yield,2).'%'.PHP_EOL;
             
-            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
-            $response->text=$text;
-            $response->markdown=true;
+            $object = new stdClass();
+            $object->hide_keyboard =true;
+            $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
             
             $this->log->debug("Fin Obteniedo euros (".(microtime(true)-$time)." s): ");
             return $response;
@@ -467,9 +460,9 @@
                 $text.="Han apostado todos". PHP_EOL;
             }
             
-            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
-            $response->text=$text;
-            $response->markdown=true;
+            $object = new stdClass();
+            $object->hide_keyboard =true;
+            $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
             
             $this->log->debug("Fin Obteniedo apostadYa (".(microtime(true)-$time)." s): ");
             return $response;
