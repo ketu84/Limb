@@ -470,7 +470,11 @@
         
         private function web($endpoint, $request,$grupoVO){
             $url =$grupoVO->url_web;
-            return Response::create_text_response($endpoint,  $request->get_chat_id(), $url);
+            
+            $object = new stdClass();
+            $object->hide_keyboard =true;
+            $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $url, json_encode($object));
+            return $response;
         }
         
         private function mispartidos($endpoint, $request,$grupoVO){
