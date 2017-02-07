@@ -67,7 +67,7 @@
             $jsonFaseActual = Utils::callApi($request, 'util/faseActualClasif', $urlApi);
             $faseActual = json_decode($jsonFaseActual);
             
-            $text='*Clasificación de la última fase en curso ('.$faseActual->titulo.'):*'.PHP_EOL.PHP_EOL;
+            $text='*Clasificación de la últ. fase ('.$faseActual->titulo.'):*'.PHP_EOL.PHP_EOL;
             
             $url='clasificacion/'.$faseActual->id;
             
