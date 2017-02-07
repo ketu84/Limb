@@ -110,9 +110,16 @@
             	$i++;
             }
             
+            /*
             $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
             $response->text=$text;
             $response->markdown=true;
+            */
+            /*******************/
+            $object = new stdClass();
+            $object->hide_keyboard =true;
+            $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
+            /********************/
             
             $this->log->debug("Fin Obteniedo Clasificación (".(microtime(true)-$time)." s): ");
             return $response;
