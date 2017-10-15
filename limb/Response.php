@@ -11,6 +11,7 @@
         const TYPE_VOICE = 7;
         const TYPE_CHAT_ACTION = 8;
         const TYPE_KEYBOARD = 9;
+        const TYPE_DELETE = 10;
         
         private $chat_id;
         private $endpoint;
@@ -22,6 +23,7 @@
         public $chat_action;
         public $caption;
         public $reply_markup;
+        public $message_id;
         
         /**
          * Crea un objeto Response de tipo Text, con el markdown activado.
@@ -107,6 +109,15 @@
             return $response;
         }
         
+        /**
+         * Crea un objeto Response de tipo Delete Message.
+        */
+        static function create_delete_response($endpoint, $chat_id, $message_id){
+            $response = new Response($endpoint, $chat_id, self::TYPE_DELETE);
+            $response->message_id=$message_id;
+            return $response;
+        }
+        
         public function __construct($endpoint, $chat_id, $type){
             $this->endpoint=$endpoint;
             $this->chat_id=$chat_id;
@@ -163,6 +174,10 @@
                 case self::TYPE_CHAT_ACTION:
                     $data["action"]=$this->chat_action;
                     $accion='/sendChatAction';
+	                break;
+	            case self::TYPE_DELETE:
+	                $data["message_id"]=$this->message_id;
+                    $accion='/deleteMessage';
 	                break;
 	                
             }
