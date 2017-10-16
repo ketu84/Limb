@@ -31,7 +31,7 @@ if(isset($_POST["texto"]) && isset($_POST["chat"]) && isset($_POST["token"])){
     
     if($token == $TOKEN){
         $log->debug("enviando gif");
-        $file_id='CgADBAADkwEAAo7VIFMwmeogqapHfAI';
+        $file_id='CgADBAADWwIAAvbxKFOg2mQnmjb4lAI';
         $response= Response::create_doc_response($endpoint, $chat, $file_id);
         $resultado = $response->send();
         $result = json_decode($resultado, true);
@@ -55,6 +55,7 @@ if(isset($_POST["texto"]) && isset($_POST["chat"]) && isset($_POST["token"])){
                 
                 if($result["ok"]){
                     $log->info('Respuesta sorteo enviada correctamente');
+                    echo '{"error": false}';
                 }else{
                     $log->error('Borrado: Error al enviar la respuesta. ErroCode: '.$result["error_code"] . '. description: '.$result["description"]);
                     echo '{"error":true, "desc":"'.$result["description"].'"}';
@@ -85,4 +86,3 @@ if(isset($_POST["texto"]) && isset($_POST["chat"]) && isset($_POST["token"])){
 
 
 ?>
-
