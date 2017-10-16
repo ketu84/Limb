@@ -48,6 +48,7 @@ if($request->get_message_type()==Request::TYPE_TEXT){
         $resultado = $response->send();
 
         $result = json_decode($resultado, true);
+	$log->info($resultado);
         if($result["ok"]){
             $log->info('Respuesta enviada correctamente');
         }else{
