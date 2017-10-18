@@ -28,47 +28,65 @@ if(isset($_POST["texto"]) && isset($_POST["chat"]) && isset($_POST["token"])){
     $texto =$_POST["texto"];
     $chat =$_POST["chat"];
     $token =$_POST["token"];
+    $aviso_admin =$_POST["aviso_admin"];
     
     if($token == $TOKEN){
-        $log->debug("enviando gif");
-        $file_id='CgADBAADWwIAAvbxKFOg2mQnmjb4lAI';
-        $response= Response::create_doc_response($endpoint, $chat, $file_id);
-        $resultado = $response->send();
-        $result = json_decode($resultado, true);
-        if($result["ok"]){
-            //{"ok":true,
-                //"result":{"message_id":1717,"from":{"id":138747506,"is_bot":true,"first_name":"limBot","username":"guslimb_bot"},"chat":{"id":4082840,"first_name":"Antonio","username":"sgtoleos","type":"private"},"date":1508086073,"text":"prueba sorteo"}}
-            $msg_id=$result["result"]["message_id"];
+        
+        if($aviso_admin==1){
             
-            sleep(3);
-            
-            $responseDel = Response::create_delete_response($endpoint, $chat, $msg_id);
-            $resultadoDel = $responseDel->send();
-            $resultDel = json_decode($resultadoDel, true);
-            
-            if($resultDel["ok"]){
-                $log->info('Respuesta borrado enviada correctamente');
+            $log->info('Enviando notificación a los administradores');
+                    
+            $response = Response::create_text_response($endpoint, $chat, $texto);
+            $resultado = $response->send();
+            $result = json_decode($resultado, true);
+            if($result["ok"]){
+                $log->info('Notificación enviada correctamente');
+                echo '{"error": false}';
+            }else{
+                $log->error('Error al enviar la respuesta. ErroCode: '.$result["error_code"] . '. description: '.$result["description"]);
+                echo '{"error":true, "desc":"'.$result["description"].'"}';
+            }  
+        }else{
+            $log->debug("enviando gif");
+            $file_id='CgADBAADWwIAAvbxKFOg2mQnmjb4lAI';
+            $response= Response::create_doc_response($endpoint, $chat, $file_id);
+            $resultado = $response->send();
+            $result = json_decode($resultado, true);
+            if($result["ok"]){
+                //{"ok":true,
+                    //"result":{"message_id":1717,"from":{"id":138747506,"is_bot":true,"first_name":"limBot","username":"guslimb_bot"},"chat":{"id":4082840,"first_name":"Antonio","username":"sgtoleos","type":"private"},"date":1508086073,"text":"prueba sorteo"}}
+                $msg_id=$result["result"]["message_id"];
                 
-                $response = Response::create_text_response($endpoint, $chat, $texto);
-                $resultado = $response->send();
-                $result = json_decode($resultado, true);
+                sleep(3);
                 
-                if($result["ok"]){
-                    $log->info('Respuesta sorteo enviada correctamente');
-                    echo '{"error": false}';
+                $responseDel = Response::create_delete_response($endpoint, $chat, $msg_id);
+                $resultadoDel = $responseDel->send();
+                $resultDel = json_decode($resultadoDel, true);
+                
+                if($resultDel["ok"]){
+                    $log->info('Respuesta borrado enviada correctamente');
+                    
+                    $response = Response::create_text_response($endpoint, $chat, $texto);
+                    $resultado = $response->send();
+                    $result = json_decode($resultado, true);
+                    
+                    if($result["ok"]){
+                        $log->info('Respuesta sorteo enviada correctamente');
+                        echo '{"error": false}';
+                    }else{
+                        $log->error('Borrado: Error al enviar la respuesta. ErroCode: '.$result["error_code"] . '. description: '.$result["description"]);
+                        echo '{"error":true, "desc":"'.$result["description"].'"}';
+                    }
+                    
                 }else{
                     $log->error('Borrado: Error al enviar la respuesta. ErroCode: '.$result["error_code"] . '. description: '.$result["description"]);
                     echo '{"error":true, "desc":"'.$result["description"].'"}';
                 }
                 
             }else{
-                $log->error('Borrado: Error al enviar la respuesta. ErroCode: '.$result["error_code"] . '. description: '.$result["description"]);
-                echo '{"error":true, "desc":"'.$result["description"].'"}';
+                 $log->error('Error al enviar la respuesta. ErroCode: '.$result["error_code"] . '. description: '.$result["description"]);
+                 echo '{"error":true, "desc":"'.$result["description"].'"}';
             }
-            
-        }else{
-             $log->error('Error al enviar la respuesta. ErroCode: '.$result["error_code"] . '. description: '.$result["description"]);
-             echo '{"error":true, "desc":"'.$result["description"].'"}';
         }
         
         
