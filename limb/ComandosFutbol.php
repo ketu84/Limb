@@ -1,6 +1,6 @@
 <?php
     class ComandosFutbol{
-        
+
         static $logStatic;
         private $log;
         
@@ -32,7 +32,7 @@
             $this->log->debug("Resultados");
             $time = microtime(true);
 		
-			$response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
+	    $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
             $response->chat_action='typing';
             $response->send();
             
@@ -55,37 +55,37 @@
 			        $competicion = $params[1];
                 }
 			}
-			$idCompeticion = 440; // por defecto, la champions
+			$idCompeticion = 464; // por defecto, la champions
 			switch(strtolower($competicion)){
                 case 'inglaterra': 
-                    $idCompeticion = 426; 
+                    $idCompeticion = 445; 
                     break;
                 case 'inglaterra2': 
-                    $idCompeticion = 427; 
+                    $idCompeticion = 447; 
                     break;
                 case 'alemania': 
-                    $idCompeticion = 430; 
+                    $idCompeticion = 452; 
                     break;
                 case 'holanda': 
-                    $idCompeticion = 433; 
+                    $idCompeticion = 449; 
                     break;
                 case 'españa': 
-                    $idCompeticion = 436; 
+                    $idCompeticion = 455; 
                     break;
-                case 'españa2': 
+                /*case 'españa2': 
                     $idCompeticion = 437; 
-                    break;
+                    break;*/
                 case 'francia':
-                    $idCompeticion = 434; 
+                    $idCompeticion = 450; 
                     break;
                 case 'francia2': 
-                    $idCompeticion = 435; 
+                    $idCompeticion = 451; 
                     break;
                 case 'italia': 
-                    $idCompeticion = 438; 
+                    $idCompeticion = 456; 
                     break;
                 case 'portugal': 
-                    $idCompeticion = 439; 
+                    $idCompeticion = 457; 
                     break;
                 default: 
                     $competicion = 'champions';
