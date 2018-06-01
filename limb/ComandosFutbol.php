@@ -87,6 +87,9 @@
                 case 'portugal': 
                     $idCompeticion = 457; 
                     break;
+                case 'mundial': 
+                    $idCompeticion = 467; 
+                    break;
                 default: 
                     $competicion = 'champions';
 			}
