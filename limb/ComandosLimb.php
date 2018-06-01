@@ -687,8 +687,15 @@
             $jsonFase = Utils::callApi($request,'util/faseActual', $urlApi);
             $fase = json_decode($jsonFecha);
             
+            $this->log->debug("jsonFase: ".$jsonFase);
+            
+            
+            $this->log->debug("url: ".'partidos/fase/'.$fase->id.'/'.$fase->tipo->id);
+            
             $json = Utils::callApi($request, 'partidos/fase/'.$fase->id.'/'.$fase->tipo->id, $urlApi);
             $obj = json_decode($json);
+            
+            $this->log->debug("jsonPartidos: ".$json);
             
             $text='';
             $fecha='';
