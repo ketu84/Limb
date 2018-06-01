@@ -685,7 +685,7 @@
         
             //Se obtiene la fecha del proximo partido
             $jsonFase = Utils::callApi($request,'util/faseActual', $urlApi);
-            $fase = json_decode($jsonFecha);
+            $fase = json_decode($jsonFase);
             
             $this->log->debug("jsonFase: ".$jsonFase);
             
