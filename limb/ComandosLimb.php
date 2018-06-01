@@ -239,7 +239,7 @@
         }
         
         private function apuestas($endpoint, $request,$grupoVO){
-            $this->log->debug("Obteniedo apuestas");
+            $this->log->debug("Obteniendo apuestas");
             $time = microtime(true);
             $urlApi=$grupoVO->url_api;
             
@@ -672,6 +672,61 @@
                     break;
             }            
            
+        }
+        
+        private function partidos_jornada($endpoint, $request,$grupoVO){
+            $this->log->debug("Obteniedo partidos jornada");
+            $time = microtime(true);
+            $urlApi=$grupoVO->url_api;
+            
+            $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_CHAT_ACTION);
+            $response->chat_action='typing';
+            $response->send();
+        
+            //Se obtiene la fecha del proximo partido
+            $jsonFase = Utils::callApi($request,'util/faseActual', $urlApi);
+            $fase = json_decode($jsonFecha);
+            
+            $json = Utils::callApi($request, 'partidos/fase/'.$fase->id.'/'.$fase->tipo->id, $urlApi);
+            $obj = json_decode($json);
+            
+            $text='';
+            $fecha='';
+            
+            foreach($obj as $valor) {
+                $fecha=$valor->fecha;
+                    $text=$text.PHP_EOL;
+                    $idPartido=$valor->id;
+                    //Apostantes
+                    $apostantes='';
+                    $idx = 0;
+                    foreach($valor->usuarios as $usu) {
+                        if($idx>0){
+                            $apostantes.=', '.$usu->nombre;
+                        }else{
+                            $apostantes.=$usu->nombre;
+                        }
+                        $idx++;
+                    }
+                    $text=$text.substr($valor->hora,0,5).' '.$valor->local->nombre_corto.' vs '.$valor->visitante->nombre_corto;
+                    if($apostantes!=null){
+                        $text.='=>'.$apostantes;   
+                    }
+            }
+        
+            if($fecha==null){
+                $text='*No hay próxima jornada* '.PHP_EOL;
+            }else{
+                $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
+                $text='*Próxima jornada '.$fecha.':* '.PHP_EOL.$text;
+            }
+            
+            $object = new stdClass();
+            $object->hide_keyboard =true;
+            $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
+            
+            $this->log->debug("Fin Obteniedo Próxima jornada (".(microtime(true)-$time)." s): ");
+            return $response;
         }
     }
 ?>
