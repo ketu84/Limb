@@ -674,7 +674,7 @@
            
         }
         
-        private function partidos_jornada($endpoint, $request,$grupoVO){
+private function partidos_jornada($endpoint, $request,$grupoVO){
             $this->log->debug("Obteniedo partidos jornada");
             $time = microtime(true);
             $urlApi=$grupoVO->url_api;
@@ -701,31 +701,34 @@
             $fecha='';
             
             foreach($obj as $valor) {
-                $fecha=$valor->fecha;
-                    $text=$text.PHP_EOL;
-                    $idPartido=$valor->id;
-                    //Apostantes
-                    $apostantes='';
-                    $idx = 0;
-                    foreach($valor->usuarios as $usu) {
-                        if($idx>0){
-                            $apostantes.=', '.$usu->nombre;
-                        }else{
-                            $apostantes.=$usu->nombre;
-                        }
-                        $idx++;
+                if($fecha!=$valor->fecha){
+                    $fecha=$valor->fecha;
+                    $text=$text.PHP_EOL.PHP_EOL.'*'.substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4).'*';
+                }
+                $text=$text.PHP_EOL;
+                $idPartido=$valor->id;
+                //Apostantes
+                $apostantes='';
+                $idx = 0;
+                foreach($valor->usuarios as $usu) {
+                    if($idx>0){
+                        $apostantes.=', '.$usu->nombre;
+                    }else{
+                        $apostantes.=$usu->nombre;
                     }
-                    $text=$text.substr($valor->hora,0,5).' '.$valor->local->nombre_corto.' vs '.$valor->visitante->nombre_corto;
-                    if($apostantes!=null){
-                        $text.='=>'.$apostantes;   
-                    }
+                    $idx++;
+                }
+                $text=$text.substr($valor->hora,0,5).' '.$valor->local->nombre_corto.' vs '.$valor->visitante->nombre_corto;
+                if($apostantes!=null){
+                    $text.='=>'.$apostantes;   
+                }
             }
         
             if($fecha==null){
                 $text='*No hay próxima jornada* '.PHP_EOL;
             }else{
-                $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
-                $text='*Próxima jornada '.$fecha.':* '.PHP_EOL.$text;
+               // $fecha= substr($fecha,8,2).'/'.substr($fecha,5,2).'/'.substr($fecha,0,4);
+                $text='*Próxima jornada* '.PHP_EOL.$text;
             }
             
             $object = new stdClass();
