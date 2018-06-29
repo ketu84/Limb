@@ -691,8 +691,12 @@ private function partidos_jornada($endpoint, $request,$grupoVO){
             
             
             $this->log->debug("url: ".'partidos/fase/'.$fase->id.'/'.$fase->tipo->id);
-            
-            $json = Utils::callApi($request, 'partidos/fase/'.$fase->id.'/'.$fase->tipo->id, $urlApi);
+
+	    if($fase->tipo->id!=null){ 
+	        $json = Utils::callApi($request, 'partidos/fase/'.$fase->id.'/'.$fase->tipo->id, $urlApi);
+	    }else{
+		$json = Utils::callApi($request, 'partidos/fase/'.$fase->id, $urlApi);
+	    }
             $obj = json_decode($json);
             
             $this->log->debug("jsonPartidos: ".$json);
