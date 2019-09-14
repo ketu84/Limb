@@ -19,6 +19,13 @@
                 case ID_BARTOL:
                 case ID_VICENTE:
                 case ID_IBAN:
+                case ID_ZATO:
+                case ID_RULO:
+                case ID_MATUTE:
+                case ID_LUCHO:
+                case ID_BORJA:
+                case ID_JON:
+                case ID_FILETE:
                     $time = microtime(true);
                     
                     $response_chat_typing = Response::create_typing_response($endpoint, $request->get_chat_id());
@@ -394,8 +401,8 @@
             	case ID_VICENTE:
             		$humano= self::aleatorio(array('Vicente', 'Comandante'));
             		break;
-        		case ID_IBAN:
-        		    $humano= self::aleatorio(array('Ibán'));
+        	case ID_IBAN:
+        		$humano= self::aleatorio(array('Ibán'));
             		break;
             	case ID_ZATO:
             		$humano=self::aleatorio(array('Álvaro', 'Zato', 'Bárbol'));
@@ -411,6 +418,12 @@
             		break;
             	case ID_BORJA:
             		$humano=self::aleatorio(array('Borja','Barbudo','Barba Humana'));
+            		break;
+		case ID_JON:
+            		$humano=self::aleatorio(array('Jon','Vasco'));
+            		break;
+		case ID_FILETE:
+            		$humano=self::aleatorio(array('Filete','Chuleta'));
             		break;
             }
             
