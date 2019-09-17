@@ -3,6 +3,38 @@
 
     class ComandosOffTopic{
         
+        const STR_LUCAS_VAZQUEZ = 'CAADBAADyQADmw-YAAEtDh4CzdAP5xYE';
+
+        const GIF_FILETE_1 = 'CgADBAADKQIAAnteIFE5UYFYJX2qixYE';
+        const GIF_FILETE_2 = 'CgADBAADUAQAAuIH2FIvmmtra2PQghYE';
+
+        const GIF_CAS_1 = 'CgADBAADhgEAAkBv0FK6Z8T5WtvXyhYE';
+        const GIF_CAS_2 = 'CgADBAADNQMAAgJLIVOpud42f62NyBYE';
+
+        const GIF_MASKS_1 = 'CgADBAADHAADCdoIUu56gllhbkZgFgQ';
+        const GIF_MASKS_2 = 'CgADBAADcAQAAmjGuFGBt0xNDD0yWhYE';
+        
+        const GIF_CARRACEDO_OTRO_PICK = 'BQADBAADOQEAAphMPgABREm9f5CcR-kC';
+
+        const GIF_BAILE_BARCO_SICILIA = 'CgADBAADrQQAAsqjaFJnNJM3tQ52jRYE';
+
+
+        const IMG_KETU_NAVAS_HOLA_KETU = 'AgADBAADtbExG6uCfgABLrwSmy2LSv8U1IwwAAQ_de836O5RLh3YAAIC';
+        const IMG_BARTOL_NO_GUS = 'AgADBAADr7ExG6uCfgABRKEQrm8ULhfcco8wAAQ5D9K2nU6X0IFfAAIC';
+        const IMG_AGE_IKER_HOLA_AGE = 'AgADBAADtLExG6uCfgABPI6QTh8Q4fpHQnEwAARy8nYUUSRw2Lq2AQABAg';
+        const IMG_KETU_VALE_TIO = 'AgADBAADs7ExG6uCfgABNelLZA68mblL0owwAATnURFjObRacZTZAAIC';
+
+        
+        const GIF_APLAUSO_MARIANO = 'BQADBAADVwIAAmCIgQABk85Zb6xxMZwC';
+        const GIF_MI_PENALTITO_CRISTIANO = 'BQADBAADtwADmEw-AAHFpvL_faHg5QI';
+        const GIF_APLAUSO_CIUDADANO_KANE ='BQADBAADuAADmEw-AAFENNvXv3KlQgI';
+        const GIF_ENRIQUE_SEVILLA_VAYA_MIERDA = 'BQADBAADMgADmw-YAAE4pcdXZXF0FgI';
+        const GIF_JURASSIC_PARK_ENTRADA = 'BQADBAADJR0AAsseZAf3QgvdLNg82AI';
+
+        const AUD_JURASSIC_PARK = 'BQADBAADVAEAAphMPgABNc-CEJQck9oC';
+
+        const IMG_ADMIRAL_ACKBAR_TRAP = 'AgADBAADK7ExG6uCfgAB9rTpspMp9VRGYGkwAAS8GdFc47A_whSFAQABAg';
+
         static $logStatic;
         private $log;
         
@@ -103,13 +135,11 @@
         }
         
         private function bravo($endpoint, $request){
-            $file_id='BQADBAADuAADmEw-AAFENNvXv3KlQgI';
-            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), self::GIF_APLAUSO_CIUDADANO_KANE);
         }
         
         private function quieroMiPenaltito($endpoint, $request){
-            $file_id='BQADBAADtwADmEw-AAHFpvL_faHg5QI';
-            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), self::GIF_MI_PENALTITO_CRISTIANO);
         }
         
         private function tetas($endpoint, $request){
@@ -185,36 +215,34 @@
         }
         
         private function gus($endpoint, $request){
-            $index = rand(0,1);
+            $index = rand(0,2);
 
             switch($index) {
                 case 0: 
     	            $file_id = Utils::aleatorio(array('AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg', 'AgADBAAD3KkxG5sPmAABKqtTAAHWZbY3NQWLMAAEmP0iZZyVDtfYMAEAAQI'));
                     return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
                 case 1:
-                    $file_id = Utils::aleatorio(array('BQADBAADVwIAAmCIgQABk85Zb6xxMZwC'));
+                    $file_id = Utils::aleatorio(array(self::GIF_APLAUSO_MARIANO, self::GIF_BAILE_BARCO_SICILIA));
                     return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+                case 2:
+                    return $this->baila($endpoint, $request);
             }
         }
         
         private function nogus($endpoint, $request){
-            $file_id = 'AgADBAADr7ExG6uCfgABRKEQrm8ULhfcco8wAAQ5D9K2nU6X0IFfAAIC';
-            return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_photo_response($endpoint, $request->get_chat_id(), self::IMG_BARTOL_NO_GUS);
         }
         
         private function holaketu($endpoint, $request){
-            $file_id = 'AgADBAADtbExG6uCfgABLrwSmy2LSv8U1IwwAAQ_de836O5RLh3YAAIC';
-            return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_photo_response($endpoint, $request->get_chat_id(), self::IMG_KETU_NAVAS_HOLA_KETU);
         }
         
         private function holaage($endpoint, $request){
-            $file_id = 'AgADBAADtLExG6uCfgABPI6QTh8Q4fpHQnEwAARy8nYUUSRw2Lq2AQABAg';
-            return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_photo_response($endpoint, $request->get_chat_id(), self::IMG_AGE_IKER_HOLA_AGE);
         }
         
         private function valetio($endpoint, $request){
-            $file_id = 'AgADBAADs7ExG6uCfgABNelLZA68mblL0owwAATnURFjObRacZTZAAIC';
-            return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_photo_response($endpoint, $request->get_chat_id(), self::IMG_KETU_VALE_TIO);
         }
         
         private function agevapipa($endpoint, $request){
@@ -228,8 +256,7 @@
         }
         
         private function telacomiste($endpoint, $request){
-            $file_id = 'AgADBAADK7ExG6uCfgAB9rTpspMp9VRGYGkwAAS8GdFc47A_whSFAQABAg';
-            return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_photo_response($endpoint, $request->get_chat_id(), self::IMG_ADMIRAL_ACKBAR_TRAP);
         }
         
         private function vicenwin($endpoint, $request){
@@ -278,13 +305,48 @@
             }
         }
         
+        private function hola($endpoint, $request){
+
+            return Response::create_sticker_response($endpoint,  $request->get_chat_id(), self::STR_LUCAS_VAZQUEZ);
+        }
+
+        private function baile($endpoint, $request) {
+            return $this->baila($endpoint, $request);
+        }
+
+        private function baila($endpoint, $request) {
+            $file_id=Utils::aleatorio(array(self::GIF_MASKS_1, self::GIF_MASKS_2));
+            return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
+        }
+
+        private function fas($endpoint, $request){
+            return $this->cas($endpoint, $request);
+        }
+
+        private function cas($endpoint, $request) {
+            $file_id=Utils::aleatorio(array(self::GIF_CAS_1, self::GIF_CAS_2));
+            return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
+        }
+
+        private function chulepa($endpoint, $request){
+            return $this->filete($endpoint, $request);
+        }
+
+        private function chuleta($endpoint, $request){
+            return $this->filete($endpoint, $request);
+        }
+
+        private function filete($endpoint, $request) {
+            $file_id=Utils::aleatorio(array(self::GIF_FILETE_1, self::GIF_FILETE_2));
+            return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
+        }
+        
         private function mierda($endpoint, $request){
             return $this->hez($endpoint, $request);
         }
         
         private function hez($endpoint, $request){
-            $file_id='BQADBAADMgADmw-YAAE4pcdXZXF0FgI';
-            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), self::GIF_ENRIQUE_SEVILLA_VAYA_MIERDA);
         }
         
         private function sorteo($endpoint, $request){
@@ -328,6 +390,7 @@
             
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);        		
         }
+
          
         private function insultarAMadre($endpoint, $request, $insulto){
             $text = 'Tu madre si que es '.$insulto;
@@ -414,17 +477,14 @@
         }
         
         private function acierto($endpoint, $request){
-            $file_id='BQADBAADOQEAAphMPgABREm9f5CcR-kC';
+            $file_id=Utils::aleatorio(array(self::GIF_CARRACEDO_OTRO_PICK, self::GIF_MASKS_1, self::GIF_MASKS_2));
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
         
         private function tehasexcedido($endpoint, $request){
-            $file_id='BQADBAADJR0AAsseZAf3QgvdLNg82AI';
-            $response_doc = Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            $response_doc = Response::create_doc_response($endpoint, $request->get_chat_id(), self::GIF_JURASSIC_PARK_ENTRADA);
             $response_doc->send();
-            
-            $audio_id='BQADBAADVAEAAphMPgABNc-CEJQck9oC';
-            return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
+            return Response::create_audio_response($endpoint, $request->get_chat_id(), self::AUD_JURASSIC_PARK);
         }
 					       
     	private function melafo($endpoint, $request){
