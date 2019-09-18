@@ -112,6 +112,20 @@
             }
         }
         
+        private function getFile($endpoint, $request) {
+            $params = $request->get_command_params();
+            if(count($params)!=2 || $params[0] < 2 || $params[0] > 7) {
+                $texto = 'Uso /getFile ID_TYPE ID_FILE';
+                $texto .= 'TEXT(1);DOC(2);PHOTO(3);STICKER(4);AUDIO(5);VIDEO(6);VOICE(7)';
+                return Response::create_text_response($endpoint, $request->get_chat_id(), $texto);
+            }
+
+            //Se genera el objeto con la respuesta
+            $response = new Response($endpoint, $request->get_chat_id(), $params[0]);
+            $response->file_id=$params[1];
+        
+            return $response;
+        }
               
         private function cama($endpoint, $request){
             $object = new stdClass();
