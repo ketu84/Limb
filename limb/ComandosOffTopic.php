@@ -236,6 +236,14 @@
         }
         
         private function aupa($endpoint, $request){
+            $hour = (new DateTime(null, new DateTimezone('Europe/Madrid')))->format('H');
+            $day = (new DateTime(null, new DateTimezone('Europe/Madrid')))->format('N');
+            if (($hour >= 8 && $hour < 18 && $day < 5) || ($hour >= 8 && $hour < 15 && $day == 5)) {
+                $humano = Utils::get_humano_name($request->get_from_id());
+                $text= "No son horas, ${humano}. eres un puto pajero.";
+                return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
+            } 
+            
             $index = rand(0,4);
 
             switch($index){
@@ -248,7 +256,7 @@
                     return Response::create_video_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
                 case 2:
-                    $file_id='BQADBAADOgEAAquCfgABXRORytopeMsC';
+                    $file_id=Utils::aleatorio(['BQADBAADOgEAAquCfgABXRORytopeMsC',Resources::GIF_TETAS_VUELTA_CICLISTA]);
                     return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
 		        case 3:
@@ -274,6 +282,90 @@
         private function baila($endpoint, $request) {
             $file_id = Utils::aleatorio(array(Resources::GIF_MASCARAS_RAVE_NORUEGA, Resources::GIF_MASCARAS_BAILE_BODA));
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
+        }
+        
+        private function age($endpoint, $request){
+            return $this->agevapipa($endpoint, $request);
+        }
+
+        private function jon($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function ori($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function nano($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function iban($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function luis($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function tapia($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function rulo($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function lucho($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function vicente($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function ketu($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function matute($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function carracedo($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function borja($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function zato($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function rio($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
+        }
+
+        private function paco($endpoint, $request)
+        {
+            return $this->_funcion_pendiente($endpoint, $request);
         }
 
         private function fas($endpoint, $request){
@@ -448,7 +540,7 @@
         }
         
         private function acierto($endpoint, $request){
-            $file_id=Utils::aleatorio(array(Resources::GIF_CARRACEDO_OTRO_PICK, Resources::GIF_MASCARAS_RAVE_NORUEGA, Resources::GIF_MASCARAS_BAILE_BODA));
+            $file_id=Utils::aleatorio(array(Resources::GIF_CARRACEDO_OTRO_PICK, Resources::GIF_MASCARAS_RAVE_NORUEGA, Resources::GIF_LLULL_PALMAS_VAMOS, Resources::GIF_MASCARAS_BAILE_BODA));
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
         
@@ -463,5 +555,24 @@
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }				       
 
+        private function _funcion_pendiente($endpoint, $request) {
+            $file_id = Utils::aleatorio([
+                Resources::GIF_PERRO_TECLEANDO,
+                Resources::GIF_MASCARAS_RAVE_NORUEGA,
+                Resources::STK_LUCAS_VAZQUEZ,
+                Resources::IMG_THEODEN_NO_TIENES_PODER,
+                Resources::GIF_PEDRO_SANCHEZ_RIENDO,
+                Resources::GIF_ERNESTO_SEVILLA_VAYA_MIERDA
+            ]);
+            $response = Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            $text = Utils::aleatorio([
+                "Calma en Barna, chacho.",
+                "Eso tiene buena pinta.",
+                "¡¡Venga, churras!!",
+                "Vengue, vengue."
+            ]);
+            $response->caption = $text;
+            return $response;
+        }
     }
 ?>
