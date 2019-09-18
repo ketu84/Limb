@@ -346,13 +346,13 @@
         static function getInsultoPlural(){
             return self::aleatorio(
                 array(
-                    'idiotas', 
-    				'lamenalgas', 
-    				'chupaculos', 
-    				'hijos de perra', 
-    				'bobos', 
-    				'cabrones', 
-    				'memos', 
+                    'idiotas', 'cretinos', 
+    				'lamenalgas', 'lamedores de prepucios',
+    				'chupaculos', 'pardillos', 
+    				'hijos de perra', 'perdedores', 
+    				'bobos', 'tontos',
+    				'cabrones', 'panda de vagos',
+    				'memos', 'peleles',
     				'imbéciles', 
     				'comehuevos', 
     				'papanatas', 
@@ -361,9 +361,19 @@
     				'parguelas', 
     				'mierdasecas', 
     				'malnacidos',
-    				'borbones',
-	    			'retardados',
+    				'borbones', 'zoquetes', 
+	    			'retardados', 'retrasados',
 		    		'hijos de mil putas sifilíticas'));
+        }
+
+        static function get_humano_random() {
+            $id_humano = self::aleatorio([
+            	ID_AGE, ID_TAPIA, ID_NANO, ID_YONI, ID_CAS, 
+                ID_JAVI, ID_KETU, ID_PACO, ID_RIOJANO, ID_BARTOL,
+                ID_VICENTE, ID_IBAN, ID_ZATO, ID_RULO, ID_MATUTE,
+                ID_LUCHO, ID_BORJA, ID_JON, ID_FILETE
+            ]);
+            return self::get_humano_name($id_humano);
         }
         
         static function get_humano_name($humanoId){
