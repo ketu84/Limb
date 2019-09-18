@@ -68,3 +68,4 @@ class Resources
     const IMG_IGLESIAS_SE_HA_IDO_LA_CASTA_YA = 'AgADBAADtrExG6uCfgAB-HBYDek-QkN_mo8wAARqlUj5CBNq9idfAAIC';
     const IMG_THEODEN_NO_TIENES_PODER = 'AgADBAADKqkxG5hMPgABj_DlPCsJq_QnvI8wAATxeRhugBnP6DH_AAIC';
 }
+?>
