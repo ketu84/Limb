@@ -439,12 +439,11 @@
         }
 
         private function insultar($endpoint, $request){
-            $intro = Utils::aleatorio(['Pues veamos,', 'Ahora que lo dices', 'Me sabe mal, pero'
-                                       'Lo cierto es que', 'Jajaja, vale,', 'Por todos es sabido que'
-                                      ]);
+            $intro = Utils::aleatorio(['Pues veamos,', 'Ahora que lo dices', 'Me sabe mal, pero', 'Lo cierto es que', 
+                                        'Jajaja, vale,', 'Por todos es sabido que']);
             $humano = Utils::get_humano_random();
             $insulto =  Utils::aleatorio(self::INSULTO_DIRECTO);
-            $text .= "${intro} ${humano} es un ${insulto}.";
+            $text = "${intro} ${humano} es un ${insulto}.";
             return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
         }
         
