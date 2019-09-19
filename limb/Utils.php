@@ -99,6 +99,30 @@
         static function aleatorio($elementos){
 	        return $elementos[rand(0,count($elementos)-1)];
         }
+
+        static function contiene($texto, $busqueda) {
+            if(!is_array($busqueda)) {
+                $busqueda = array($busqueda);
+            }
+            foreach($busqueda as $b) {
+                if(strpos($texto, $b, 0) !== false) {
+                    return true;
+                } 
+            }
+            return false;
+        }
+
+        static function es($texto, $busqueda) {
+            if(!is_array($busqueda)) {
+                $busqueda = array($busqueda);
+            }
+            foreach($busqueda as $b) {
+                if($texto == $b) {
+                    return true;
+                } 
+            }
+            return false;
+        }
         
         static function getInsultoSingular(){
             return self::aleatorio(

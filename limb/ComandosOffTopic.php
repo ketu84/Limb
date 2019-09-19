@@ -26,49 +26,85 @@
         
         private function por_defecto ($endpoint, $request){
             $this->log->debug("Comando por defecto");
-            
-            if (strpos($request->get_command(),'puta') !== false) {
+            $comando = $request->get_command();
+            if (strpos($comando,'puta') !== false) {
                 return $this->insultarAMadre($endpoint, $request, 'puta');
             }
-            if (strpos($request->get_command(),'gorda') !== false) {
+            if (strpos($comando,'gorda') !== false) {
                 return $this->insultarAMadre($endpoint, $request, 'gorda');
             }
-            if (strpos($request->get_command(),'tetas') !== false) {
+            if (strpos($comando,'tetas') !== false) {
                 return $this->insultarAMadre($endpoint, $request, 'puta, que te las enseñe ella');
             }
-            if (strpos($request->get_command(),'chupa') !== false) {
+            if (strpos($comando,'chupa') !== false) {
                 return $this->insultarAMadre($endpoint, $request, 'puta, que te la chupe ella por cinco duros');
             }
-            if (strpos($request->get_command(),'cabron') !== false) {
+            if (strpos($comando,'cabron') !== false) {
                 return $this->insultarAHumano($endpoint, $request, 'cabron');
             }
-            if (strpos($request->get_command(),'puto') !== false) {
+            if (strpos($comando,'puto') !== false) {
                 return $this->insultarAHumano($endpoint, $request, 'un puto maricon de mierda');
             }
-            if (strpos($request->get_command(),'maricon') !== false) {
+            if (strpos($comando,'maricon') !== false) {
                 return $this->insultarAHumano($endpoint, $request, 'un puto maricon de mierda');
             }
-            if (strpos($request->get_command(),'subnormal') !== false) {
+            if (strpos($comando,'subnormal') !== false) {
                 return $this->insultarAHumano($endpoint, $request, 'subnormal');
             }
-            if (strpos($request->get_command(),'gilipollas') !== false) {
+            if (strpos($comando,'gilipollas') !== false) {
                 return $this->insultarAHumano($endpoint, $request, 'un puto gilipollas');
             }
-            if (strpos($request->get_command(),'socialista') !== false) {
+            if (strpos($comando,'socialista') !== false) {
                 return $this->insultarAHumano($endpoint, $request, 'socialista');
             }
-            if (strpos($request->get_command(),'podemita') !== false) {
+            if (strpos($comando,'podemita') !== false) {
                 return Response::create_photo_response($endpoint, $request->get_chat_id(), Resources::IMG_IGLESIAS_SE_HA_IDO_LA_CASTA_YA);
             }
-            if (strpos($request->get_command(),'coleta') !== false) {
+            if (strpos($comando,'coleta') !== false) {
                 return Response::create_sticker_response($endpoint, $request->get_chat_id(), Resources::STK_FRANCO_CONMIGO_NO_PASABA);
             }
-            if (strpos($request->get_command(),'bot') !== false && strpos($request->get_command(),'noches') !== false) {
+            if (strpos($comando,'bot') !== false && strpos($comando,'noches') !== false) {
                 return Response::create_audio_response($endpoint, $request->get_chat_id(), Resources::AUD_BUENAS_NOCHES_Y_BUENA_SUERTE);
             }
-            if (strpos($request->get_command(),'bot') !== false) {
+            if (strpos($comando,'bot') !== false) {
                 $audio_id=Utils::aleatorio(array('BQADBAADfwEAAphMPgABb7GsrVt547oC', 'BQADBAADfgEAAphMPgAB-cXIHgEea4kC','BQADBAADfQEAAphMPgABsVDRcZCRdwMC'));
                 return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
+            }
+            if (Utils::contiene($comando, ['soplar', 'soplando', 'soplo', 'viento', 'vientos'])) {
+                return $this->soplar($endpoint, $request);
+            }
+            if (Utils::contiene($comando, ['racismo', 'negro', 'pancho', 'panchito', 'raza'])) {
+                return $this->racismo($endpoint, $request);
+            }
+            if (Utils::es($comando, ['fas'])) {
+                return $this->cas($endpoint, $request);
+            }
+            if (Utils::es($comando, ['chulepa', 'chuleta'])) {
+                return $this->filete($endpoint, $request);
+            }           
+            if (Utils::contiene($comando, ['tetas', 'mamellas', 'domingas', 'lolas', 'peras', 'melones', 'pechos', 'senos', 'mamas'])) {
+                return $this->enfermo($endpoint, $request);
+            }
+            if (Utils::contiene($comando, ['pene', 'pito', 'nabo', 'cipote', 'cimbrel', 'semen'])) {
+                return $this->esloquetegustaeh($endpoint, $request);
+            }
+            if (Utils::es($comando, ['baile', 'bailar'])) {
+                return $this->baila($endpoint, $request);
+            }
+            if (Utils::es($comando, ['mierda', 'hez'])) {
+                return $this->hez($endpoint, $request);
+            }
+            if (Utils::es($comando, ['sortea', 'sortear'])) {
+                return $this->sorteo($endpoint, $request);
+            }
+            if (Utils::contiene($comando, ['bobo'])) {
+                return $this->elbobo($endpoint, $request);
+            }
+            if (Utils::contiene($comando, ['penaldo', 'cristiano'])) {
+                return $this->quieroMiPenaltito($endpoint, $request);
+            }
+            if (Utils::es($comando, ['cuentanosmas'])) {
+                return $this->cuentamemas($endpoint, $request);
             }
             
             //El comando no existe
@@ -84,7 +120,6 @@
                     $audio_id='BQADBAADiwEAAphMPgABaFOwoeYdAUkC';
                     return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
             }
-  
         }
          
         private function donaSemen($endpoint, $request){
@@ -103,75 +138,15 @@
             return Response::create_doc_response($endpoint, $request->get_chat_id(), Resources::GIF_MI_PENALTITO_CRISTIANO);
         }
         
-        private function tetas($endpoint, $request){
-            return $this->enfermo($endpoint, $request);
-        }
-        
-        private function mamellas($endpoint, $request){
-            return $this->enfermo($endpoint, $request);
-        }
-        
-        private function domingas($endpoint, $request){
-            return $this->enfermo($endpoint, $request);
-        }
-        
-        private function lolas($endpoint, $request){
-            return $this->enfermo($endpoint, $request);
-        }
-        
-        private function peras($endpoint, $request){
-            return $this->enfermo($endpoint, $request);
-        }
-        
-        private function melones($endpoint, $request){
-            return $this->enfermo($endpoint, $request);
-        }
-        
-        private function pechos($endpoint, $request){
-            return $this->enfermo($endpoint, $request);
-        }
-        
-        private function senos($endpoint, $request){
-            return $this->enfermo($endpoint, $request);
-        }
-        
-        private function mamas($endpoint, $request){
-            return $this->enfermo($endpoint, $request);
-        }
-        
         private function enfermo($endpoint, $request){
             $humano = Utils::get_humano_name($request->get_from_id());
-            $text= $humano . ' eres un enfermo';
+            $text = "${humano} eres un enfermo.";
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
         }
         
-        private function pene($endpoint, $request){
-            return $this->eslo1uetegustaeh($endpoint, $request);
-        }
-        
-        private function pito($endpoint, $request){
-            return $this->eslo1uetegustaeh($endpoint, $request);
-        }
-        
-        private function nabo($endpoint, $request){
-            return $this->eslo1uetegustaeh($endpoint, $request);
-        }
-        
-        private function cipote($endpoint, $request){
-            return $this->eslo1uetegustaeh($endpoint, $request);
-        }
-        
-        private function cimbrel($endpoint, $request){
-            return $this->eslo1uetegustaeh($endpoint, $request);
-        }
-        
-        private function semen($endpoint, $request){
-            return $this->eslo1uetegustaeh($endpoint, $request);
-        }
-        
-        private function eslo1uetegustaeh($endpoint, $request){
+        private function esloquetegustaeh($endpoint, $request){
             $humano = Utils::get_humano_name($request->get_from_id());
-            $text='Es lo que te gusta, '.$humano.', ¿eh?';
+            $text = "Es lo que te gusta, ${humano}, ¿eh?";
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
         }
         
@@ -212,8 +187,7 @@
         }
 	    
         private function agevamuypipa($endpoint, $request){
-            $file_id='BQADBAADWAEAAphMPgAB-oBIaV81Y04C';
-            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), Resources::GIF_AGE_BAILE_RANDOM);
         }
         
         private function telacomiste($endpoint, $request){
@@ -240,7 +214,12 @@
             $day = (new DateTime(null, new DateTimezone('Europe/Madrid')))->format('N');
             if (($hour >= 8 && $hour < 18 && $day < 5) || ($hour >= 8 && $hour < 15 && $day == 5)) {
                 $humano = Utils::get_humano_name($request->get_from_id());
-                $text= "No son horas, ${humano}. eres un puto pajero.";
+                $web = Utils::aleatorio(Resources::WEBS_PORNO);
+                $text = Utils::aleatorio([
+                    "No son horas, ${humano}. eres un puto pajero.",
+                    "${humano}, ¿a estas horas ya andas con las pajas?",
+                    "A ver, ${humano}, eres un pajero pero te voy a hacer un favor: ${web}"
+                ]);
                 return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
             } 
             
@@ -265,7 +244,12 @@
                     break;
                 default:
                     $humano = Utils::get_humano_name($request->get_from_id());
-                    $text= $humano.' eres un pajero.';
+                    $web = Utils::aleatorio(Resources::WEBS_PORNO);
+                    $text = Utils::aleatorio([
+                        "${humano}. eres un pajero.",
+                        "Venías a por tetas, ¿eh, ${humano}? Pues te jodes, pajero.",
+                        "A ver ${humano}, eres un jodido pajero, pero te voy a hacer un favor: ${web}"
+                    ]);
                     return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
                     break;
             }
@@ -273,10 +257,6 @@
         
         private function hola($endpoint, $request){
             return Response::create_sticker_response($endpoint,  $request->get_chat_id(), Resources::STK_LUCAS_VAZQUEZ);
-        }
-
-        private function baile($endpoint, $request) {
-            return $this->baila($endpoint, $request);
         }
 
         private function baila($endpoint, $request) {
@@ -368,30 +348,14 @@
             return $this->_funcion_pendiente($endpoint, $request);
         }
 
-        private function fas($endpoint, $request){
-            return $this->cas($endpoint, $request);
-        }
-
         private function cas($endpoint, $request) {
             $file_id = Utils::aleatorio(array(Resources::GIF_CAS_PRIMERISIMO_PRIMER_PLANO, Resources::GIF_CAS_EXTRATITANIO_HAWAIIAN));
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
         }
 
-        private function chulepa($endpoint, $request){
-            return $this->filete($endpoint, $request);
-        }
-
-        private function chuleta($endpoint, $request){
-            return $this->filete($endpoint, $request);
-        }
-
         private function filete($endpoint, $request) {
             $file_id = Utils::aleatorio(array(Resources::GIF_FILETE_BAMBOLEO_SANSE, Resources::GIF_FILETE_BAMBOLEO_PISCINA));
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
-        }
-        
-        private function mierda($endpoint, $request){
-            return $this->hez($endpoint, $request);
         }
         
         private function hez($endpoint, $request){
@@ -416,32 +380,25 @@
         }
         
         private function no_implementada($endpoint, $request){
-            $text = 'Función no implementada. ';
-            
-            if($request->get_from_id()!=null){
-                if($request->get_from_id()==ID_PACO){
-                    $text = $text.'¡¡¡Pacooooooooooooooooooo!!! ';
-                } else {
-                    $humano = Utils::get_humano_name($request->get_from_id());
-                    $insulto = Utils::aleatorio(['Maldito', 'Jodido', 'Estúpido', 'Condenado', 'Retrasado', 'Podemita']);
-                    $text = $text. $insulto.' '.$humano.'. ';
-                }
+            $text = "¿Pero qué dices? ¿Qué intentas?" . PHP_EOL;
+            if($request->get_from_id() == ID_PACO) {
+                $text .= "¡¡¡Pacooooooooooooooooooo!!!" . PHP_EOL;
             }
-            
-            $insulto = Utils::getInsultoSingular();
-            $text .= $insulto;
+            $humano = Utils::get_humano_name($request->get_from_id());
+            $insulto1 = Utils::aleatorio(Recurso::INSULTO_DIRECTO_2);
+            $insulto2 = Utils::getInsultoSingular();
+            $text .= "${insulto1} ${humano}. ${insulto2}.";
             if($humano=='Ario'){
                 $file_id='AgADBAADLKkxG4jtnAABsbSkFxkCLImgn2kwAARwTik8oQSyGj3nAQABAg';
                 $response= Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
                 $response->send();
             }
-            
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);        		
         }
          
         private function insultarAMadre($endpoint, $request, $insulto){
             if ($insulto == null) {
-                $insulto = Utils::aleatorio(['zorra', 'puta', 'comerrabos', 'cerda']);
+                $insulto = Utils::aleatorio(Resource::INSULTO_MADRE);
             }
             $humano = Utils::get_humano_name($request->get_from_id());
             $text  = "${humano}, tu madre sí que es ${insulto}.";
@@ -463,10 +420,6 @@
 
         private function wololo($endpoint, $request){
             return Response::create_doc_response($endpoint, $request->get_chat_id(), Resources::AUD_WOLOLO);
-        }
-		
-        private function cuentanosmas($endpoint, $request){
-            return $this->cuentamemas($endpoint, $request);
         }
         
         private function cuentamemas($endpoint, $request){
@@ -496,23 +449,42 @@
                 $insulto = Utils::aleatorio(Resources::INSULTO_DIRECTO);
                 $text = Utils::aleatorio([
                     "${humano1} tienes razón, ${humano2} es un ${insulto}",
-                    "Bueno bueno, tal vez ${humano2} sea un ${insulto}, pero tú también tienes lo tuyo, ¿eh ${humano1}?"
+                    "Bueno bueno, tal vez ${humano2} sea un ${insulto}, pero tú también tienes lo tuyo, ¿eh ${humano1}?",
+                    "Sí, si ${humano2} es un ${insulto}, pero no estás para hablar, ${humano1}."
                 ]);
             }else{
                 $text = Utils::aleatorio([
                     "A quién, ¿eh? a quién, bobo, el BOBO. Puto retrasado.",
-                    "Si es que no sabes ni poner los comandos. Menudo IMBÉCIL. Qué pena das."
+                    "Si es que no sabes ni poner los comandos. Menudo IMBÉCIL. Qué pena das.",
+                    "Menudo ANORMAL, no sabes hacer nada."
                 ]);
             }
-            
             return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
-            
         }
 
         private function stopmame($endpoint, $request){
             $humano = Utils::get_humano_name($request->get_from_id());
-            $text  = "Jajajajaja... Pero ${humano}, ¡¡si eres un puto mamao!!";
+            $text = Utils::aleatorio([
+                "Jajajajaja... Pero ${humano}, ¡¡si eres un puto mamao!!",
+                "Pero ${humano}, con las merlas que te pillas, jajaja, JAJAJA, stop mame dice..."
+            ]);
             return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
+        }
+
+        private function soplar($endpoint, $request){
+            $file_id = $text = Utils::aleatorio([
+                Resources::GIF_PALMERAS_HURACAN,
+                Resources::GIF_NICOLAS_CAGE_MELENA_VIENTO
+            ]);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }
+
+        private function racismo($endpoint, $request){
+            $file_id = $text = Utils::aleatorio([
+                Resources::GIF_NO_RACISMO_BANDERIN_CHAMPIONS,
+                Resources::GIF_NO_RACISMO_CARAS_HITLER
+            ]);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
         
         private function elbobo($endpoint, $request, $insulto){
@@ -531,16 +503,28 @@
         }
 
         private function señor($endpoint, $request){
-            $file_id='BQADBAADGwEAAphMPgABI26EAcZ0dg0C';
-            $response_doc = Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            $response_doc = Response::create_doc_response($endpoint, $request->get_chat_id(), Resources::GIF_GOL_SENOR_CABALLO_BIPEDO);
             $response_doc->send();
-            
-            $audio_id='BQADBAADnAADmw-YAAGj6L0TKXyxjAI';
-            return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
+            return Response::create_audio_response($endpoint, $request->get_chat_id(), Resources::AUD_GOL_MORSE);
         }
         
         private function acierto($endpoint, $request){
             $file_id=Utils::aleatorio(array(Resources::GIF_CARRACEDO_OTRO_PICK, Resources::GIF_MASCARAS_RAVE_NORUEGA, Resources::GIF_LLULL_PALMAS_VAMOS, Resources::GIF_MASCARAS_BAILE_BODA));
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }
+
+        private function fallo($endpoint, $request){
+            $file_id=Utils::aleatorio([
+                Resources::GIF_DICAPRIO_MAKE_IT_RAIN,
+                Resources::GIF_NIGGA_MAKE_IT_RAIN
+            ]);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }
+
+        private function var($endpoint, $request){
+            $file_id=Utils::aleatorio([
+                Resources::GIF_JOAQUIN_VAR
+            ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
         
@@ -562,7 +546,8 @@
                 Resources::STK_LUCAS_VAZQUEZ,
                 Resources::IMG_THEODEN_NO_TIENES_PODER,
                 Resources::GIF_PEDRO_SANCHEZ_RIENDO,
-                Resources::GIF_ERNESTO_SEVILLA_VAYA_MIERDA
+                Resources::GIF_ERNESTO_SEVILLA_VAYA_MIERDA,
+                Resources::GIF_GORDO_BAMBOLEANDOSE
             ]);
             $response = Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
             $text = Utils::aleatorio([
