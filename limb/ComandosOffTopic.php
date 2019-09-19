@@ -39,14 +39,11 @@
             if (strpos($comando,'chupa') !== false) {
                 return $this->insultarAMadre($endpoint, $request, 'puta, que te la chupe ella por cinco duros');
             }
-            if (strpos($comando,'cabron') !== false) {
-                return $this->insultarAHumano($endpoint, $request, 'cabron');
+            if (Utils::contiene($comando, ['cabron', 'cabrón'])) {
+                return $this->insultarAHumano($endpoint, $request, 'cabrón');
             }
-            if (strpos($comando,'puto') !== false) {
-                return $this->insultarAHumano($endpoint, $request, 'un puto maricon de mierda');
-            }
-            if (strpos($comando,'maricon') !== false) {
-                return $this->insultarAHumano($endpoint, $request, 'un puto maricon de mierda');
+            if (Utils::contiene($comando, ['puto', 'maricon', 'maricón'])) {
+                return $this->insultarAHumano($endpoint, $request, 'un puto maricón de mierda');
             }
             if (strpos($comando,'subnormal') !== false) {
                 return $this->insultarAHumano($endpoint, $request, 'subnormal');
@@ -85,9 +82,16 @@
             }
             if (Utils::es($comando, ['chulepa', 'chuleta'])) {
                 return $this->filete($endpoint, $request);
-            }           
+            }
+            if (Utils::es($comando, ['tits', 'tetas'])) {
+                return $this->chuache($endpoint, $request);
+            }
             if (Utils::contiene($comando, ['tetas', 'mamellas', 'domingas', 'lolas', 'peras', 'melones', 'pechos', 'senos', 'mamas'])) {
-                return $this->enfermo($endpoint, $request);
+                if (rand(0, 5) === 1) {
+                    return $this->chuache($endpoint, $request);
+                } else {
+                    return $this->enfermo($endpoint, $request);
+                }
             }
             if (Utils::contiene($comando, ['pene', 'pito', 'nabo', 'cipote', 'cimbrel', 'semen'])) {
                 return $this->esloquetegustaeh($endpoint, $request);
@@ -227,6 +231,10 @@
             $response->caption=$text;
             return $response;
         }
+
+        private function chuache($endpoint, $request) {
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), Resources::GIF_SCHWARZENEGGER_TITS);
+        }
         
         private function aupa($endpoint, $request){
             $hour = (new DateTime(null, new DateTimezone('Europe/Madrid')))->format('H');
@@ -243,24 +251,28 @@
             } 
             
             $index = rand(0,4);
-
+            
             switch($index){
                 case 0:
+                    if (rand(0,5) === 2) { ($this->chuache($endpoint, $request))->send(); }
                     $file_id='BQADBAADOAAECiQB3V1ov-88-qgC';
                     return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
                 case 1:
+                    if (rand(0,5) === 2) { ($this->chuache($endpoint, $request))->send(); }
                     $file_id='BAADBAAD-gADq4J-AAGsDCkH3vElRwI';
                     return Response::create_video_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
                 case 2:
+                    if (rand(0,5) === 2) { ($this->chuache($endpoint, $request))->send(); }
                     $file_id=Utils::aleatorio([
                         'BQADBAADOgEAAquCfgABXRORytopeMsC',
                         Resources::GIF_TETAS_VUELTA_CICLISTA
                     ]);
                     return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
-		        case 3:
+                case 3:
+                    if (rand(0,5) === 2) { ($this->chuache($endpoint, $request))->send(); }
                     $file_id= Utils::aleatorio([
                         'AgADBAADyrExG6uCfgAByJa4e096PDrUuqYwAAT4WookikriBOAAIC', 
                         'AgADBAADzLExG6uCfgABl0UQFLI2ny9wvY8wAATndl-8tzyDq9zyAAIC', 
@@ -289,12 +301,14 @@
         private function baila($endpoint, $request) {
             $file_id = Utils::aleatorio([
                 Resources::GIF_MASCARAS_RAVE_NORUEGA, 
+                Resources::GIF_FIESTA_HOMO_SICILIA,
                 Resources::GIF_MASCARAS_BAILE_BODA
             ]);
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
         }
         
         private function age($endpoint, $request){
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
             return $this->agevapipa($endpoint, $request);
         }
 
@@ -305,12 +319,21 @@
 
         private function ori($endpoint, $request)
         {
-            return $this->_funcion_pendiente($endpoint, $request);
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
+            $file_id = Utils::aleatorio([
+                Resources::GIF_ORI_BAILE_RANDOM_TRAJE_CAMISA
+            ]);
+            return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function nano($endpoint, $request)
         {
-            return $this->_funcion_pendiente($endpoint, $request);
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
+            $file_id = Utils::aleatorio([
+                Resources::GIF_NANO_PINZAS,
+                Resources::GIF_NANO_ABANICO_BODA
+            ]);
+            return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function iban($endpoint, $request)
@@ -320,7 +343,11 @@
 
         private function luis($endpoint, $request)
         {
-            return $this->_funcion_pendiente($endpoint, $request);
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
+            $file_id = Utils::aleatorio([
+                Resources::GIF_BARTOL_BANDERA_EUROPA_VENGUE
+            ]);
+            return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function tapia($endpoint, $request)
@@ -340,7 +367,11 @@
 
         private function vicente($endpoint, $request)
         {
-            return $this->_funcion_pendiente($endpoint, $request);
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
+            $file_id = Utils::aleatorio([
+                Resources::GIF_VICENTE_AGRESION_BUS_BODA
+            ]);
+            return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function ketu($endpoint, $request)
@@ -375,10 +406,15 @@
 
         private function paco($endpoint, $request)
         {
-            return $this->_funcion_pendiente($endpoint, $request);
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
+            $file_id = Utils::aleatorio([
+                Resources::GIF_PACO_CABALLO_LOCO_SILLA
+            ]);
+            return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function cas($endpoint, $request) {
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
             $file_id = Utils::aleatorio([
                 Resources::GIF_CAS_PRIMERISIMO_PRIMER_PLANO, 
                 Resources::GIF_CAS_EXTRATITANIO_HAWAIIAN
@@ -387,6 +423,7 @@
         }
 
         private function filete($endpoint, $request) {
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
             $file_id = Utils::aleatorio([
                 Resources::GIF_FILETE_BAMBOLEO_SANSE, 
                 Resources::GIF_FILETE_BAMBOLEO_PISCINA
@@ -548,7 +585,7 @@
         private function stopmame($endpoint, $request){
             $humano = Utils::get_humano_name($request->get_from_id());
             $text = Utils::aleatorio([
-                "Jajajajaja... Pero ${humano}, ¡¡si eres un puto mamao!!",
+                "Jajajajaja... Pero ${humano}, ¡¡si eres un puto MAMAO!!",
                 "Pero ${humano}, con las merlas que te pillas, jajaja, JAJAJA, stop mame dice..."
             ]);
             return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
@@ -557,9 +594,9 @@
         private function calbo($endpoint, $request){
             $humano = Utils::get_humano_name($request->get_from_id());
             $text = Utils::aleatorio([
-                "Sí, ${humano}, sí. Este es un buen grupo de calbos.",
-                "Es absurda la poca cantidad de pelo que hay por aquí, ${humano}.",
-                "Y venga mondos... ¡¡MONDOS!! Habrá que fletar un viaje a Turquía, ¿eh, ${humano}?."
+                "Sí, ${humano}, sí. Este es un buen grupo de CALBOS.",
+                "Es absurda la POCA cantidad de PELO que hay por aquí, ${humano}.",
+                "Y venga mondos... ¡¡MONDOS!! Habrá que fletar un viaje a Turquía, ¿eh, ${humano}?"
             ]);
             return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
         }        
@@ -650,8 +687,9 @@
             $response = Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
             $text = Utils::aleatorio([
                 "Calma en Barna, chacho.",
-                "Eso tiene buena pinta.",
-                "¡¡Venga, churras!!",
+                "Muy buena cama.",
+                "¡¡Hala, VENGA!!",
+                "¡¡Venga, CHURRAS!!",
                 "Vengue, vengue."
             ]);
             $response->caption = $text;
