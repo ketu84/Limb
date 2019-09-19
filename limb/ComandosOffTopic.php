@@ -67,7 +67,11 @@
                 return Response::create_audio_response($endpoint, $request->get_chat_id(), Resources::AUD_BUENAS_NOCHES_Y_BUENA_SUERTE);
             }
             if (strpos($comando,'bot') !== false) {
-                $audio_id=Utils::aleatorio(array('BQADBAADfwEAAphMPgABb7GsrVt547oC', 'BQADBAADfgEAAphMPgAB-cXIHgEea4kC','BQADBAADfQEAAphMPgABsVDRcZCRdwMC'));
+                $audio_id=Utils::aleatorio([
+                    'BQADBAADfwEAAphMPgABb7GsrVt547oC', 
+                    'BQADBAADfgEAAphMPgAB-cXIHgEea4kC',
+                    'BQADBAADfQEAAphMPgABsVDRcZCRdwMC'
+                ]);
                 return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
             }
             if (Utils::contiene($comando, ['soplar', 'soplando', 'soplo', 'viento', 'vientos'])) {
@@ -96,6 +100,9 @@
             }
             if (Utils::es($comando, ['sortea', 'sortear'])) {
                 return $this->sorteo($endpoint, $request);
+            }
+            if (Utils::es($comando, ['calvo', 'mondo', 'turquia', 'turquía', 'ankara'])) {
+                return $this->calbo($endpoint, $request);
             }
             if (Utils::contiene($comando, ['bobo'])) {
                 return $this->elbobo($endpoint, $request);
@@ -155,10 +162,16 @@
 
             switch($index) {
                 case 0: 
-    	            $file_id = Utils::aleatorio(array('AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg', 'AgADBAAD3KkxG5sPmAABKqtTAAHWZbY3NQWLMAAEmP0iZZyVDtfYMAEAAQI'));
+    	            $file_id = Utils::aleatorio([
+                        'AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg', 
+                        'AgADBAAD3KkxG5sPmAABKqtTAAHWZbY3NQWLMAAEmP0iZZyVDtfYMAEAAQI'
+                    ]);
                     return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
                 case 1:
-                    $file_id = Utils::aleatorio(array(Resources::GIF_APLAUSO_MARIANO, Resources::GIF_BAILE_BARCO_SICILIA));
+                    $file_id = Utils::aleatorio([
+                        Resources::GIF_APLAUSO_MARIANO, 
+                        Resources::GIF_BAILE_BARCO_SICILIA
+                    ]);
                     return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
                 case 2:
                     return $this->baila($endpoint, $request);
@@ -182,7 +195,13 @@
         }
         
         private function agevapipa($endpoint, $request){
-            $file_id = Utils::aleatorio(array('AgADBAADsLExG6uCfgAB11V67VOSyHQhd4wwAATniw8DzMJf0yJcAQABAg', 'AgADBAADsbExG6uCfgABdK4Br7b7bjPOCnEwAASIQJwfY4Wa6v7QAQABAg', 'AgADBAADsrExG6uCfgABcOiowovh9m2J83AwAAQXyvtk28XB_s7RAQABAg', 'AgADBAADu7ExG6uCfgABxjIl6YqoTCSzMIswAAT06vz4TKuqGnVhAQABAg', 'AgADBAADyqoxG3lazgABhV1-CGUlYW4fA3EwAASKHnfeO00-ih3XAQABAg'));
+            $file_id = Utils::aleatorio([
+                'AgADBAADsLExG6uCfgAB11V67VOSyHQhd4wwAATniw8DzMJf0yJcAQABAg', 
+                'AgADBAADsbExG6uCfgABdK4Br7b7bjPOCnEwAASIQJwfY4Wa6v7QAQABAg', 
+                'AgADBAADsrExG6uCfgABcOiowovh9m2J83AwAAQXyvtk28XB_s7RAQABAg', 
+                'AgADBAADu7ExG6uCfgABxjIl6YqoTCSzMIswAAT06vz4TKuqGnVhAQABAg', 
+                'AgADBAADyqoxG3lazgABhV1-CGUlYW4fA3EwAASKHnfeO00-ih3XAQABAg'
+            ]);
             return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
         }
 	    
@@ -235,11 +254,19 @@
                     return Response::create_video_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
                 case 2:
-                    $file_id=Utils::aleatorio(['BQADBAADOgEAAquCfgABXRORytopeMsC',Resources::GIF_TETAS_VUELTA_CICLISTA]);
+                    $file_id=Utils::aleatorio([
+                        'BQADBAADOgEAAquCfgABXRORytopeMsC',
+                        Resources::GIF_TETAS_VUELTA_CICLISTA
+                    ]);
                     return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
 		        case 3:
-                    $file_id= Utils::aleatorio(array('AgADBAADyrExG6uCfgAByJa4e096PDrUuqYwAAT4WookikriBOAAIC', 'AgADBAADzLExG6uCfgABl0UQFLI2ny9wvY8wAATndl-8tzyDq9zyAAIC', 'AgADBAADyLExG6uCfgABiop-lux6czIfQYswAASIWlelkQEKZedyAQABAg', 'AgADBAADzLExG6uCfgABl0UQFLI2ny9wvY8wAATndl-8tzyDq9zyAAIC'));
+                    $file_id= Utils::aleatorio([
+                        'AgADBAADyrExG6uCfgAByJa4e096PDrUuqYwAAT4WookikriBOAAIC', 
+                        'AgADBAADzLExG6uCfgABl0UQFLI2ny9wvY8wAATndl-8tzyDq9zyAAIC', 
+                        'AgADBAADyLExG6uCfgABiop-lux6czIfQYswAASIWlelkQEKZedyAQABAg', 
+                        'AgADBAADzLExG6uCfgABl0UQFLI2ny9wvY8wAATndl-8tzyDq9zyAAIC'
+                    ]);
                     return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
                 default:
@@ -260,7 +287,10 @@
         }
 
         private function baila($endpoint, $request) {
-            $file_id = Utils::aleatorio(array(Resources::GIF_MASCARAS_RAVE_NORUEGA, Resources::GIF_MASCARAS_BAILE_BODA));
+            $file_id = Utils::aleatorio([
+                Resources::GIF_MASCARAS_RAVE_NORUEGA, 
+                Resources::GIF_MASCARAS_BAILE_BODA
+            ]);
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
         }
         
@@ -349,12 +379,18 @@
         }
 
         private function cas($endpoint, $request) {
-            $file_id = Utils::aleatorio(array(Resources::GIF_CAS_PRIMERISIMO_PRIMER_PLANO, Resources::GIF_CAS_EXTRATITANIO_HAWAIIAN));
+            $file_id = Utils::aleatorio([
+                Resources::GIF_CAS_PRIMERISIMO_PRIMER_PLANO, 
+                Resources::GIF_CAS_EXTRATITANIO_HAWAIIAN
+            ]);
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
         }
 
         private function filete($endpoint, $request) {
-            $file_id = Utils::aleatorio(array(Resources::GIF_FILETE_BAMBOLEO_SANSE, Resources::GIF_FILETE_BAMBOLEO_PISCINA));
+            $file_id = Utils::aleatorio([
+                Resources::GIF_FILETE_BAMBOLEO_SANSE, 
+                Resources::GIF_FILETE_BAMBOLEO_PISCINA
+            ]);
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
         }
         
@@ -374,8 +410,52 @@
             $text = "${humano}, que ¿cómo va la cosa?";
             $response = Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
             $response->send();
-            
-            $file_id = Utils::aleatorio(array('AgADBAADg7ExG6uCfgABVKJWZutMk03lxWkwAAQyyYLPq-povk7xAQABAg', 'AgADBAADhLExG6uCfgABkiwjXOKfo3Y0tY8wAATxS8uU6Iu9fg_YAAIC', 'AgADBAADhbExG6uCfgABesAVy65s2vanA3EwAARisRvtaQadn3nPAQABAg', 'AgADBAADhrExG6uCfgAB3q5XSN1HRuPNcHEwAAQ8lK5YSKm_w5a7AQABAg', 'AgADBAADh7ExG6uCfgABSfzQtoQa7aKTLqIwAATDO6GIuvcGBeg1AAIC', 'AgADBAADiLExG6uCfgABMQbc_pgPqPEuMHEwAAQuty0bwqN55XO6AQABAg', 'AgADBAADibExG6uCfgABugz1SCDyHuHhQ6IwAASYuB7xHlsFZ_MzAAIC', 'AgADBAADirExG6uCfgAB1vISgyQDxyMLcHIwAARCgZ4gG5cWjY60AQABAg', 'AgADBAADi7ExG6uCfgAB5CYClvguvRQhUoswAASJGt4QohAzC_haAQABAg', 'AgADBAADjLExG6uCfgAB_kzIyeo7UVgJUIwwAAQgu3fC_vtzdy5XAQABAg', 'AgADBAADjbExG6uCfgABZjphYymr8F9KS6YwAAQtofZMgNgMBis2AAIC', 'AgADBAADjrExG6uCfgABpuGgz4haMOsRYHEwAAS14RfJ-IZpZVS6AQABAg', 'AgADBAADj7ExG6uCfgABg5r1ekTLJ7btW48wAAQiyna7QZONdmRfAAIC', 'AgADBAADkLExG6uCfgABt5tNR8GfsWy5WqYwAAQxj7W6UPHflX41AAIC', 'AgADBAADkrExG6uCfgABAZlES-gMg-rz1IwwAAR6gfrHOimI75nZAAIC', 'AgADBAADk7ExG6uCfgABks1B4XJt5Bd4yGkwAAR8ECGfpgFKyJHzAQABAg', 'AgADBAADkbExG6uCfgABs04ElacKtmyn7mowAAR-idLveeqFxb7uAQABAg', 'AgADBAADlLExG6uCfgABzgujxVkGl8VLxWkwAASzi-RJNjW4yqHwAQABAg', 'AgADBAADlbExG6uCfgABadtPItKyx57k5XAwAAS9J_8HXRkqQRLQAQABAg', 'AgADBAADlrExG6uCfgABjtQZ-hLnpBAVD2swAASmM_StGK3AQIn2AQABAg', 'AgADBAADl7ExG6uCfgABa7lJExDqn6KxRnEwAASoJxtLytnEBk-4AQABAg', 'AgADBAADmLExG6uCfgAB2yvN68F1E3qQRaYwAAQJZvnWM0fs6_w1AAIC', 'AgADBAADmbExG6uCfgABb5BeDjZLP5DRyIowAASpPPFqZl6L139eAQABAg', 'AgADBAADmrExG6uCfgABG62c8ayCCvvRuI8wAATi1YEVNMomD0_bAAIC', 'AgADBAADm7ExG6uCfgABNGIZUIZX9JYyKHEwAAQ62JlAJ5p_0SW7AQABAg', 'AgADBAADnLExG6uCfgABQwGrUWBMJKVxlY8wAATL374qLly_A79fAAIC', 'AgADBAADnbExG6uCfgABW7Uip_ShXhXb43IwAAQkAnw1HQVB9tG9AQABAg', 'AgADBAADnrExG6uCfgABTotSza9d6Gz4nWkwAAQqdc8JQP14YL_1AQABAg', 'AgADBAADn7ExG6uCfgABojpB_BgE_JdeaHEwAARtUZIZWh77avy7AQABAg', 'AgADBAADoLExG6uCfgAB9v9babjpowU56HAwAAR7W19v2yek8-nQAQABAg', 'AgADBAADobExG6uCfgABE_MSvMoXM01HGXEwAARypH9DLukNyIC5AQABAg', 'AgADBAADorExG6uCfgABI9r34SFG4BhdU4swAAR3m_Jwt8ywoDVZAQABAg', 'AgADBAADq7ExG6uCfgABzHgzg4sczRsbrmkwAAQQKX9ZrfI9Bt_vAQABAg', 'AgADBAADrLExG6uCfgABSiS6rwhMIAF6u6YwAAS4qmUoULYrgiw1AAIC', 'AgADBAADo7ExG6uCfgABwiLcKZVclAyyV4wwAARQA7M4L17jmhJbAQABAg', 'AgADBAADrbExG6uCfgABUKunpEocMOJImI8wAATALTCBXb0Oe51cAAIC', 'AgADBAADrrExG6uCfgABer9D-9C0RO7z54wwAASP4IgsgI0kN-1dAAIC', 'AgADBAADpLExG6uCfgABVG9smyxlg6CoxoowAATIlHSMiAxe1AdaAQABAg', 'AgADBAADpbExG6uCfgABxbSa0X7VyL_KSHEwAAQT8mSD18ayE5u3AQABAg', 'AgADBAADp7ExG6uCfgABiDzmyccrxFtOto8wAARBseWhiEnjE7XZAAIC', 'AgADBAADprExG6uCfgABPNfI6LRiOSdeR3EwAATSf-1vm3K-fKK3AQABAg', 'AgADBAADqLExG6uCfgABxlU7MV-ghMAJ0GkwAAQQUlgVQloPLen2AQABAg', 'AgADBAADqbExG6uCfgABgbxqAAG0uafSOkymMAAEgwovT5OEHKmkNQACAg', 'AgADBAADqrExG6uCfgABS17nrpTZLMlxWqYwAASRlfGd2854Zm81AAIC'));
+            $file_id = Utils::aleatorio([
+                'AgADBAADg7ExG6uCfgABVKJWZutMk03lxWkwAAQyyYLPq-povk7xAQABAg', 
+                'AgADBAADhLExG6uCfgABkiwjXOKfo3Y0tY8wAATxS8uU6Iu9fg_YAAIC', 
+                'AgADBAADhbExG6uCfgABesAVy65s2vanA3EwAARisRvtaQadn3nPAQABAg', 
+                'AgADBAADhrExG6uCfgAB3q5XSN1HRuPNcHEwAAQ8lK5YSKm_w5a7AQABAg', 
+                'AgADBAADh7ExG6uCfgABSfzQtoQa7aKTLqIwAATDO6GIuvcGBeg1AAIC', 
+                'AgADBAADiLExG6uCfgABMQbc_pgPqPEuMHEwAAQuty0bwqN55XO6AQABAg', 
+                'AgADBAADibExG6uCfgABugz1SCDyHuHhQ6IwAASYuB7xHlsFZ_MzAAIC', 
+                'AgADBAADirExG6uCfgAB1vISgyQDxyMLcHIwAARCgZ4gG5cWjY60AQABAg', 
+                'AgADBAADi7ExG6uCfgAB5CYClvguvRQhUoswAASJGt4QohAzC_haAQABAg', 
+                'AgADBAADjLExG6uCfgAB_kzIyeo7UVgJUIwwAAQgu3fC_vtzdy5XAQABAg', 
+                'AgADBAADjbExG6uCfgABZjphYymr8F9KS6YwAAQtofZMgNgMBis2AAIC', 
+                'AgADBAADjrExG6uCfgABpuGgz4haMOsRYHEwAAS14RfJ-IZpZVS6AQABAg', 
+                'AgADBAADj7ExG6uCfgABg5r1ekTLJ7btW48wAAQiyna7QZONdmRfAAIC', 
+                'AgADBAADkLExG6uCfgABt5tNR8GfsWy5WqYwAAQxj7W6UPHflX41AAIC', 
+                'AgADBAADkrExG6uCfgABAZlES-gMg-rz1IwwAAR6gfrHOimI75nZAAIC', 
+                'AgADBAADk7ExG6uCfgABks1B4XJt5Bd4yGkwAAR8ECGfpgFKyJHzAQABAg', 
+                'AgADBAADkbExG6uCfgABs04ElacKtmyn7mowAAR-idLveeqFxb7uAQABAg', 
+                'AgADBAADlLExG6uCfgABzgujxVkGl8VLxWkwAASzi-RJNjW4yqHwAQABAg', 
+                'AgADBAADlbExG6uCfgABadtPItKyx57k5XAwAAS9J_8HXRkqQRLQAQABAg', 
+                'AgADBAADlrExG6uCfgABjtQZ-hLnpBAVD2swAASmM_StGK3AQIn2AQABAg', 
+                'AgADBAADl7ExG6uCfgABa7lJExDqn6KxRnEwAASoJxtLytnEBk-4AQABAg', 
+                'AgADBAADmLExG6uCfgAB2yvN68F1E3qQRaYwAAQJZvnWM0fs6_w1AAIC', 
+                'AgADBAADmbExG6uCfgABb5BeDjZLP5DRyIowAASpPPFqZl6L139eAQABAg', 
+                'AgADBAADmrExG6uCfgABG62c8ayCCvvRuI8wAATi1YEVNMomD0_bAAIC', 
+                'AgADBAADm7ExG6uCfgABNGIZUIZX9JYyKHEwAAQ62JlAJ5p_0SW7AQABAg', 
+                'AgADBAADnLExG6uCfgABQwGrUWBMJKVxlY8wAATL374qLly_A79fAAIC', 
+                'AgADBAADnbExG6uCfgABW7Uip_ShXhXb43IwAAQkAnw1HQVB9tG9AQABAg', 
+                'AgADBAADnrExG6uCfgABTotSza9d6Gz4nWkwAAQqdc8JQP14YL_1AQABAg', 
+                'AgADBAADn7ExG6uCfgABojpB_BgE_JdeaHEwAARtUZIZWh77avy7AQABAg', 
+                'AgADBAADoLExG6uCfgAB9v9babjpowU56HAwAAR7W19v2yek8-nQAQABAg', 
+                'AgADBAADobExG6uCfgABE_MSvMoXM01HGXEwAARypH9DLukNyIC5AQABAg', 
+                'AgADBAADorExG6uCfgABI9r34SFG4BhdU4swAAR3m_Jwt8ywoDVZAQABAg', 
+                'AgADBAADq7ExG6uCfgABzHgzg4sczRsbrmkwAAQQKX9ZrfI9Bt_vAQABAg', 
+                'AgADBAADrLExG6uCfgABSiS6rwhMIAF6u6YwAAS4qmUoULYrgiw1AAIC', 
+                'AgADBAADo7ExG6uCfgABwiLcKZVclAyyV4wwAARQA7M4L17jmhJbAQABAg', 
+                'AgADBAADrbExG6uCfgABUKunpEocMOJImI8wAATALTCBXb0Oe51cAAIC', 
+                'AgADBAADrrExG6uCfgABer9D-9C0RO7z54wwAASP4IgsgI0kN-1dAAIC', 
+                'AgADBAADpLExG6uCfgABVG9smyxlg6CoxoowAATIlHSMiAxe1AdaAQABAg', 
+                'AgADBAADpbExG6uCfgABxbSa0X7VyL_KSHEwAAQT8mSD18ayE5u3AQABAg', 
+                'AgADBAADp7ExG6uCfgABiDzmyccrxFtOto8wAARBseWhiEnjE7XZAAIC', 
+                'AgADBAADprExG6uCfgABPNfI6LRiOSdeR3EwAATSf-1vm3K-fKK3AQABAg', 
+                'AgADBAADqLExG6uCfgABxlU7MV-ghMAJ0GkwAAQQUlgVQloPLen2AQABAg', 
+                'AgADBAADqbExG6uCfgABgbxqAAG0uafSOkymMAAEgwovT5OEHKmkNQACAg', 
+                'AgADBAADqrExG6uCfgABS17nrpTZLMlxWqYwAASRlfGd2854Zm81AAIC'
+            ]);
             return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
         }
         
@@ -423,7 +503,10 @@
         }
         
         private function cuentamemas($endpoint, $request){
-            $file_id = Utils::aleatorio(array('BQADBAADPQADmw-YAAEhWGbVFye0lQI', 'BQADBAADPgADmw-YAAH-FnGmrZjAewI'));
+            $file_id = Utils::aleatorio([
+                'BQADBAADPQADmw-YAAEhWGbVFye0lQI', 
+                'BQADBAADPgADmw-YAAH-FnGmrZjAewI'
+            ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
         
@@ -471,8 +554,18 @@
             return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
         }
 
+        private function calbo($endpoint, $request){
+            $humano = Utils::get_humano_name($request->get_from_id());
+            $text = Utils::aleatorio([
+                "Sí, ${humano}, sí. Este es un buen grupo de calbos.",
+                "Es absurda la poca cantidad de pelo que hay por aquí, ${humano}.",
+                "Y venga mondos... ¡¡MONDOS!! Habrá que fletar un viaje a Turquía, ¿eh, ${humano}?."
+            ]);
+            return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
+        }        
+
         private function soplar($endpoint, $request){
-            $file_id = $text = Utils::aleatorio([
+            $file_id = Utils::aleatorio([
                 Resources::GIF_PALMERAS_HURACAN,
                 Resources::GIF_NICOLAS_CAGE_MELENA_VIENTO
             ]);
@@ -480,7 +573,7 @@
         }
 
         private function racismo($endpoint, $request){
-            $file_id = $text = Utils::aleatorio([
+            $file_id = Utils::aleatorio([
                 Resources::GIF_NO_RACISMO_BANDERIN_CHAMPIONS,
                 Resources::GIF_NO_RACISMO_CARAS_HITLER
             ]);
@@ -509,7 +602,12 @@
         }
         
         private function acierto($endpoint, $request){
-            $file_id=Utils::aleatorio(array(Resources::GIF_CARRACEDO_OTRO_PICK, Resources::GIF_MASCARAS_RAVE_NORUEGA, Resources::GIF_LLULL_PALMAS_VAMOS, Resources::GIF_MASCARAS_BAILE_BODA));
+            $file_id=Utils::aleatorio([
+                Resources::GIF_CARRACEDO_OTRO_PICK, 
+                Resources::GIF_MASCARAS_RAVE_NORUEGA, 
+                Resources::GIF_LLULL_PALMAS_VAMOS, 
+                Resources::GIF_MASCARAS_BAILE_BODA
+            ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 

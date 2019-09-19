@@ -97,6 +97,9 @@
         }
         
         static function aleatorio($elementos){
+            if(!is_array($elementos)) {
+                return $elementos;
+            }
 	        return $elementos[rand(0,count($elementos)-1)];
         }
 
