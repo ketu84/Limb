@@ -74,7 +74,7 @@
             if (Utils::contiene($comando, ['soplar', 'soplando', 'soplo', 'viento', 'vientos'])) {
                 return $this->soplar($endpoint, $request);
             }
-            if (Utils::contiene($comando, ['racismo', 'negro', 'pancho', 'panchito', 'raza'])) {
+            if (Utils::contiene($comando, ['racismo', 'negro', 'pancho', 'panchito', 'raza', 'rumano', 'gitano'])) {
                 return $this->racismo($endpoint, $request);
             }
             if (Utils::es($comando, ['fas'])) {
@@ -113,6 +113,9 @@
             }
             if (Utils::es($comando, ['var'])) {
                 return $this->revision($endpoint, $request);
+            }
+            if (Utils::es($comando, ['obeso','sebo','boliche'])) {
+                return $this->gordo($endpoint, $request);
             }
             if (Utils::contiene($comando, ['bobo'])) {
                 return $this->elbobo($endpoint, $request);
@@ -307,6 +310,7 @@
         private function hola($endpoint, $request){
             $file_id = Utils::aleatorio([
                 Resources::GIF_HOLA_BALCON_SICILIA,
+                Resources::GIF_CARRACEDO_HOLA_VERTICAL,
                 Resources::GIF_FORREST_GUMP_SALUDANDO,
                 Resources::STK_LUCAS_VAZQUEZ
             ]);
@@ -407,7 +411,11 @@
 
         private function carracedo($endpoint, $request)
         {
-            return $this->_funcion_pendiente($endpoint, $request);
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
+            $file_id = Utils::aleatorio([
+                Resources::GIF_CARRACEDO_HOLA_VERTICAL
+            ]);
+            return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function borja($endpoint, $request)
@@ -576,8 +584,13 @@
         }
 
         private function insultar($endpoint, $request){
-            $intro = Utils::aleatorio(['Pues veamos,', 'Ahora que lo dices', 'Me sabe mal, pero', 'Lo cierto es que', 
-                                        'Jajaja, vale,', 'Por todos es sabido que']);
+            $intro = Utils::aleatorio([
+                "Pues veamos,", "Ahora que lo dices", 
+                "Me sabe mal, pero", "Lo cierto es que", 
+                "Jajaja, vale,", "Por todos es sabido que",
+                "Sinceramente,", "Pues está claro que",
+                "Creo que"
+            ]);
             $humano = Utils::get_humano_random();
             $insulto =  Utils::aleatorio(Resources::INSULTO_DIRECTO);
             $text = "${intro} ${humano} es un ${insulto}.";
@@ -588,6 +601,9 @@
             $text = null;
             $params = $request->get_command_params();
             if(count($params)>0){
+                if(rand(0,10) === 3) {
+                    return $this->insulto_argentino($endpoint, $request);
+                }
                 $humano1 = Utils::get_humano_name($request->get_from_id());
                 $humano2 = $params[0];
                 $insulto = Utils::aleatorio(Resources::INSULTO_DIRECTO);
@@ -600,6 +616,7 @@
                 $text = Utils::aleatorio([
                     "A quién, ¿eh? a quién, bobo, el BOBO. Puto retrasado.",
                     "Si es que no sabes ni poner los comandos. Menudo IMBÉCIL. Qué pena das.",
+                    "Buff, qué jodido INÚTIL.",
                     "Menudo ANORMAL, no sabes hacer nada."
                 ]);
             }
@@ -610,16 +627,29 @@
             $humano = Utils::get_humano_name($request->get_from_id());
             $text = Utils::aleatorio([
                 "Jajajajaja... Pero ${humano}, ¡¡si eres un puto MAMAO!!",
+                "Con lo puto MAMAO que eres, ${humano}. Si es que no te lo crees ni tú.",
+                "Pero qué dices, ${humano}. Si vas de merla en merla. ¡¡MAMAO!!",
+                "${humano} diciendo que stop mame... ¡¡Stop mame!! Jajaja menudo MAMAO...",
                 "Pero ${humano}, con las merlas que te pillas, jajaja, JAJAJA, stop mame dice..."
             ]);
             return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
         }
+
+        private function gordo($endpoint, $request){
+            $humano = Utils::get_humano_name($request->get_from_id());
+            $text = Utils::aleatorio([
+                "${humano}, no sé que quieres decir, pero hay que tener respeto con los cementerios de canelones.",
+                "Hola, ${humano}. Me cuesta entender que pretendías. Me parece de muy mal gusto querer meterte con los obesos."
+            ]);
+            return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
+        }        
 
         private function calbo($endpoint, $request){
             $humano = Utils::get_humano_name($request->get_from_id());
             $text = Utils::aleatorio([
                 "Sí, ${humano}, sí. Este es un buen grupo de CALBOS.",
                 "Es absurda la POCA cantidad de PELO que hay por aquí, ${humano}.",
+                "Mucho flequillo de carne veo por aquí.",
                 "Y venga mondos... ¡¡MONDOS!! Habrá que fletar un viaje a Turquía, ¿eh, ${humano}?"
             ]);
             return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
@@ -722,6 +752,39 @@
             $file_id=Utils::aleatorio(['BQADBAAD0gAECiQBmf8x2MUKMbsC', 'BQADBAAD3xgAAtwXZAeef-gdoL82-QI']);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }				       
+
+        private function tarancon($endpoint, $request){
+            $text = "Estaba p'ahí en la boda de Tarancón, ";
+            $text .= "y estaba allí un paisano con el gorrillo de paja ";
+            $text .= "y el cigarrilo allí, y estaba doblao. Estaba así... estaba doblao... ";
+            $text .= "Unos calores, un tío gordo, ¿como Manolo el de \"Manos a la obra\"? Igual. ";
+            $text .= "Le digo: ". PHP_EOL;
+            $text .= "- ¿Qué pasa fenómeno?" . PHP_EOL;
+            $text .= "Y dice: " . PHP_EOL;
+            $text .= "- ¿De dóóónde eres?" . PHP_EOL;
+            $text .= "- De Salamanca." . PHP_EOL;
+            $text .= "- Salamancaaaa. Que tú, que el de allí, ";
+            $text .= "¡¡hala!! que no estaba muerto.. ¡¡Aaaay!!" . PHP_EOL;
+            return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
+        }
+
+        private function insulto_argentino($endpoint, $request){
+            $humano = Utils::get_humano_name($request->get_from_id());
+            $humano = strtoupper($humano);
+            $text = Utils::aleatorio([
+                "IMAGINATE QUE LA APUESTA ES UN REMEDIO CONTRA LA ALOPECIA Y ACIERTALA, ${humano}.",
+                "PERO HAZ ALGO PUTO PELADO DE COJONES INÚTIL DE MIERDA DESIERTO DE PELO ANTICIPO DE QUIMIOTERAPIA DEJA DE APOSTAR COMO UN PUTO SUBNORMAL ${humano} QUE SOS UN PUTO CALVO RIDÍCULO HACE ALGO BIEN FORRO DE MIERDA",
+                "${humano} GORDO PUTO CALBO CÓMO SE TE OCURRE NO ACERTAR LAS APUESTAS COGOLLO DE ABONO SIN CUELLO ASI NO GANAMOS NADA QUÉ QUERÉS HACER BOTIJO DE GONORREA SI NO SABES APOSTAR A UNOS HIJOS DE REMIL BARCOS DE ESTIÉRCOL PECHOFRÍOS ANDATE A LA CONCHA DE LA LORA",
+                "${humano} PUTO CEMENTERIO DE PEINES, FLEQUILLO DE CARNE, MORITE HIJO DE PUTA",
+                "${humano} QUE TE PASA EN LA CABEZA, HIJO DE UN SISTEMA SOLAR REBOSANTE DE PUTAS, CABEZA DE RODILLA, SALAME, FORRO, LA CONCHA DE TU HERMANA, METETE EN UN COHETE Y ATERRIZÁ EN UNA GALAXIA DONDE NO SE TE PUEDA VER NI CON UN SATÉLITE, DEDICATE A ESQUILAR OVEJAS CALVO",
+                "${humano} MALPARIDO HIJO DE 500MIL PUTAS SIDOSAS, GENOCIDA DE PEINES, TE VAN A SACAR EN LA CAJUELA, SOS UN IMPRESENTABLE MALDITA BOLSA DE SIDA NO ME PODES DAR UNA SOLA ALEGRIA CALVO PELOTUDO ME CAGO EN TUS MUERTOS",
+                "${humano} HIJO DE 800 CIVILIZACIONES DE RAMERAS BÍBLICAS. CÓMO CARAJO VAS A FALLAR ESA APUESTA. QUE ALGUIEN VELE A CAJÓN CERRADO A ESE MUERTO CARAJO.",
+                "${humano} LA CONCHA DE LA LORA, SOS UN PUTO TETRAPLEJICO. PUTO TARADO CATADOR DE LIQUIDO PRESEMINAL SOS UNA MIERDA, VIOLADOR DE PEINES PAJERO DE BRAZZERS",
+                "${humano} TENES EL PECHO MAS HELADO QUE LA CONCHA DE ELSA DE FROZEN HIJO DE LA RECONTRACONCHA MADRE DE UN MONO CON SIFILIS",
+                "${humano} SOS UN CÁNCER, SOS PEOR QUE UN CÁNCER. SI AL CÁNCER LE DICEN TENÉS ${humano} SE DEPRIME Y SE SUICIDA PARA NO SUFRIR"
+            ]);
+            return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
+        }
 
         private function _funcion_pendiente($endpoint, $request) {
             $file_id = Utils::aleatorio([
