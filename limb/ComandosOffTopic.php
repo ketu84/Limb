@@ -108,6 +108,12 @@
             if (Utils::es($comando, ['calvo', 'mondo', 'turquia', 'turquía', 'ankara'])) {
                 return $this->calbo($endpoint, $request);
             }
+            if (Utils::contiene($comando, ['merla', 'mame'])) {
+                return $this->merla($endpoint, $request);
+            }
+            if (Utils::es($comando, ['var'])) {
+                return $this->revision($endpoint, $request);
+            }
             if (Utils::contiene($comando, ['bobo'])) {
                 return $this->elbobo($endpoint, $request);
             }
@@ -255,20 +261,20 @@
             } 
             
             $index = rand(0,4);
-            
+
             switch($index){
                 case 0:
-                    if (rand(0,5) === 2) { ($this->chuache($endpoint, $request))->send(); }
+                    if (rand(0,5) === 2) { $this->chuache($endpoint, $request)->send(); }
                     $file_id='BQADBAADOAAECiQB3V1ov-88-qgC';
                     return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
                 case 1:
-                    if (rand(0,5) === 2) { ($this->chuache($endpoint, $request))->send(); }
+                    if (rand(0,5) === 2) { $this->chuache($endpoint, $request)->send(); }
                     $file_id='BAADBAAD-gADq4J-AAGsDCkH3vElRwI';
                     return Response::create_video_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
                 case 2:
-                    if (rand(0,5) === 2) { ($this->chuache($endpoint, $request))->send(); }
+                    if (rand(0,5) === 2) { $this->chuache($endpoint, $request)->send(); }
                     $file_id=Utils::aleatorio([
                         'BQADBAADOgEAAquCfgABXRORytopeMsC',
                         Resources::GIF_TETAS_VUELTA_CICLISTA
@@ -276,7 +282,7 @@
                     return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
                 case 3:
-                    if (rand(0,5) === 2) { ($this->chuache($endpoint, $request))->send(); }
+                    if (rand(0,5) === 2) { $this->chuache($endpoint, $request)->send(); }
                     $file_id= Utils::aleatorio([
                         'AgADBAADyrExG6uCfgAByJa4e096PDrUuqYwAAT4WookikriBOAAIC', 
                         'AgADBAADzLExG6uCfgABl0UQFLI2ny9wvY8wAATndl-8tzyDq9zyAAIC', 
@@ -441,6 +447,7 @@
             if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
             $file_id = Utils::aleatorio([
                 Resources::GIF_FILETE_BAMBOLEO_SANSE,
+                Resources::GIF_FILETE_ACERCANDOSE_EN_LA_OSCURIDAD,
                 Resources::GIF_FILETE_PONIENDOSE_SOMBRERO_BOCA,
                 Resources::GIF_FILETE_BAMBOLEO_PISCINA
             ]);
@@ -630,16 +637,17 @@
         private function racismo($endpoint, $request){
             $file_id = Utils::aleatorio([
                 Resources::GIF_NO_RACISMO_BANDERIN_CHAMPIONS,
+                Resources::GIF_NANO_LUCHO_CONECTA_NAZI,
                 Resources::GIF_NO_RACISMO_CARAS_HITLER
             ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
         
-        private function elbobo($endpoint, $request, $insulto){
+        private function elbobo($endpoint, $request){
             return Response::create_doc_response($endpoint, $request->get_chat_id(), Resources::GIF_PEDRO_SANCHEZ_RIENDO);
         }
         
-        private function españa($endpoint, $request, $insulto){
+        private function españa($endpoint, $request){
             $emoji_e=Utils::convert_emoji(0x1F1EA);
             $emoji_s=Utils::convert_emoji(0x1F1F8);
             $text = $emoji_e.$emoji_s;
@@ -674,7 +682,7 @@
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
-        private function var($endpoint, $request){
+        private function revision($endpoint, $request){
             $file_id=Utils::aleatorio([
                 Resources::GIF_JOAQUIN_VAR
             ]);
@@ -698,6 +706,7 @@
 
         private function merla($endpoint, $request){
             $file_id=Utils::aleatorio([
+                Resources::GIF_FERDINAND_VENGA_VENGA_OTRA_MERLA,
                 Resources::GIF_FERDINAND_NO_OS_HUELE_A_MERLA
             ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
