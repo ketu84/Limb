@@ -210,7 +210,11 @@
         }
 	    
         private function agevamuypipa($endpoint, $request){
-            return Response::create_doc_response($endpoint, $request->get_chat_id(), Resources::GIF_AGE_BAILE_RANDOM);
+            $file_id = Utils::aleatorio([
+                Resources::GIF_AGE_BAILE_RANDOM,
+                Resources::GIF_AGE_MINI_QUE_NOS_QUITEN_LO_BAILAO
+            ]);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
         
         private function telacomiste($endpoint, $request){
@@ -295,13 +299,22 @@
         }
         
         private function hola($endpoint, $request){
-            return Response::create_sticker_response($endpoint,  $request->get_chat_id(), Resources::STK_LUCAS_VAZQUEZ);
+            $file_id = Utils::aleatorio([
+                Resources::GIF_HOLA_BALCON_SICILIA,
+                Resources::GIF_FORREST_GUMP_SALUDANDO,
+                Resources::STK_LUCAS_VAZQUEZ
+            ]);
+            return Response::create_sticker_response($endpoint,  $request->get_chat_id(), $file_id);
         }
 
         private function baila($endpoint, $request) {
             $file_id = Utils::aleatorio([
                 Resources::GIF_MASCARAS_RAVE_NORUEGA, 
                 Resources::GIF_FIESTA_HOMO_SICILIA,
+                Resources::GIF_RINCON_BAILANDO_BODA,
+                Resources::GIF_ARABES_BAILANDO_VENGUE,
+                Resources::GIF_RICHY_BAILANDO_MASCARA_PROBOSCIS,
+                Resources::GIF_RICHY_BAILE_MALTA_CAMISETA_AMARILLA,
                 Resources::GIF_MASCARAS_BAILE_BODA
             ]);
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
@@ -331,6 +344,7 @@
             if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
             $file_id = Utils::aleatorio([
                 Resources::GIF_NANO_PINZAS,
+                Resources::GIF_NANO_CLEARLY_SOCIALIST,
                 Resources::GIF_NANO_ABANICO_BODA
             ]);
             return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
@@ -345,6 +359,7 @@
         {
             if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
             $file_id = Utils::aleatorio([
+                Resources::GIF_BARTOL_ALAS_BARCELONA,
                 Resources::GIF_BARTOL_BANDERA_EUROPA_VENGUE
             ]);
             return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
@@ -425,7 +440,8 @@
         private function filete($endpoint, $request) {
             if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
             $file_id = Utils::aleatorio([
-                Resources::GIF_FILETE_BAMBOLEO_SANSE, 
+                Resources::GIF_FILETE_BAMBOLEO_SANSE,
+                Resources::GIF_FILETE_PONIENDOSE_SOMBRERO_BOCA,
                 Resources::GIF_FILETE_BAMBOLEO_PISCINA
             ]);
             return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
@@ -541,6 +557,7 @@
         
         private function cuentamemas($endpoint, $request){
             $file_id = Utils::aleatorio([
+                Resources::GIF_GREASE_TELL_ME_MORE,
                 'BQADBAADPQADmw-YAAEhWGbVFye0lQI', 
                 'BQADBAADPgADmw-YAAH-FnGmrZjAewI'
             ]);
@@ -604,6 +621,7 @@
         private function soplar($endpoint, $request){
             $file_id = Utils::aleatorio([
                 Resources::GIF_PALMERAS_HURACAN,
+                Resources::GIF_RICHY_ME_SUDA_LOS_COJONES,
                 Resources::GIF_NICOLAS_CAGE_MELENA_VIENTO
             ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
@@ -662,6 +680,28 @@
             ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
+
+        private function resaca($endpoint, $request){
+            $file_id=Utils::aleatorio([
+                Resources::GIF_FERDINAND_SI_OTRA_RESACA
+            ]);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }
+        
+        private function vengue($endpoint, $request){
+            $file_id=Utils::aleatorio([
+                Resources::GIF_BARTOL_BANDERA_EUROPA_VENGUE,
+                Resources::GIF_ARABES_BAILANDO_VENGUE
+            ]);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }
+
+        private function merla($endpoint, $request){
+            $file_id=Utils::aleatorio([
+                Resources::GIF_FERDINAND_NO_OS_HUELE_A_MERLA
+            ]);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }
         
         private function tehasexcedido($endpoint, $request){
             $response_doc = Response::create_doc_response($endpoint, $request->get_chat_id(), Resources::GIF_JURASSIC_PARK_ENTRADA);
@@ -679,8 +719,8 @@
                 Resources::GIF_PERRO_TECLEANDO,
                 Resources::GIF_MASCARAS_RAVE_NORUEGA,
                 Resources::STK_LUCAS_VAZQUEZ,
-                Resources::IMG_THEODEN_NO_TIENES_PODER,
                 Resources::GIF_PEDRO_SANCHEZ_RIENDO,
+                Resources::GIF_RINCON_CORTEN,
                 Resources::GIF_ERNESTO_SEVILLA_VAYA_MIERDA,
                 Resources::GIF_GORDO_BAMBOLEANDOSE
             ]);
