@@ -457,7 +457,7 @@
             if($insultar){
                 $text.=PHP_EOL.'Apostad ya '.Utils::getInsultoPlural();
             }else{
-                $text.="Han apostado todos". PHP_EOL;
+                $text.="Han apostado todos. Muy bien " . Utils::getInsultoPlural() . "." . PHP_EOL;
             }
             
             $object = new stdClass();
