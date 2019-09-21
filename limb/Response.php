@@ -146,6 +146,9 @@
 	                break;
                 case self::TYPE_DOC:
 	                $data["document"]=$this->file_id;
+			if(!is_null($this->caption)){
+                            $data["caption"]=$this->caption;
+                        }
 	                $accion='/sendDocument';
 	                break;
                 case self::TYPE_PHOTO:
