@@ -674,7 +674,7 @@
            
         }
         
-private function partidos_jornada($endpoint, $request,$grupoVO){
+        private function partidos_jornada($endpoint, $request,$grupoVO){
             $this->log->debug("Obteniedo partidos jornada");
             $time = microtime(true);
             $urlApi=$grupoVO->url_api;
@@ -692,11 +692,11 @@ private function partidos_jornada($endpoint, $request,$grupoVO){
             
             $this->log->debug("url: ".'partidos/fase/'.$fase->id.'/'.$fase->tipo->id);
 
-	    if($fase->tipo->id!=null){ 
-	        $json = Utils::callApi($request, 'partidos/fase/'.$fase->id.'/'.$fase->tipo->id, $urlApi);
-	    }else{
-		$json = Utils::callApi($request, 'partidos/fase/'.$fase->id, $urlApi);
-	    }
+	        if($fase->tipo->id!=null){ 
+	            $json = Utils::callApi($request, 'partidos/fase/'.$fase->id.'/'.$fase->tipo->id, $urlApi);
+	        }else{
+		        $json = Utils::callApi($request, 'partidos/fase/'.$fase->id, $urlApi);
+	        }
             $obj = json_decode($json);
             
             $this->log->debug("jsonPartidos: ".$json);
@@ -740,6 +740,53 @@ private function partidos_jornada($endpoint, $request,$grupoVO){
             $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
             
             $this->log->debug("Fin Obteniedo Próxima jornada (".(microtime(true)-$time)." s): ");
+            return $response;
+        }
+
+	private function sincuota($endpoint, $request,$grupoVO){
+            
+            $urlApi=$grupoVO->url_api;
+            
+            //Se comprueba si es un chat privado, para obtener el token del usuario
+            if($request->is_private_chat()){
+                $text = self::sendMisPartidos($request, $urlApi);
+                $text='';
+            
+                $jsonTokenUser = Utils::callApi($request, 'tokenusuario/'.$request->get_chat_id().'?token='.TOKEN_API_BOT, $urlApi);
+                $tokenUsuario = json_decode($jsonTokenUser, true);
+
+                //Si hay token de usuario del chat, se invoca el comando con el token
+                if($tokenUsuario[0]['token']){
+                    $idUsuario = $tokenUsuario[0]['id'];
+                    
+                    $finUrl='?token='.$tokenUsuario[0]['token'];
+                    $json = Utils::callApi($request, 'apuestas/sincuota'.$finUrl, $urlApi);
+                    $sinCuota = json_decode($json);
+                    if(property_exists($sinCuota, 'error')){
+                        $text = 'Esto solo lo puede usar un admin, tonto';
+                    }else{
+                        $emoji_guion= Utils::convert_emoji(0x2796);
+                        if(sizeof($sinCuota)>0){
+                            $text = '*Lista de partidos con apuestas sin cuotas:*';
+                            foreach($sinCuota as $valor) {
+                                $text.=PHP_EOL.$emoji_guion.' '.substr($valor->HORA,0,5).' '.$valor->LOCAL.' vs '.$valor->VISITANTE .' ('.$valor->NOMBRE.')';
+                            }
+                        }
+                    }
+                }
+
+            }else{
+                $text = 'Esto solo se puede usar en privado, motherfucker!!';
+            }
+            
+            if($text==''){
+                $emoji_ok=Utils::convert_emoji(0x2705);
+                $text = $emoji_ok.' No hay apuestas sin cuota';
+            }
+            
+            $object = new stdClass();
+            $object->hide_keyboard =true;
+            $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
             return $response;
         }
     }
