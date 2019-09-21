@@ -743,7 +743,7 @@
             return $response;
         }
 
-        private function sincuota($endpoint, $request,$grupoVO){
+	private function sincuota($endpoint, $request,$grupoVO){
             
             $urlApi=$grupoVO->url_api;
             
