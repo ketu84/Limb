@@ -187,7 +187,13 @@
             
             
             try {       
-            
+
+                // API para PHP sin CURL activo
+                if (!function_exists('curl_version')) {
+                    $url = $this->endpoint . $accion . '?' . http_build_query($data);
+                    return file_get_contents($url);
+                }
+
                 $options = [
                     CURLOPT_URL => $this->endpoint. $accion,
                     CURLOPT_RETURNTRANSFER => true,
