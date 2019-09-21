@@ -760,22 +760,28 @@
                     $idUsuario = $tokenUsuario[0]['id'];
                     
                     $finUrl='?token='.$tokenUsuario[0]['token'];
-                    $json = Utils::callApi($request, 'apuestas/sincuota?'.$tokenUsuario[0]['token'], $urlApi);
+                    $json = Utils::callApi($request, 'apuestas/sincuota'.$finUrl, $urlApi);
                     $sinCuota = json_decode($json);
-                    foreach($sinCuota as $valor) {
-                        $text.=$text.substr($valor->hora,0,5).' '.$valor->local.' vs '.$valor->visitante .'('.$valor->nombre.')';
+                    if(property_exists($sinCuota, 'error')){
+                        $text = 'Esto solo lo puede usar un admin, tonto';
+                    }else{
+                        $emoji_guion= Utils::convert_emoji(0x2796);
+                        if(sizeof($sinCuota)>0){
+                            $text = '*Lista de partidos con apuestas sin cuotas:*';
+                            foreach($sinCuota as $valor) {
+                                $text.=PHP_EOL.$emoji_guion.' '.substr($valor->HORA,0,5).' '.$valor->LOCAL.' vs '.$valor->VISITANTE .' ('.$valor->NOMBRE.')';
+                            }
+                        }
                     }
                 }
-
-
-
 
             }else{
                 $text = 'Esto solo se puede usar en privado, motherfucker!!';
             }
             
             if($text==''){
-                $text='No hay apuestas sin cuota';
+                $emoji_ok=Utils::convert_emoji(0x2705);
+                $text = $emoji_ok.' No hay apuestas sin cuota';
             }
             
             $object = new stdClass();
