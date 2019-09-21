@@ -327,7 +327,7 @@
                 Resources::GIF_RICHY_BAILE_MALTA_CAMISETA_AMARILLA,
                 Resources::GIF_MASCARAS_BAILE_BODA
             ]);
-            return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint,  $request->get_chat_id(), $file_id);
         }
         
         private function age($endpoint, $request){
@@ -346,7 +346,7 @@
             $file_id = Utils::aleatorio([
                 Resources::GIF_ORI_BAILE_RANDOM_TRAJE_CAMISA
             ]);
-            return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function nano($endpoint, $request)
@@ -357,7 +357,7 @@
                 Resources::GIF_NANO_CLEARLY_SOCIALIST,
                 Resources::GIF_NANO_ABANICO_BODA
             ]);
-            return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function iban($endpoint, $request)
@@ -372,7 +372,7 @@
                 Resources::GIF_BARTOL_ALAS_BARCELONA,
                 Resources::GIF_BARTOL_BANDERA_EUROPA_VENGUE
             ]);
-            return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function tapia($endpoint, $request)
@@ -396,7 +396,7 @@
             $file_id = Utils::aleatorio([
                 Resources::GIF_VICENTE_AGRESION_BUS_BODA
             ]);
-            return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function ketu($endpoint, $request)
@@ -415,7 +415,7 @@
             $file_id = Utils::aleatorio([
                 Resources::GIF_CARRACEDO_HOLA_VERTICAL
             ]);
-            return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function borja($endpoint, $request)
@@ -439,7 +439,7 @@
             $file_id = Utils::aleatorio([
                 Resources::GIF_PACO_CABALLO_LOCO_SILLA
             ]);
-            return Response::create_text_response($endpoint, $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function cas($endpoint, $request) {
@@ -448,7 +448,7 @@
                 Resources::GIF_CAS_PRIMERISIMO_PRIMER_PLANO, 
                 Resources::GIF_CAS_EXTRATITANIO_HAWAIIAN
             ]);
-            return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint,  $request->get_chat_id(), $file_id);
         }
 
         private function filete($endpoint, $request) {
@@ -459,7 +459,7 @@
                 Resources::GIF_FILETE_PONIENDOSE_SOMBRERO_BOCA,
                 Resources::GIF_FILETE_BAMBOLEO_PISCINA
             ]);
-            return Response::create_text_response($endpoint,  $request->get_chat_id(), $file_id);
+            return Response::create_doc_response($endpoint,  $request->get_chat_id(), $file_id);
         }
         
         private function hez($endpoint, $request){
