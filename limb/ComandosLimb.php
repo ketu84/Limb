@@ -187,10 +187,10 @@
 
         private function getIconoPasa($posicion, $total_jugadores) {
             // https://emojipedia.org
-            $emoji_ok = Utils::convert_emoji(0x2733);
+            $emoji_ok = Utils::convert_emoji(0x2705);
             $emoji_ko = Utils::convert_emoji(0x2B07);
-            $emoji_first = Utils::convert_emoji(0xF947);
-            $emoji_last = Utils::convert_emoji(0xFE0F);
+            $emoji_first = Utils::convert_emoji(0x2733);
+            $emoji_last = Utils::convert_emoji(0x267F);
             if ($posicion === $total_jugadores) {
                 return $emoji_last;
             }
