@@ -65,9 +65,9 @@
             }
             if (strpos($comando,'bot') !== false) {
                 $audio_id=Utils::aleatorio([
-                    'BQADBAADfwEAAphMPgABb7GsrVt547oC', 
-                    'BQADBAADfgEAAphMPgAB-cXIHgEea4kC',
-                    'BQADBAADfQEAAphMPgABsVDRcZCRdwMC'
+                    Resources::AUD_HE_VISTO_COSAS, 
+                    Resources::AUD_SOY_EL_SARGENTO, 
+                    Resources::AUD_HUELES_ESO 
                 ]);
                 return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
             }
@@ -134,11 +134,9 @@
                 case 0: 
                     return $this->no_implementada($endpoint, $request);
                 case 1:
-                    $audio_id='BQADBAADjwEAAphMPgABSEw32ygsbFIC';
-                    return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
+                    return Response::create_audio_response($endpoint, $request->get_chat_id(), Resources::AUD_HOUSTON);
                 case 2:
-                    $audio_id='BQADBAADiwEAAphMPgABaFOwoeYdAUkC';
-                    return Response::create_audio_response($endpoint, $request->get_chat_id(), $audio_id);
+                    return Response::create_audio_response($endpoint, $request->get_chat_id(), Resources::AUD_GRAN_PODER);
             }
         }
          
@@ -176,8 +174,8 @@
             switch($index) {
                 case 0: 
     	            $file_id = Utils::aleatorio([
-                        'AgADBAADKrExG6uCfgABZugFvbiTwBWpaHIwAAQIkbE_6Ksrx8Q2AQABAg', 
-                        'AgADBAAD3KkxG5sPmAABKqtTAAHWZbY3NQWLMAAEmP0iZZyVDtfYMAEAAQI'
+                        Resources::IMG_CRISTIANO_PULGARES_OK,
+                        Resources::IMG_WEAH_PULGAR_OK
                     ]);
                     return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
                 case 1:
@@ -209,11 +207,11 @@
         
         private function agevapipa($endpoint, $request){
             $file_id = Utils::aleatorio([
-                'AgADBAADsLExG6uCfgAB11V67VOSyHQhd4wwAATniw8DzMJf0yJcAQABAg', 
-                'AgADBAADsbExG6uCfgABdK4Br7b7bjPOCnEwAASIQJwfY4Wa6v7QAQABAg', 
-                'AgADBAADsrExG6uCfgABcOiowovh9m2J83AwAAQXyvtk28XB_s7RAQABAg', 
-                'AgADBAADu7ExG6uCfgABxjIl6YqoTCSzMIswAAT06vz4TKuqGnVhAQABAg', 
-                'AgADBAADyqoxG3lazgABhV1-CGUlYW4fA3EwAASKHnfeO00-ih3XAQABAg'
+                Resources::IMG_AGE_PULGARES_AGUA,
+                Resources::IMG_AGE_GANGSTER,
+                Resources::IMG_AGE_MASCARA_ROJA,
+                Resources::IMG_AGE_COPA_OHARAS,
+                Resources::IMG_AGE_LENGUA_BUS
             ]);
             return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
         }
@@ -267,30 +265,26 @@
 
             switch($index){
                 case 0:
-                    if (rand(0,5) === 2) { $this->chuache($endpoint, $request)->send(); }
-                    $file_id='BQADBAADOAAECiQB3V1ov-88-qgC';
-                    return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+                    if (rand(0,5) === 2) { $this->chuache($endpoint, $request)->send();}
+                    return Response::create_doc_response($endpoint, $request->get_chat_id(), Resources::GIF_TETAS_AUPA_ATHLETIC);
                     break;
                 case 1:
-                    if (rand(0,5) === 2) { $this->chuache($endpoint, $request)->send(); }
-                    $file_id='BAADBAAD-gADq4J-AAGsDCkH3vElRwI';
-                    return Response::create_video_response($endpoint, $request->get_chat_id(), $file_id);
+                    if (rand(0,5) === 2) { $this->chuache($endpoint, $request)->send();}
+                    return Response::create_video_response($endpoint, $request->get_chat_id(), Resources::VID_TETAS_TIA_DICE_HOLA_GRUPO);
                     break;
                 case 2:
-                    if (rand(0,5) === 2) { $this->chuache($endpoint, $request)->send(); }
+                    if (rand(0,5) === 2) { $this->chuache($endpoint, $request)->send();}
                     $file_id=Utils::aleatorio([
-                        'BQADBAADOgEAAquCfgABXRORytopeMsC',
+                        Resources::GIF_ALIZEE_BAILANDO,
                         Resources::GIF_TETAS_VUELTA_CICLISTA
                     ]);
                     return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
                 case 3:
-                    if (rand(0,5) === 2) { $this->chuache($endpoint, $request)->send(); }
+                    if (rand(0,5) === 2) { $this->chuache($endpoint, $request)->send();}
                     $file_id= Utils::aleatorio([
-                        'AgADBAADyrExG6uCfgAByJa4e096PDrUuqYwAAT4WookikriBOAAIC', 
-                        'AgADBAADzLExG6uCfgABl0UQFLI2ny9wvY8wAATndl-8tzyDq9zyAAIC', 
-                        'AgADBAADyLExG6uCfgABiop-lux6czIfQYswAASIWlelkQEKZedyAQABAg', 
-                        'AgADBAADzLExG6uCfgABl0UQFLI2ny9wvY8wAATndl-8tzyDq9zyAAIC'
+                        Resources::IMG_LAWRENCE_TETAS_FILTRADA, 
+                        Resources::IMG_LAWRENCE_CULO_FILTRADO
                     ]);
                     return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
                     break;
@@ -472,57 +466,57 @@
             $response->caption=$text;
             return $response;
         }
-        
+
         private function comovalacosa($endpoint, $request){
             $humano = Utils::get_humano_name($request->get_from_id());
             $text = "${humano}, que ¿cómo va la cosa?";
             $response = Response::create_text_response($endpoint,  $request->get_chat_id(), $text);
             $response->send();
             $file_id = Utils::aleatorio([
-                'AgADBAADg7ExG6uCfgABVKJWZutMk03lxWkwAAQyyYLPq-povk7xAQABAg', 
-                'AgADBAADhLExG6uCfgABkiwjXOKfo3Y0tY8wAATxS8uU6Iu9fg_YAAIC', 
-                'AgADBAADhbExG6uCfgABesAVy65s2vanA3EwAARisRvtaQadn3nPAQABAg', 
-                'AgADBAADhrExG6uCfgAB3q5XSN1HRuPNcHEwAAQ8lK5YSKm_w5a7AQABAg', 
-                'AgADBAADh7ExG6uCfgABSfzQtoQa7aKTLqIwAATDO6GIuvcGBeg1AAIC', 
-                'AgADBAADiLExG6uCfgABMQbc_pgPqPEuMHEwAAQuty0bwqN55XO6AQABAg', 
-                'AgADBAADibExG6uCfgABugz1SCDyHuHhQ6IwAASYuB7xHlsFZ_MzAAIC', 
-                'AgADBAADirExG6uCfgAB1vISgyQDxyMLcHIwAARCgZ4gG5cWjY60AQABAg', 
-                'AgADBAADi7ExG6uCfgAB5CYClvguvRQhUoswAASJGt4QohAzC_haAQABAg', 
-                'AgADBAADjLExG6uCfgAB_kzIyeo7UVgJUIwwAAQgu3fC_vtzdy5XAQABAg', 
-                'AgADBAADjbExG6uCfgABZjphYymr8F9KS6YwAAQtofZMgNgMBis2AAIC', 
-                'AgADBAADjrExG6uCfgABpuGgz4haMOsRYHEwAAS14RfJ-IZpZVS6AQABAg', 
-                'AgADBAADj7ExG6uCfgABg5r1ekTLJ7btW48wAAQiyna7QZONdmRfAAIC', 
-                'AgADBAADkLExG6uCfgABt5tNR8GfsWy5WqYwAAQxj7W6UPHflX41AAIC', 
-                'AgADBAADkrExG6uCfgABAZlES-gMg-rz1IwwAAR6gfrHOimI75nZAAIC', 
-                'AgADBAADk7ExG6uCfgABks1B4XJt5Bd4yGkwAAR8ECGfpgFKyJHzAQABAg', 
-                'AgADBAADkbExG6uCfgABs04ElacKtmyn7mowAAR-idLveeqFxb7uAQABAg', 
-                'AgADBAADlLExG6uCfgABzgujxVkGl8VLxWkwAASzi-RJNjW4yqHwAQABAg', 
-                'AgADBAADlbExG6uCfgABadtPItKyx57k5XAwAAS9J_8HXRkqQRLQAQABAg', 
-                'AgADBAADlrExG6uCfgABjtQZ-hLnpBAVD2swAASmM_StGK3AQIn2AQABAg', 
-                'AgADBAADl7ExG6uCfgABa7lJExDqn6KxRnEwAASoJxtLytnEBk-4AQABAg', 
-                'AgADBAADmLExG6uCfgAB2yvN68F1E3qQRaYwAAQJZvnWM0fs6_w1AAIC', 
-                'AgADBAADmbExG6uCfgABb5BeDjZLP5DRyIowAASpPPFqZl6L139eAQABAg', 
-                'AgADBAADmrExG6uCfgABG62c8ayCCvvRuI8wAATi1YEVNMomD0_bAAIC', 
-                'AgADBAADm7ExG6uCfgABNGIZUIZX9JYyKHEwAAQ62JlAJ5p_0SW7AQABAg', 
-                'AgADBAADnLExG6uCfgABQwGrUWBMJKVxlY8wAATL374qLly_A79fAAIC', 
-                'AgADBAADnbExG6uCfgABW7Uip_ShXhXb43IwAAQkAnw1HQVB9tG9AQABAg', 
-                'AgADBAADnrExG6uCfgABTotSza9d6Gz4nWkwAAQqdc8JQP14YL_1AQABAg', 
-                'AgADBAADn7ExG6uCfgABojpB_BgE_JdeaHEwAARtUZIZWh77avy7AQABAg', 
-                'AgADBAADoLExG6uCfgAB9v9babjpowU56HAwAAR7W19v2yek8-nQAQABAg', 
-                'AgADBAADobExG6uCfgABE_MSvMoXM01HGXEwAARypH9DLukNyIC5AQABAg', 
-                'AgADBAADorExG6uCfgABI9r34SFG4BhdU4swAAR3m_Jwt8ywoDVZAQABAg', 
-                'AgADBAADq7ExG6uCfgABzHgzg4sczRsbrmkwAAQQKX9ZrfI9Bt_vAQABAg', 
-                'AgADBAADrLExG6uCfgABSiS6rwhMIAF6u6YwAAS4qmUoULYrgiw1AAIC', 
-                'AgADBAADo7ExG6uCfgABwiLcKZVclAyyV4wwAARQA7M4L17jmhJbAQABAg', 
-                'AgADBAADrbExG6uCfgABUKunpEocMOJImI8wAATALTCBXb0Oe51cAAIC', 
-                'AgADBAADrrExG6uCfgABer9D-9C0RO7z54wwAASP4IgsgI0kN-1dAAIC', 
-                'AgADBAADpLExG6uCfgABVG9smyxlg6CoxoowAATIlHSMiAxe1AdaAQABAg', 
-                'AgADBAADpbExG6uCfgABxbSa0X7VyL_KSHEwAAQT8mSD18ayE5u3AQABAg', 
-                'AgADBAADp7ExG6uCfgABiDzmyccrxFtOto8wAARBseWhiEnjE7XZAAIC', 
-                'AgADBAADprExG6uCfgABPNfI6LRiOSdeR3EwAATSf-1vm3K-fKK3AQABAg', 
-                'AgADBAADqLExG6uCfgABxlU7MV-ghMAJ0GkwAAQQUlgVQloPLen2AQABAg', 
-                'AgADBAADqbExG6uCfgABgbxqAAG0uafSOkymMAAEgwovT5OEHKmkNQACAg', 
-                'AgADBAADqrExG6uCfgABS17nrpTZLMlxWqYwAASRlfGd2854Zm81AAIC'
+                Resources::IMG_LA_COSA_TIENE_MIGA,
+                Resources::IMG_LA_COSA_NO_SE_PUEDE_DEJAR_A_MEDIAS,
+                Resources::IMG_A_VER_COMO_AVANZA_LA_COSA,
+                Resources::IMG_ADUANA_COSAS_QUE_IMPORTAN,
+                Resources::IMG_CADA_COSA_EN_SU_MOMENTO,
+                Resources::IMG_COMO_EL_QUE_NO_QUIERE_LA_COSA,
+                Resources::IMG_LA_COSA_ESTA_BAJO_CONTROL,
+                Resources::IMG_LA_COSA_NO_ESTA_PARA_BOLLOS,
+				Resources::IMG_LA_COSA_PASANDO_CASTANO_OSCURO,
+				Resources::IMG_LA_COSA_DECAYENDO,
+				Resources::IMG_LA_COSA_ESPADA_Y_PARED,
+				Resources::IMG_LA_COSA_FUNCIONAN_ASI,
+				Resources::IMG_LA_COSA_NO_ESTA_CLARA,
+				Resources::IMG_LA_COSA_NO_ESTA_PARA_JUEGOS,
+				Resources::IMG_LA_COSA_NO_ERA_TAN_GRAVE,
+				Resources::IMG_LA_COSA_PROMETE,
+				Resources::IMG_LA_COSA_NO_PINTA_NADA_BIEN,
+				Resources::IMG_LAS_COSAS_CLARAS_CHOCOLATE_ESTESO,
+				Resources::IMG_CUENTAME_LAS_COSAS_PELOS_SENALES,
+				Resources::IMG_LAS_COSAS_PALACIO_DESPACIO,
+				Resources::IMG_LAS_COSAS_NUNCA_ENTIENDO,
+				Resources::IMG_LAS_COSAS_REACCIONANDO_TIEMPO,
+				Resources::IMG_LA_COSA_TIENE_WASSA,
+				Resources::IMG_COSAS_VEREDES_AMIGO_SANCHO,
+				Resources::IMG_LA_COSA_ESTA_QUE_ARDE,
+				Resources::IMG_LA_COSA_ESTA_QUE_TRINA,
+				Resources::IMG_LA_COSA_MANDA_HUEVOS,
+				Resources::IMG_LA_COSA_NO_PASO_A_MAYORES,
+				Resources::IMG_LA_COSA_NO_SALIO_BIEN,
+				Resources::IMG_LA_COSA_SE_NOS_VA_DE_LAS_MANOS,
+				Resources::IMG_LA_COSA_SE_PONE_BIEN,
+				Resources::IMG_LA_COSA_VA_SOBRE_RUEDAS,
+				Resources::IMG_TIENE_TELA_LA_COSA,
+				Resources::IMG_LIADO_ENTRE_UN_COSA_Y_OTRAS,
+				Resources::IMG_MANDA_HUEVOS_LA_COSA,
+				Resources::IMG_UNA_COSA_ES_SEGURA,
+				Resources::IMG_UNA_COSA_LLEVA_A_LA_OTRA,
+				Resources::IMG_LA_COSA_ESTA_EN_JUEGO,
+				Resources::IMG_PODRIA_PASAR_CUALQUIER_COSA,
+				Resources::IMG_PINTA_MAL_LA_COSA,
+				Resources::IMG_A_VER_COMO_SALE_LA_COSA,
+				Resources::IMG_SIMPSONS_LAS_COSAS_Y_ASI_CONTADO,
+				Resources::IMG_LA_COSA_ESTA_EN_STAND_BY,
+				Resources::IMG_TIENE_HUEVOS_LA_COSA
             ]);
             return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
         }
@@ -537,11 +531,10 @@
             $insulto2 = Utils::getInsultoSingular();
             $text .= "${insulto1} ${humano}. ${insulto2}.";
             if($humano=='Ario'){
-                $file_id='AgADBAADLKkxG4jtnAABsbSkFxkCLImgn2kwAARwTik8oQSyGj3nAQABAg';
-                $response= Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
+                $response= Response::create_photo_response($endpoint, $request->get_chat_id(), Resources::IMG_A_QUE_TE_DEDICAS_FUNCIONARIO_MAMADA);
                 $response->send();
             }
-            return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);        		
+            return Response::create_text_response($endpoint,  $request->get_chat_id(), $text);    		
         }
          
         private function insultarAMadre($endpoint, $request, $insulto){
@@ -573,8 +566,8 @@
         private function cuentamemas($endpoint, $request){
             $file_id = Utils::aleatorio([
                 Resources::GIF_GREASE_TELL_ME_MORE,
-                'BQADBAADPQADmw-YAAEhWGbVFye0lQI', 
-                'BQADBAADPgADmw-YAAH-FnGmrZjAewI'
+                Resources::GIF_SASHA_CUENTAME_MAS,
+                Resources::GIF_MONO_SIENDO_PEINADO
             ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
@@ -601,7 +594,7 @@
             $text = null;
             $params = $request->get_command_params();
             if(count($params)>0){
-                if(rand(0,10) === 3) {
+                if(rand(0,7) === 3) {
                     return $this->insulto_argentino($endpoint, $request);
                 }
                 $humano1 = Utils::get_humano_name($request->get_from_id());
@@ -638,8 +631,8 @@
         private function gordo($endpoint, $request){
             $humano = Utils::get_humano_name($request->get_from_id());
             $text = Utils::aleatorio([
-                "${humano}, no sé que quieres decir, pero hay que tener respeto con los cementerios de canelones.",
-                "Hola, ${humano}. Me cuesta entender que pretendías. Me parece de muy mal gusto querer meterte con los obesos."
+                "${humano}, no sé qué quieres decir, pero hay que tener respeto con los cementerios de canelones.",
+                "Hola, ${humano}. Me cuesta entender qué pretendías. Me parece de muy mal gusto querer meterte con los obesos."
             ]);
             return Response::create_text_response($endpoint, $request->get_chat_id(), $text);
         }        
