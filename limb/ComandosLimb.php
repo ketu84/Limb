@@ -166,13 +166,15 @@
             $emoji_dinero= Utils::convert_emoji(0x1F4B0);
             $emoji_yield= Utils::convert_emoji(0x1F4A5);
             
+            $total_jugadores = count($obj);
             $i=1;
             foreach($obj as $valor) {
                 $jugado = 0 + floatval($valor->jugado);
                 $ganado = 0 + floatval($valor->ganancia);
                 $yield = ($ganado/$jugado)*100;
-            	$text=$text.'*'.$i.'.'.$valor->nombre.'*'.$emoji_dinero.number_format((float)$valor->ganancia,2).'€'.$emoji_yield.round($yield,2).'%'.$emoji_balon.$valor->num_partidos.PHP_EOL;
-            	$i++;
+                $pasa = $this->getIconoPasa($i, $total_jugadores);
+            	$text=$text.$pasa.$i.'.'.$valor->nombre.'*'.$emoji_dinero.number_format((float)$valor->ganancia,2).'€'.$emoji_yield.round($yield,2).'%'.$emoji_balon.$valor->num_partidos.PHP_EOL;
+                $i++;
             }
             
             $object = new stdClass();
@@ -181,6 +183,30 @@
             
             $this->log->debug("Fin Obteniedo Clasificación fase y jornada (".(microtime(true)-$time)." s): ");
             return $response;
+        }
+
+        private function getIconoPasa($posicion, $total_jugadores) {
+            // https://emojipedia.org
+            $emoji_ok = Utils::convert_emoji(0x2705);
+            $emoji_ko = Utils::convert_emoji(0x2B07);
+            $emoji_first = Utils::convert_emoji(0x2733);
+            $emoji_last = Utils::convert_emoji(0x267F);
+            if ($posicion === $total_jugadores) {
+                return $emoji_last;
+            }
+            if ($posicion === 1) {
+                return $emoji_first;
+            }
+            $pasan = 12;
+            switch ($total_jugadores) {
+                case 12: $pasan = 6; break;
+                case 6: $pasan = 2; break;
+                case 2: $pasan = 1; break;
+            }
+            if ($posicion > $pasan) {
+                return $emoji_ko;
+            } 
+            return $emoji_ok;
         }
         
         private function prox_jornada($endpoint, $request,$grupoVO){
