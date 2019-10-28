@@ -100,6 +100,7 @@
             $emoji_balon= Utils::convert_emoji(0x26BD);
             $emoji_dinero= Utils::convert_emoji(0x1F4B0);
             $emoji_yield= Utils::convert_emoji(0x1F4A5);
+	    $total_jugadores = count($obj);
             
             $i=1;
             foreach($obj as $valor) {
@@ -148,7 +149,6 @@
                     $url.='?token='.$tokenUsuario[0]['token'];
                 }
             }
-                        
 
             $json = Utils::callApi($request, $url, $urlApi);
             $obj = json_decode($json);
@@ -167,7 +167,6 @@
             $emoji_dinero= Utils::convert_emoji(0x1F4B0);
             $emoji_yield= Utils::convert_emoji(0x1F4A5);
             
-            $total_jugadores = count($obj);
             $i=1;
             foreach($obj as $valor) {
                 $jugado = 0 + floatval($valor->jugado);
