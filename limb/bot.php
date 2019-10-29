@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/properties.php';
-require_once $VENDOR_AUTOLOAD_PATH;
+require_once __DIR__ . $VENDOR_AUTOLOAD_PATH;
 require_once __DIR__ . '/Request.php';
 require_once __DIR__ . '/Response.php';
 require_once __DIR__ . '/RequestException.php';
