@@ -451,7 +451,7 @@
             		$humano=self::aleatorio(array('Matute','Doctor'));
             		break;
             	case ID_LUCHO:
-            		$humano==self::aleatorio(array('Luciano','Lucho','Luz&Ano'));
+            		$humano=self::aleatorio(array('Luciano','Lucho','Luz&Ano'));
             		break;
             	case ID_BORJA:
             		$humano=self::aleatorio(array('Borja','Barbudo','Barba Humana'));
