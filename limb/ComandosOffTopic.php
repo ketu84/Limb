@@ -80,7 +80,7 @@
             if (Utils::es($comando, ['fas'])) {
                 return $this->cas($endpoint, $request);
             }
-            if (Utils::es($comando, ['chulepa', 'chuleta'])) {
+            if (Utils::es($comando, ['chulepa', 'chuleta', 'chule'])) {
                 return $this->filete($endpoint, $request);
             }
             if (Utils::es($comando, ['tits', 'tetas'])) {
@@ -687,11 +687,20 @@
             $response_doc->send();
             return Response::create_audio_response($endpoint, $request->get_chat_id(), Resources::AUD_GOL_MORSE);
         }
+
+        private function gol($endpoint, $request){
+            $file_id=Utils::aleatorio([
+                Resources::GIF_GOL_INIESTA_FINA_MUNDIAL, 
+                Resources::GIF_CRISTIANO_PORTUGAL_SIUUU
+            ]);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+        }
         
         private function acierto($endpoint, $request){
             $file_id=Utils::aleatorio([
                 Resources::GIF_CARRACEDO_OTRO_PICK, 
                 Resources::GIF_MASCARAS_RAVE_NORUEGA, 
+                Resources::GIF_CRISTIANO_PORTUGAL_SIUUU,
                 Resources::GIF_LLULL_PALMAS_VAMOS, 
                 Resources::GIF_MASCARAS_BAILE_BODA
             ]);
@@ -701,6 +710,8 @@
         private function fallo($endpoint, $request){
             $file_id=Utils::aleatorio([
                 Resources::GIF_DICAPRIO_MAKE_IT_RAIN,
+                Resources::GIF_CRISTIANO_NEGANDO,
+                Resourecs::GIF_CARRITO_HOMELESS,
                 Resources::GIF_NIGGA_MAKE_IT_RAIN
             ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
