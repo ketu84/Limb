@@ -651,6 +651,7 @@
         private function soplar($endpoint, $request){
             $file_id = Utils::aleatorio([
                 Resources::GIF_PALMERAS_HURACAN,
+                Resources::GIF_CULO_SOPLANDO,
                 Resources::GIF_RICHY_ME_SUDA_LOS_COJONES,
                 Resources::GIF_NICOLAS_CAGE_MELENA_VIENTO
             ]);
