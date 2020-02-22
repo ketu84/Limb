@@ -51,6 +51,7 @@
                     $obj = json_decode($json);
         
                     if(sizeof($obj)>0 && property_exists($obj[0],'error')){
+			return -1;
                         $response = new Response($endpoint, $request->get_chat_id(), Response::TYPE_TEXT);
                         $response->text=$obj[0]->error->text;
                         $response->markdown=true;
