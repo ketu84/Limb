@@ -403,6 +403,9 @@
             }
             $jugado = 0 + floatval($obj->jugado);
             $ganado = 0 + floatval($obj->ganancia);
+            $numSanciones = 0 + floatval($obj->num_sanciones);
+            $importeSanciones = 0 + floatval($obj->importe_sanciones);
+
             if($jugado==0){
                 $yield=0;
             }else{
@@ -410,8 +413,11 @@
             }
             $text.='Apostado: '.round($jugado,2).'€'.PHP_EOL;
             $text.='Ganado: '.round($ganado,2).'€'.PHP_EOL;
-            $text.='Yield: '.round($yield,2).'%'.PHP_EOL;
-            
+            $text.='Yield: '.round($yield,2).'%'.PHP_EOL.PHP_EOL;
+
+            $text.='Nº Apuestas Sancionadas: '.$numSanciones.PHP_EOL;
+            $text.='Ganado por Sanciones: '.round($importeSanciones,2).'€'.PHP_EOL.PHP_EOL;
+
             $object = new stdClass();
             $object->hide_keyboard =true;
             $response = Response::create_text_replymarkup_response($endpoint,  $request->get_chat_id(), $text, json_encode($object));
