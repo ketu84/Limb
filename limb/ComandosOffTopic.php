@@ -403,8 +403,7 @@
             
             if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
             $file_id = Utils::aleatorio([
-                Resources::GIF_CULO_LUCHO_FILETE,
-                Resources::GIF_OSO_ACORDEON
+                Resources::GIF_CULO_LUCHO_FILETE
             ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
