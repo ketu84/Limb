@@ -711,7 +711,7 @@
             $file_id=Utils::aleatorio([
                 Resources::GIF_DICAPRIO_MAKE_IT_RAIN,
                 Resources::GIF_CRISTIANO_NEGANDO,
-                Resourecs::GIF_CARRITO_HOMELESS,
+                Resources::GIF_CARRITO_HOMELESS,
                 Resources::GIF_NIGGA_MAKE_IT_RAIN
             ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
