@@ -214,7 +214,11 @@
                 Resources::IMG_AGE_LENGUA_BUS,
                 Resources::GIF_AGE_MONCHI
             ]);
-            return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
+            if($file_id == Resources::GIF_AGE_MONCHI){ 
+                return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            }else{
+                return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            }
         }
 	    
         private function agevamuypipa($endpoint, $request){
