@@ -217,7 +217,7 @@
             if($file_id == Resources::GIF_AGE_MONCHI){ 
                 return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
             }else{
-                return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+                return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
             }
         }
 	    
