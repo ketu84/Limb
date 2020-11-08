@@ -48,7 +48,16 @@ if(isset($_POST["texto"]) && isset($_POST["chat"]) && isset($_POST["token"])){
             }  
         }else{
             $log->debug("enviando gif");
-            $file_id='CgADBAADWwIAAvbxKFOg2mQnmjb4lAI';
+            $file_id = Utils::aleatorio([
+                Resources::GIF_SORTEO_CHAMPIONS, 
+                Resources::GIF_SORTEO_CHAMPIONS_UNA_BOLA, 
+                Resources::GIF_SORTEO_CHAMPIONS_CASILLAS, 
+                Resources::GIF_SORTEO_CHAMPIONS_TOTTI, 
+                Resources::GIF_SORTEO_CHAMPIONS_INFANTINO, 
+                Resources::GIF_SORTEO_CHAMPIONS_RCARLOS, 
+                Resources::GIF_SORTEO_CHAMPIONS_ZAMBROTTA    
+            ]);
+            
             $response= Response::create_doc_response($endpoint, $chat, $file_id);
             $resultado = $response->send();
             $result = json_decode($resultado, true);

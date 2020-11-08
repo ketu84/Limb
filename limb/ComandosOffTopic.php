@@ -211,7 +211,8 @@
                 Resources::IMG_AGE_GANGSTER,
                 Resources::IMG_AGE_MASCARA_ROJA,
                 Resources::IMG_AGE_COPA_OHARAS,
-                Resources::IMG_AGE_LENGUA_BUS
+                Resources::IMG_AGE_LENGUA_BUS,
+                Resources::GIF_AGE_MONCHI
             ]);
             return Response::create_photo_response($endpoint, $request->get_chat_id(), $file_id);
         }
@@ -219,7 +220,8 @@
         private function agevamuypipa($endpoint, $request){
             $file_id = Utils::aleatorio([
                 Resources::GIF_AGE_BAILE_RANDOM,
-                Resources::GIF_AGE_MINI_QUE_NOS_QUITEN_LO_BAILAO
+                Resources::GIF_AGE_MINI_QUE_NOS_QUITEN_LO_BAILAO,
+                Resources::GIF_AGE_MANO_MONCHICHI
             ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
@@ -331,14 +333,20 @@
 
         private function jon($endpoint, $request)
         {
-            return $this->_funcion_pendiente($endpoint, $request);
+            
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
+            $file_id = Utils::aleatorio([
+                Resources::GIF_JON_MASCARILLA
+            ]);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function ori($endpoint, $request)
         {
             if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
             $file_id = Utils::aleatorio([
-                Resources::GIF_ORI_BAILE_RANDOM_TRAJE_CAMISA
+                Resources::GIF_ORI_BAILE_RANDOM_TRAJE_CAMISA,
+                Resources::GIF_ORI_BAILE_AVANZA
             ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
@@ -356,7 +364,12 @@
 
         private function iban($endpoint, $request)
         {
-            return $this->_funcion_pendiente($endpoint, $request);
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
+            $file_id = Utils::aleatorio([
+                Resources::GIF_IBAN_AGE_TAPIA,
+                Resources::GIF_IBAN_PEDOS_MANOS
+            ]);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function luis($endpoint, $request)
@@ -364,14 +377,20 @@
             if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
             $file_id = Utils::aleatorio([
                 Resources::GIF_BARTOL_ALAS_BARCELONA,
-                Resources::GIF_BARTOL_BANDERA_EUROPA_VENGUE
+                Resources::GIF_BARTOL_BANDERA_EUROPA_VENGUE,
+                Resources::GIF_BARTOLMORT
             ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function tapia($endpoint, $request)
         {
-            return $this->_funcion_pendiente($endpoint, $request);
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
+            $file_id = Utils::aleatorio([
+                Resources::GIF_SALTO_HUEVO,
+                Resources::GIF_OSO_ACORDEON
+            ]);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function rulo($endpoint, $request)
@@ -381,7 +400,13 @@
 
         private function lucho($endpoint, $request)
         {
-            return $this->_funcion_pendiente($endpoint, $request);
+            
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
+            $file_id = Utils::aleatorio([
+                Resources::GIF_CULO_LUCHO_FILETE,
+                Resources::GIF_OSO_ACORDEON
+            ]);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
 
         private function vicente($endpoint, $request)
@@ -422,9 +447,16 @@
             return $this->_funcion_pendiente($endpoint, $request);
         }
 
-        private function rio($endpoint, $request)
+        private function riojas($endpoint, $request)
         {
-            return $this->_funcion_pendiente($endpoint, $request);
+            if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
+            $file_id = Utils::aleatorio([
+                Resources::GIF_COCACOLAS_PARACA,
+                Resources::GIF_RIOJAS_BAILE_SILLAS,
+                Resources::GIF_COCACOLAS
+            ]);
+            return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
+            
         }
 
         private function paco($endpoint, $request)
@@ -440,7 +472,9 @@
             if (rand(0,3) === 0) return $this->_funcion_pendiente($endpoint, $request);
             $file_id = Utils::aleatorio([
                 Resources::GIF_CAS_PRIMERISIMO_PRIMER_PLANO, 
-                Resources::GIF_CAS_EXTRATITANIO_HAWAIIAN
+                Resources::GIF_CAS_EXTRATITANIO_HAWAIIAN,
+                Resources::GIF_CAS_CESTO_BAILE,
+                Resources::GIF_CAS_BAILE_BANDERAS
             ]);
             return Response::create_doc_response($endpoint,  $request->get_chat_id(), $file_id);
         }
@@ -451,7 +485,8 @@
                 Resources::GIF_FILETE_BAMBOLEO_SANSE,
                 Resources::GIF_FILETE_ACERCANDOSE_EN_LA_OSCURIDAD,
                 Resources::GIF_FILETE_PONIENDOSE_SOMBRERO_BOCA,
-                Resources::GIF_FILETE_BAMBOLEO_PISCINA
+                Resources::GIF_FILETE_BAMBOLEO_PISCINA,
+                Resources::GIF_FILETE_RODILLAS_PIPO
             ]);
             return Response::create_doc_response($endpoint,  $request->get_chat_id(), $file_id);
         }
@@ -702,7 +737,10 @@
                 Resources::GIF_MASCARAS_RAVE_NORUEGA, 
                 Resources::GIF_CRISTIANO_PORTUGAL_SIUUU,
                 Resources::GIF_LLULL_PALMAS_VAMOS, 
-                Resources::GIF_MASCARAS_BAILE_BODA
+                Resources::GIF_MASCARAS_BAILE_BODA,
+                Resources::GIF_BAILE_FIESTA,
+                Resources::GIF_PIPO_BAILA,
+                Resources::GIF_BAILE_SIN_CAMISETA
             ]);
             return Response::create_doc_response($endpoint, $request->get_chat_id(), $file_id);
         }
